@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shoezy</title>
+</head>
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/otp.css">
+
+</html>
+
+<div class="d-flex justify-content-center align-items-center container">
+  <form action="" method="post">
+    <div class="card py-5 px-3">
+      <h5 class="m-0 pb-2 text-center">Email verification</h5><span class="mobile-text"><b
+          class="text-success">"Registration successful! </b> An OTP has been sent to your email. Please enter the code
+        to
+        verify your email and activate your account."</span>
+      <div class="d-flex flex-row mt-5"><input type="number" name="otp" class="form-control"></div>
+      <div class="error-message" id="errorPassword">
+        <% if (typeof message !=='undefined' ) { %>
+          <div class="error-message text-center" id="errorPassword">
+            <%= message %>
+          </div>
+          <% } %>
+      </div>
+      <button class="btn m-3 ml-5" type="submit">submit</button>
+  </form>
+</div>
+
+
+
+<%- include('../layouts/footer.ejs') %>

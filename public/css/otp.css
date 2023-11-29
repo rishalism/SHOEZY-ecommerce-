@@ -1,0 +1,58 @@
+.card {
+  width: 350px;
+  padding: 10px;
+  border-radius: 20px;
+  background: #fff;
+  border: none;
+  height: 350px;
+  position: relative;
+}
+
+.container {
+  height: 100vh;
+}
+
+body {
+  background: #9C6FE4;
+}
+
+.mobile-text {
+  color: #837a7a;
+  font-size: 15px;
+}
+
+.form-control {
+  margin-right: 12px;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color:  white;
+  border-color: #ff8880;
+  outline: 0;
+  box-shadow: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.error-message{
+  color: red;
+}
+
+.btn{
+  width: 65%;
+  height: 100%;
+  background-color: #9C6FE4;
+}
+.btn:hover{
+  background-color: #8f66d1 ;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+

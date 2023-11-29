@@ -1,0 +1,92 @@
+.welcome {
+  color: #EEEEEE;
+  font-size: 80px;
+  font-family: Poppins;
+  font-weight: 700;
+  line-height: 70px;
+  word-wrap: break-word;
+}
+
+.welcome-text {
+  color: #EEEEEE;
+  font-size: 80px;
+  font-family: Poppins;
+  font-weight: 700;
+  line-height: 70px;
+  word-wrap: break-word;
+}
+body{
+  background-color: #9C6FE4;
+}
+
+.card {
+  color: white;
+  box-shadow: 0px 0px 53px 50px rgba(171, 19, 34, 0.1);
+  height: 37rem;
+  width: 35rem;
+}
+
+.image-container {
+  width: 100%;
+  height: 443px;
+  background-image: url(/images/usersignup.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.368);
+  border-radius: 10px;
+  margin-top: -20px;
+
+}
+
+
+.login-text {
+  color: white;
+  font-size: 16px;
+  font-family: Poppins;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.btn{
+  width: 100%;
+  height: 100%;
+  background-color: #9C6FE4;
+}
+.btn:hover{
+  background-color: #8f66d1 ;
+}
+.welcome-text {
+  margin-top: 13px;
+}
+
+.text-uppercase {
+  font-size: 30px;
+  font-family: Poppins;
+  font-weight: 700;
+}
+.container-fluid{
+  width: 100%;
+  height: 599px;
+  background-color: #9C6FE4;
+}
+
+.error-message{
+  color: red;
+}
+
+
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+
