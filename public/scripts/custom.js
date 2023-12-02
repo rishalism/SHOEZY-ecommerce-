@@ -1,6 +1,7 @@
-                                                                                
+
 //////////////////////////////////////////////////////////////////////// BLOCK AND UNBLOCK USER  ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// BLOCK AND UNBLOCK USER  ///////////////////////////////////////////////////////////////
+
 
 document.querySelectorAll('.block-button').forEach((button) => {
     button.addEventListener('click', async () => {
@@ -25,7 +26,7 @@ document.querySelectorAll('.block-button').forEach((button) => {
                 console.log('should be canceled');
                 return; // Cancel the operation if not confirmed
             }
-            
+
         } else {
             url = '/admin/unblock-user';
             const result = await Swal.fire({
@@ -85,7 +86,7 @@ document.querySelectorAll('.block-button').forEach((button) => {
 });
 
 
-                                                                                
+
 ////////////////////////////////////////////////////////////////////////  ADD CATEGORY ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// ADD CATEGORY  ///////////////////////////////////////////////////////////////
 
@@ -100,10 +101,16 @@ const addCategory = function () {
             <a>${categoryname}</a>
         </td>
         <td>
-        <button data-id="<%=category[i].id%>" data-event="delete"
-        class="edit-delete btn btn-danger" type="button">delete</button>
-    <button data-id="<%=category[i].id%>" data-event="edit"
-        class="edit-delete btn btn-warning" type="button">edit</button>
+        <button type="button" data-product-id="<%=category[i].id%>"
+                                                    class="list-unlist btn btn-danger " 
+                                                    data-action="<%= category[i].is_listed ? 'unlisted' : 'Listed'%>">unlisted
+                                                  </button>
+
+
+                                                <a href="/admin/edit-category?id=<%=category[i].id%>">
+                                                    <button data-id="<%=category[i].id%>" data-event="edit"
+                                                        class="edit-delete btn btn-warning"
+                                                        type="button">edit</button></a>
         </td>
     `;
 
@@ -126,6 +133,7 @@ const addCategory = function () {
                 if (value == 0) {
                     Swal.fire(`${data.message}`);
                 } else {
+                    location.reload()
                     tablebody.appendChild(row);
                 }
             }
@@ -142,17 +150,17 @@ const addCategory = function () {
 }
 
 
-                                                                                
+
 //////////////////////////////////////////////////////////////////////// UNLIST AND LIST CATEGORY  ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// UNLIST AND LIST CATEGORY  ///////////////////////////////////////////////////////////////
 
 
 document.querySelectorAll('.list-unlist').forEach(button => {
-    button.addEventListener('click', async() => {
-           const event = button.getAttribute('data-action')
-           const id = button.getAttribute('data-product-id')
-           let url 
-           if(event == 'Listed'){
+    button.addEventListener('click', async () => {
+        const event = button.getAttribute('data-action')
+        const id = button.getAttribute('data-product-id')
+        let url
+        if (event == 'Listed') {
             url = '/admin/unlist-category'
             const result = await Swal.fire({
                 title: "Are you sure?",
@@ -174,9 +182,9 @@ document.querySelectorAll('.list-unlist').forEach(button => {
                 text: "category has been unlisted",
                 icon: "success"
             });
-            
 
-           }else{
+
+        } else {
             url = '/admin/list-category'
             const result = await Swal.fire({
                 title: "Are you sure?",
@@ -199,25 +207,25 @@ document.querySelectorAll('.list-unlist').forEach(button => {
                 icon: "success"
             });
         }
-        fetch(url,{
-            method : 'POST',
-            headers : {
+        fetch(url, {
+            method: 'POST',
+            headers: {
                 'Content-Type': 'application/json'
             },
-            body : JSON.stringify({
+            body: JSON.stringify({
                 id
             })
-        }).then(response=>{
+        }).then(response => {
             return response.json();
-        }).then(data=>{
-            if(data){
+        }).then(data => {
+            if (data) {
                 button.innerHTML = event === 'Listed' ? 'unlisted' : 'listed';
                 button.setAttribute('data-action', event === 'Listed' ? 'unlisted' : 'listed');
-                 newEvent = button.innerHTML
+                newEvent = button.innerHTML
                 button.classList.toggle('btn-danger', newEvent === 'unlisted');
-                button.classList.toggle('btn-success', newEvent === 'listed');                
+                button.classList.toggle('btn-success', newEvent === 'listed');
             }
-        }).catch(error=>{
+        }).catch(error => {
             console.log(error);
         })
     })
@@ -226,7 +234,7 @@ document.querySelectorAll('.list-unlist').forEach(button => {
 
 
 
-                                                                                
+
 //////////////////////////////////////////////////////////////////////// UNLIST AND LIST PRODUCT  ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// UNLIST AND LIST PRODUCT  ///////////////////////////////////////////////////////////////
 
@@ -282,7 +290,7 @@ document.querySelectorAll('.unlisted').forEach(button => {
 })
 
 
-                                                        
+
 document.querySelectorAll('.data-id button').forEach(button => {
     button.addEventListener('click', () => {
         const event = button.getAttribute('data-event');
@@ -321,5 +329,84 @@ document.querySelectorAll('.data-id button').forEach(button => {
 
 
 
+//////////////////////////////////////////////////////////////////////// zooming effect  ///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////// zoomig effect  ///////////////////////////////////////////////////////////////
 
 
+const container = document.querySelector('.image-div')
+const image = document.querySelector('.image-div img')
+const lens = document.querySelector('.lens');
+const zoom = document.querySelector('.zoom');
+
+
+container.addEventListener('mousemove',move)
+container.addEventListener('mouseout',remove)
+function move(e) {
+    const container_rect = container.getBoundingClientRect();
+
+    let x = e.pageX - container_rect.left - lens.offsetWidth / 2;
+    let y = e.pageY - container_rect.top - lens.offsetHeight / 2;
+    let maxX = container_rect.width - lens.offsetWidth;
+    let maxY = container_rect.height - lens.offsetHeight;
+    if (x > maxX) x = maxX
+    if (x < 0) x = 0
+
+    if (y > maxY) y = maxY
+    if (y < 0) y = 0
+
+    lens.style.cssText = `top: ${y}px; left: ${x}px;`
+    let cx = container_rect.width / lens.offsetWidth;
+    let cy = container_rect.height / lens.offsetHeight;
+    zoom.style.cssText = `
+    background: url(${image.src}) -${x * cx}px -${y * cy}px /
+    ${container_rect.width * cx}px ${container_rect.height * cy}px
+    no-repeat;
+    `
+    lens.classList.add('active');
+    zoom.classList.add('zoom-active')
+}
+
+function remove() {
+    lens.classList.remove('active')
+    zoom.classList.remove('zoom-active')
+
+}
+
+function changeImage(item) {
+    image.src = item.src;
+}
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////// add to cart   ///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////// add to cart   ///////////////////////////////////////////////////////////////
+
+function addtocart(productId){
+    fetch('/product-cart',{
+        method : 'POST',
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body :  JSON.stringify({
+            productId
+        })
+    }).then(response=>{
+        return response.json()
+    }).then(data=>{
+        if(data){
+            console.log('heeyy');
+            Swal.fire({
+                position: "center", 
+                icon: "success",
+                title: "product added to cart",
+                showConfirmButton: false,
+                timer: 1500
+              });  
+        }
+    }).catch(error=>{
+        console.log(error);
+    })
+}

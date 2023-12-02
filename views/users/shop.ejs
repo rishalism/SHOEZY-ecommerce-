@@ -25,9 +25,9 @@
 
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
+    <!-- <div id="preloder">
         <div class="loader"></div>
-    </div>
+    </div> -->
 
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
@@ -83,7 +83,7 @@
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
                         <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
+                        <a href="/product-cart"><img src="/images/icon/shopping-cart.png" alt=""> <span>0</span></a>
                         <div class="price">$0.00</div>
                     </div>
                 </div>
@@ -305,7 +305,8 @@
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg">
-                                            <a href="/product-detail?id=<%=product._id%>"><img class="product__item__pic set-bg"
+                                            <a href="/product-detail?id=<%=product._id%>"><img
+                                                    class="product__item__pic set-bg"
                                                     src="/uploads/<%= product.image[0] %>" alt=""></a>
                                             <ul class="product__hover">
                                                 <li><a href="#"><img src="/images/icon/heart.png" alt=""></a></li>
@@ -318,7 +319,7 @@
                                             <h6>
                                                 <%= product.productName %>
                                             </h6>
-                                            <a href="#" class="add-cart">+ Add To Cart</a>
+                                            <a href="" onclick="addtocart('<%= product._id %>'); return false;" class="add-cart">+ Add To Cart</a>
                                             <div class="rating">
                                                 <% for (let i=0; i < product.ratings.star; i++) { %>
                                                     <i class="fa fa-star"></i>
@@ -356,6 +357,7 @@
 
     <!-- Shop Section End -->
 
+   
     <!-- Footer Section Begin -->
     <footer class="footer">
         <div class="container">
@@ -363,7 +365,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="/images/footer-logo.png" alt=""></a>
+                            <div class="shoezy-logo mt-0" style="color: white;">shoezy</div>
                         </div>
                         <p>The customer is at the heart of our unique business model, which includes design.</p>
                         <a href="#"><img src="/images/payment.png" alt=""></a>
@@ -425,16 +427,18 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/custom.js"></script>
 </body>
 
 </html>

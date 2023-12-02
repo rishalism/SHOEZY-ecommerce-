@@ -21,8 +21,7 @@
     <link rel="stylesheet" href="/css/style1.css" type="text/css">
 </head>
 
-<body> <!-- 
-    Page Preloder -->
+<body>
     <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -48,7 +47,7 @@
         <div class="offcanvas__nav__option">
             <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
             <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="/product-cart"><img src="/images/icon/shopping-cart.png" alt=""> <span>0</span></a>
+            <a href="/product-cart"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -75,11 +74,7 @@
                             <li><a href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
-                            <% if (typeof userdata !=='undefined' ) { %>
-                                <li><a href="/logout">Logout</a></li>
-                                <% } else { %>
-                                    <li><a href="/login">Login</a></li>
-                                    <% } %>
+                            <li><a href="/contact-us">Contact Us</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -97,98 +92,109 @@
     </header>
     <!-- Header Section End -->
 
-    <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="/images/hero/hero-1.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-5 col-lg-7 col-md-8">
-                            <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                    commitment to exceptional quality.</p>
-                                <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__items set-bg" data-setbg="/images/hero/hero-2.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-5 col-lg-7 col-md-8">
-                            <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                    commitment to exceptional quality.</p>
-                                <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
-
-    <!-- Banner Section Begin -->
-    <section class="banner spad">
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
-                <div class="col-lg-7 offset-lg-4">
-                    <div class="banner__item">
-                        <div class="banner__item__pic">
-                            <img src="/images/banner/banner-1.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Clothing Collections 2030</h2>
-                            <a href="/shop">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="banner__item banner__item--middle">
-                        <div class="banner__item__pic">
-                            <img src="/images/banner/banner-2.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Accessories</h2>
-                            <a href="/shop">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="banner__item banner__item--last">
-                        <div class="banner__item__pic">
-                            <img src="/images/banner/banner-3.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Shoes Spring 2030</h2>
-                            <a href="/shop">Shop now</a>
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shopping Cart</h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">Shop</a>
+                            <span>Shopping Cart</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Banner Section End -->
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <input type="hidden" value="<%=cartProducts%>" name="cartProducts">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (cartProducts && cartProducts.products) { %>
+                                    <% cartProducts.products.forEach(product=> { %>
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <div class="product__cart__item__pic">
+                                                    <img src="<%= product.productID.image %>" alt="">
+                                                </div>
+                                                <div class="product__cart__item__text">
+                                                    <h6>
+                                                        <%= product.productID.productName %>
+                                                    </h6>
+                                                    <h5>$<%= product.productID.Prize %>
+                                                    </h5>
+                                                </div>
+                                            </td>
+                                            <td class="quantity__item">
+                                                <div class="quantity">
+                                                    <div class="pro-qty-2">
+                                                        <input type="text" value="<%= product.quantity %>">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="cart__price">$ <%= product.productID.prize * product.quantity %>
+                                            </td>
+                                            <td class="cart__close"><i class="fa fa-close"></i></td>
+                                        </tr>
+                                        <% }); %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn">
+                                <a href="#">Continue Shopping</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn update__btn">
+                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="cart__discount">
+                        <h6>Discount codes</h6>
+                        <form action="#">
+                            <input type="text" placeholder="Coupon code">
+                            <button type="submit">Apply</button>
+                        </form>
+                    </div>
+                    <div class="cart__total">
+                        <h6>Cart total</h6>
+                        <ul>
+                            <li>Subtotal <span>$ </span></li>
+                            <li>Total <span>$</span></li>
+                        </ul>
+                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
+    <!-- Shopping Cart Section End -->
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -258,4 +264,5 @@
     </div>
     <!-- Search End -->
 
+    <!-- Js Plugins -->
     <%- include('../layouts/footer.ejs') %>

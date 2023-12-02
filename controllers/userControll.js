@@ -68,8 +68,8 @@ const insertUser = async (req, res) => {
         userid = userdata._id;
         if (userdata) {
             const clientOtp = await generateOTP();
-            req.session.user_id = userid
-            req.session.otp = clientOtp;
+            req.session.user = userdata;
+            req.session.otp = clientOtp
             userotp = clientOtp
             console.log(clientOtp, checkemail);
             sendVerificationEmail(checkemail, clientOtp, username);
@@ -99,8 +99,8 @@ const otpLoad = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
     try {
-        if (userotp === req.body.otp) {
-            await users.updateOne({ _id: userid }, { $set: { is_verified: 1 } }).exec();
+        if (req.session.otp === req.body.otp) {
+            const data = await users.updateOne({ _id: userid }, { $set: { is_verified: 1 } }).exec();
             res.redirect('/home');
         } else {
             res.render('otpverification', { message: 'Invalid OTP. Please try again.' });
@@ -115,7 +115,6 @@ const verifyOtp = async (req, res) => {
 
 
 const loginloaduser = async (req, res) => {
-    console.log(req.session);
     try {
         res.render('userLogin')
     } catch (error) {
@@ -139,7 +138,7 @@ const verifyUser = async (req, res) => {
                 res.render('userLogin', { message: 'you have been blocked by the admin' });
 
             } else if (passwordMatch) {
-                req.session.user_id = finduser._id;
+                req.session.user = finduser
                 res.redirect('/home')
             } else if (!passwordMatch) {
                 res.render('userLogin', { message: 'invalid password' })
@@ -160,10 +159,27 @@ const verifyUser = async (req, res) => {
 
 
 
+const logOut  = async(req,res)=>{
+    try {
+        
+        req.session.destroy()
+        res.redirect('/')
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
 
 const loadHome = async (req, res) => {
     try {
-        res.render('home');
+        if (req.session.user) {
+            const userID = req.session.user._id
+            const userdata = await users.findById({ _id: userID });
+            res.render('home', { userdata });
+        }else{
+            res.render('home',)
+        }
     } catch (error) {
         console.log(error, message);
     }
@@ -174,17 +190,17 @@ const loadHome = async (req, res) => {
 
 
 const loadShop = async (req, res) => {
-    try { 
-        if(req.query.cat){
-            const categoryCollection = await categories.find({is_listed : 0 });
-        const data = req.query.cat
-        const product = await products.find({ category: data }); 
-        res.render('shop', { category: categoryCollection, product });
-         }
-        else{
-        const categoryCollection = await categories.find({is_listed : 0 });
-        const product = await products.find();
-        res.render('shop', { category: categoryCollection, product });
+    try {
+        if (req.query.cat) {
+            const categoryCollection = await categories.find({ is_listed: 0 });
+            const data = req.query.cat
+            const product = await products.find({ category: data });
+            res.render('shop', { category: categoryCollection, product });
+        }
+        else {
+            const categoryCollection = await categories.find({ is_listed: 0 });
+            const product = await products.find();
+            res.render('shop', { category: categoryCollection, product });
         }
     } catch (error) {
 
@@ -214,16 +230,23 @@ const loadContact = async (req, res) => {
 }
 
 
-const loadProductDetails = async(req,res)=>{
-    try { 
+const loadProductDetails = async (req, res) => {
+    try {
         const id = req.query.id
-        const findproduct = await products.findById({_id : id})
-         res.render('shop-details',{product : findproduct})
+        const findproduct = await products.findById({ _id: id })
+        const catgoryid = findproduct.category
+        const relatedproducts = await products.find({ category: catgoryid });
+
+        res.render('shop-details', { product: findproduct, Products1: relatedproducts });
     } catch (error) {
-        
+
         console.log(error.message);
     }
 }
+
+
+
+
 
 module.exports = {
     usersignupLoad,
@@ -236,5 +259,6 @@ module.exports = {
     loadShop,
     loadAboutUs,
     loadContact,
-    loadProductDetails
+    loadProductDetails,
+    logOut
 }

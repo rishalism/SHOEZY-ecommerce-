@@ -15,7 +15,7 @@ app.use(nocache());
 app.use(session({
   secret: config.generateRandomString(32),
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
 

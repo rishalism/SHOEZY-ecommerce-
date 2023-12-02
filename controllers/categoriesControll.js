@@ -29,7 +29,7 @@ const addCategories = async (req, res) => {
             
          const addcategory = new categories({
             categoriesName : category,
-            is_listed : 1
+            is_listed : 0
          })
 
          const submitdata = await addcategory.save();

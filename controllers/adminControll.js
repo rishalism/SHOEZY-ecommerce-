@@ -121,7 +121,6 @@ const unBlockUser = async(req,res)=>{
     }
 }
 
-
 module.exports={
     adminLoginLoad,
     verifyAdmin,
