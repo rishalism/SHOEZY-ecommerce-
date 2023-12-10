@@ -339,8 +339,8 @@ const lens = document.querySelector('.lens');
 const zoom = document.querySelector('.zoom');
 
 
-container.addEventListener('mousemove',move)
-container.addEventListener('mouseout',remove)
+container.addEventListener('mousemove', move)
+container.addEventListener('mouseout', remove)
 function move(e) {
     const container_rect = container.getBoundingClientRect();
 
@@ -384,29 +384,356 @@ function changeImage(item) {
 //////////////////////////////////////////////////////////////////////// add to cart   ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// add to cart   ///////////////////////////////////////////////////////////////
 
-function addtocart(productId){
-    fetch('/product-cart',{
-        method : 'POST',
-        headers : {
+function addtocart(productId, prize) {
+    fetch('/product-cart', {
+        method: 'POST',
+        headers: {
             'Content-Type': 'application/json'
         },
-        body :  JSON.stringify({
-            productId
+        body: JSON.stringify({
+            productId,
+            prize
         })
-    }).then(response=>{
+    }).then(response => {
         return response.json()
-    }).then(data=>{
-        if(data){
-            console.log('heeyy');
-            Swal.fire({
-                position: "center", 
-                icon: "success",
-                title: "product added to cart",
-                showConfirmButton: false,
-                timer: 1500
-              });  
+    }).then(data => {
+        if (data) {
+            let value = data.value
+            if (value == 1) {
+                Swal.fire({
+                    text: "Products already exist in the cart",
+                    showClass: {
+                        popup: `
+                            animate__animated
+                            animate__fadeInUp
+                            animate__slower
+                        `,
+                    },
+                    hideClass: {
+                        popup: `
+                            animate__animated
+                            animate__fadeOutDown
+                            animate__slower
+                        `,
+                    },
+                });
+
+            } else if (value == 2) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        // toast.onmouseenter = Swal.stopTimer;
+                        // toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: " added to cart!"
+                });
+
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    text: "Please log in to your account to add items to your cart",
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Login',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the login page
+                        window.location.href = "/login";
+                    }
+                });
+
+            }
+
         }
-    }).catch(error=>{
+    }).catch(error => {
         console.log(error);
     })
 }
+
+
+///////////////////////////////////////////////////////////// remove product from the cart ///////////////////////////////////////////////////////
+function removeproduct(productID, tableRow) {
+    console.log(tableRow);
+    Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove !"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/remove-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productID
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                if (data) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Item has been removed.",
+                        icon: "success"
+                    }).then(() => {
+                        // Remove the row from the table
+                        tableRow.remove();
+                    });
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+        // If the user clicks cancel, no action is taken
+    });
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////check user session////////////////////////////////////////////////////////////
+function checkUserSession() {
+    fetch('/check-cart', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+        if (data) {
+            let value = data.value
+            console.log(value);
+            if (value == 1) {
+                window.location.href = "/product-cart";
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    text: "Please log in to view the cart.",
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Login',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the login page
+                        window.location.href = "/login";
+                    }
+                });
+            }
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+
+}
+
+///////////////////////////////////////////////////update quantity/////////////////////////////////////////////////////////////////////////////
+
+
+
+function updateTotal(productId, quantity, prize) {
+    var totalElement = document.getElementById(`total_${productId}`);
+    var subejs = document.getElementById('subtotal');
+    var total = quantity * prize;
+    totalElement.textContent = "₹" + total;
+
+    return total
+}
+
+
+
+
+
+async function increase(prize, productId) {
+    var quantityValue = document.getElementById(`quantityValue_${productId}`);
+    var currentQuantity = parseInt(quantityValue.textContent);
+
+    if (currentQuantity < 5) {
+        quantityValue.textContent = currentQuantity + 1;
+        var total = updateTotal(productId, currentQuantity + 1, parseFloat(prize));
+
+        try {
+            const response = await fetch('/quantity-updation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    total,
+                    currentQuantity
+                })
+            });
+
+            const data = await response.json();
+            if (data) {
+                console.log('ok');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        Swal.fire('Reached maximum quantity for this product!');
+    }
+}
+
+
+
+
+async function decrease(prize, productId) {
+    var quantityValue = document.getElementById(`quantityValue_${productId}`);
+    var currentQuantity = parseInt(quantityValue.textContent);
+
+    if (currentQuantity > 1) {
+        quantityValue.textContent = currentQuantity - 1;
+        var total = updateTotal(productId, currentQuantity - 1, parseFloat(prize));
+
+
+        try {
+            const response = await fetch('/quantity-decrement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    total,
+                    currentQuantity
+                })
+            });
+
+            const data = await response.json();
+            if (data) {
+                console.log('ok');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    } else {
+        Swal.fire('Reached minimum quantity for this product!');
+    }
+}
+
+
+
+function update() {
+    location.reload()
+}
+
+
+
+/////////////////////////////////////////////////////////////////modal for adding address /////////////////////////////////////////////////////
+
+
+
+async function openModal() {
+
+    var country
+    var zip
+    var state
+    var city
+    var apartment
+    var streetAddress
+
+    const { value: formValues } = await Swal.fire({
+        title: "shipping address",
+        html: `
+        
+        <div class="card">
+    <div class="card-body">
+    <form action="/admin/user-account" method= "post">
+        <div class="form-group">
+            <input type="text" name="address" class="form-control" id="Address" placeholder="Enter street address" required>
+        </div>
+        <div class="form-group">
+            <input type="text" name="apartment" class="form-control" id="apartments" placeholder="Enter house name or apartment">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" name="city" class="form-control" id="town" placeholder="Enter city" required>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" name="State" class="form-control" id="State" placeholder="Enter state" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="number" minlength="1" maxlength="6" class="form-control" name="zip" id="zipcode" placeholder="Enter zip code" required>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" id="countries" name="countries" placeholder="Enter country" required>
+            </div>
+        </div>
+        <form>
+    </div>
+</div>
+
+        `,
+        focusConfirm: false,
+        allowOutsideClick: false,
+        showCancelButton: true,
+        preConfirm: () => {
+            streetAddress = document.getElementById("Address").value
+            apartment = document.getElementById("apartments").value
+            city = document.getElementById("town").value
+            state = document.getElementById("State").value;
+            zip = document.getElementById("zipcode").value
+            country = document.getElementById("countries").value
+
+
+            if(!streetAddress || !apartment || !city || !state || !zip || !country ){
+                Swal.showValidationMessage('All fields are required');
+                return false;
+            }
+        }
+    });
+
+ console.log(streetAddress,apartment,city,state,zip,country);
+    fetch('/user-account', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            streetAddress, city, zip, state, apartment, country
+        })
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+        if (data) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "shipping address has been saved",
+                showConfirmButton: false,
+              });               setTimeout(() => {
+                location.reload()
+               }, 1000);
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

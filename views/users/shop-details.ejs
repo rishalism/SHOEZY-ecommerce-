@@ -48,7 +48,10 @@
         <div class="offcanvas__nav__option">
             <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
             <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="/product-cart"><img src="/images/icon/shopping-cart.png" alt=""> <span>0</span></a>
+            <a href="/product-cart" onclick="checkUserSession()">
+                <img src="/images/icon/shopping-cart.png" alt="">
+                <span>0</span>
+            </a>
             <div class="price">$0.00</div>
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -83,8 +86,10 @@
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
                         <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
+                        <a href="#" onclick="checkUserSession()">
+                            <img src="/images/icon/shopping-cart.png" width="80%" alt="">
+                        </a>
+                        <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -116,7 +121,8 @@
                                         href="#tabs-<%= j+1 %>" role="tab">
                                         <div class="product__thumb__pic set-bg"
                                             data-setbg="/images/shop-details/thumb-<%= j+1 %>.png">
-                                            <img src="/uploads/<%= product.image[j] %>" alt="" onclick="changeImage(this)">
+                                            <img src="/uploads/<%= product.image[j] %>" alt=""
+                                                onclick="changeImage(this)">
                                         </div>
                                     </a>
                                 </li>
@@ -130,7 +136,7 @@
                                     <div class="lens"></div>
                                     <div class="zoom"></div>
                                     <div class="product__details__pic__item">
-                                        <img src="/uploads/<%= product.image[0] %>" alt="">
+                                        <img src="/uploads/<%= product.image[0] %>" style="height: 400px;" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -161,52 +167,8 @@
                             <p>
                                 <%=product.description %>
                             </p>
-                            <div class="product__details__option">
-                                <div class="product__details__option__size">
-                                    <span>Size:</span>
-                                    <label for="xxl">xxl
-                                        <input type="radio" id="xxl">
-                                    </label>
-                                    <label class="active" for="xl">xl
-                                        <input type="radio" id="xl">
-                                    </label>
-                                    <label for="l">l
-                                        <input type="radio" id="l">
-                                    </label>
-                                    <label for="sm">s
-                                        <input type="radio" id="sm">
-                                    </label>
-                                </div>
-                                <div class="product__details__option__color">
-                                    <span>Color:</span>
-                                    <label class="c-1" for="sp-1">
-                                        <input type="radio" id="sp-1">
-                                    </label>
-                                    <label class="c-2" for="sp-2">
-                                        <input type="radio" id="sp-2">
-                                    </label>
-                                    <label class="c-3" for="sp-3">
-                                        <input type="radio" id="sp-3">
-                                    </label>
-                                    <label class="c-4" for="sp-4">
-                                        <input type="radio" id="sp-4">
-                                    </label>
-                                    <label class="c-9" for="sp-9">
-                                        <input type="radio" id="sp-9">
-                                    </label>
-                                </div>
-                            </div>
                             <div class="product__details__cart__option">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
-                                </div>
-                                <a href="/product-cart" class="primary-btn">add to cart</a>
-                            </div>
-                            <div class="product__details__btns__option">
-                                <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
-                                <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
+                                <a onclick="addtocart('<%= product._id %>'); return false;"  style="color: white;" class="primary-btn">add to cart</a>
                             </div>
                         </div>
                     </div>

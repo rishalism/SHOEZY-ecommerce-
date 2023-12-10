@@ -4,7 +4,7 @@
   border-radius: 20px;
   background: #fff;
   border: none;
-  height: 350px;
+  height: 400px;
   position: relative;
 }
 
@@ -43,7 +43,6 @@ body {
 
 .btn{
   width: 65%;
-  height: 100%;
   background-color: #9C6FE4;
 }
 .btn:hover{

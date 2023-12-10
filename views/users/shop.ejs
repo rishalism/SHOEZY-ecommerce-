@@ -83,8 +83,10 @@
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
                         <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-                        <a href="/product-cart"><img src="/images/icon/shopping-cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
+                        <a href="#" onclick="checkUserSession()">
+                            <img src="/images/icon/shopping-cart.png" width="80%" alt="">
+                        </a>
+                        <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -306,7 +308,7 @@
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg">
                                             <a href="/product-detail?id=<%=product._id%>"><img
-                                                    class="product__item__pic set-bg"
+                                                    class="product__item__pic "
                                                     src="/uploads/<%= product.image[0] %>" alt=""></a>
                                             <ul class="product__hover">
                                                 <li><a href="#"><img src="/images/icon/heart.png" alt=""></a></li>
@@ -319,7 +321,7 @@
                                             <h6>
                                                 <%= product.productName %>
                                             </h6>
-                                            <a href="" onclick="addtocart('<%= product._id %>'); return false;" class="add-cart">+ Add To Cart</a>
+                                            <a href="" onclick="addtocart('<%= product._id %>','<%= product.Prize %>'); return false;" class="add-cart">+ Add To Cart</a>
                                             <div class="rating">
                                                 <% for (let i=0; i < product.ratings.star; i++) { %>
                                                     <i class="fa fa-star"></i>
@@ -328,7 +330,7 @@
                                                             <i class="fa fa-star-o"></i>
                                                             <% } %>
                                             </div>
-                                            <h5>$<%= product.Prize.toFixed(2) %>
+                                            <h5>₹ <%= product.Prize.toFixed(2) %>
                                             </h5>
                                         </div>
                                     </div>

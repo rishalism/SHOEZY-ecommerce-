@@ -82,8 +82,10 @@
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
                         <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-                        <a href="/product-cart"><img src="/images/icon/shopping-cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
+                        <a href="#" onclick="checkUserSession()">
+                            <img src="/images/icon/shopping-cart.png" width="80%" alt="">
+                        </a>
+                        <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -115,84 +117,104 @@
     <section class="shopping-cart spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="shopping__cart__table">
-                        <input type="hidden" value="<%=cartProducts%>" name="cartProducts">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% if (cartProducts && cartProducts.products) { %>
-                                    <% cartProducts.products.forEach(product=> { %>
+                <% if (typeof cartProducts === 'undefined' || typeof cartProducts.products === 'undefined' || cartProducts.products.length === 0) { %>                    <div class="col-lg-12 d-flex justify-content-center">
+                        <img src="/images/cart.jpg" style="margin-top: -8%;" alt="">
+                    </div>
+                    <% } else { %>
+                        <div class="col-lg-8">
+                            <div class="shopping__cart__table">
+                                <input type="hidden" value="<%=cartProducts%>" name="cartProducts">
+                                <table>
+                                    <thead>
                                         <tr>
-                                            <td class="product__cart__item">
-                                                <div class="product__cart__item__pic">
-                                                    <img src="<%= product.productID.image %>" alt="">
-                                                </div>
-                                                <div class="product__cart__item__text">
-                                                    <h6>
-                                                        <%= product.productID.productName %>
-                                                    </h6>
-                                                    <h5>$<%= product.productID.Prize %>
-                                                    </h5>
-                                                </div>
-                                            </td>
-                                            <td class="quantity__item">
-                                                <div class="quantity">
-                                                    <div class="pro-qty-2">
-                                                        <input type="text" value="<%= product.quantity %>">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="cart__price">$ <%= product.productID.prize * product.quantity %>
-                                            </td>
-                                            <td class="cart__close"><i class="fa fa-close"></i></td>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th></th>
                                         </tr>
-                                        <% }); %>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
+                                    </thead>
+                                    <tbody>
+                                        <% if (cartProducts && cartProducts.products) { %>
+                                            <% cartProducts.products.forEach(product=> { %>
+                                                <tr>
+                                                    <td class="product__cart__item">
+                                                        <div class="product__cart__item__pic">
+                                                            <img src="/uploads/<%= product?.productID?.image[0] %>"
+                                                                style="max-width: 30%;" alt="">
+                                                        </div>
+                                                        <div class="product__cart__item__text">
+                                                            <h6>
+                                                                <%= product?.productID?.productName %>
+                                                            </h6>
+                                                            <h5>₹<%= product?.productID?.Prize %>
+                                                            </h5>
+                                                        </div>
+                                                    </td>
+                                                    <td class="quantity__item">
+                                                        <div class="quantity">
+                                                            <button id="increase"
+                                                                onclick="decrease('<%= product?.productID?.Prize %>','<%= product?.productID._id %>')"
+                                                                style="border: none; background-color: white;">
+                                                                <img src="/images/icon/minus.png" alt="">
+                                                            </button>
+                                                            <span id="quantityValue_<%= product?.productID._id %>"
+                                                                data-id="<%= product?.productID._id %>">
+                                                                <%=product?.quantity %>
+                                                            </span>
+                                                            <button id="decrease"
+                                                                onclick="increase('<%= product?.productID?.Prize %>','<%= product?.productID._id %>')"
+                                                                style="border: none; background-color: white;">
+                                                                <img src="/images/icon/next.png" alt="">
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__price" id="total_<%= product?.productID._id %>">
+                                                        ₹<%=product?.total %>
+                                                    </td>
+                                                    <td class="cart__close">
+                                                        <button
+                                                            onclick="removeproduct('<%= product.productID._id %>', this.parentNode.parentNode)"
+                                                            class="fa fa-close"
+                                                            style="border-radius: 10px; border: none;">
+                                                        </button>
+                                                    <td>
+                                                </tr>
+
+                                                <% }); %>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="continue__btn">
+                                        <a href="/shop">Continue Shopping</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                        <div class="col-lg-4">
+                            <!-- <div class="cart__discount">
+                                <h6>Discount codes</h6>
+                                <form action="#">
+                                    <input type="text" placeholder="Coupon code">
+                                    <button type="submit">Apply</button>
+                                </form>
+                            </div> -->
+                            <div class="cart__total">
+                                <h6>Cart total</h6>
+                                <ul>
+                                    <input type="hidden" value="<%=subtotal%>">
+                                    <li id="subtotal">Subtotal <span>₹<%=subtotal%></span></li>
+                                    <li id="total">Total <span>₹<%=subtotal%></span></li>
+                                </ul>
+                                <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                                <a onclick="update()" class="primary-btn mt-3" style="color: white;">update</a>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
-                    <div class="cart__total">
-                        <h6>Cart total</h6>
-                        <ul>
-                            <li>Subtotal <span>$ </span></li>
-                            <li>Total <span>$</span></li>
-                        </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
-
 
     <!-- Shopping Cart Section End -->
 
@@ -246,23 +268,23 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center">
-
                 </div>
             </div>
         </div>
     </footer>
     <!-- Footer Section End -->
+    <% } %>
 
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
+        <!-- Search Begin -->
+        <div class="search-model">
+            <div class="h-100 d-flex align-items-center justify-content-center">
+                <div class="search-close-switch">+</div>
+                <form class="search-model-form">
+                    <input type="text" id="search-input" placeholder="Search here.....">
+                </form>
+            </div>
         </div>
-    </div>
-    <!-- Search End -->
+        <!-- Search End -->
 
-    <!-- Js Plugins -->
-    <%- include('../layouts/footer.ejs') %>
+        <!-- Js Plugins -->
+        <%- include('../layouts/footer.ejs') %>

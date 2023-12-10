@@ -6,6 +6,7 @@ const { name } = require('ejs');
 const crypto = require('crypto');
 const { sendVerificationEmail } = require('../services/otpVerification');
 const products = require('../models/productModel');
+const address = require('../models/userDetailsModel');
 const session = require('express-session');
 let userid = 0
 let userotp = 0
@@ -72,7 +73,7 @@ const insertUser = async (req, res) => {
             req.session.otp = clientOtp
             userotp = clientOtp
             console.log(clientOtp, checkemail);
-            sendVerificationEmail(checkemail, clientOtp, username);
+            await sendVerificationEmail(checkemail, clientOtp, username);
             res.redirect('/otpverification')
 
         }
@@ -81,6 +82,8 @@ const insertUser = async (req, res) => {
         console.error(error.message);
     }
 }
+
+
 
 
 
@@ -97,8 +100,35 @@ const otpLoad = async (req, res) => {
 
 
 
+const resendOtp = async (req, res) => {
+    try {
+        const clientOtp = await generateOTP();
+        const checkemail = req.session.user.email;
+        const username = req.session.user.firstName;
+
+        // Update the session with the new OTP
+        req.session.otp = clientOtp;
+
+        console.log(req.session.otp);
+
+        // Send the verification email
+        await sendVerificationEmail(checkemail, clientOtp, username);
+
+        res.render('otpverification', { message: 'OTP has been resent successfully.' });
+
+    } catch (error) {
+        console.log(error.message);
+        res.render('otpverification', { message: 'Error resending OTP. Please try again.' });
+    }
+};
+
+
+
+
 const verifyOtp = async (req, res) => {
     try {
+        console.log(req.session.otp);
+
         if (req.session.otp === req.body.otp) {
             const data = await users.updateOne({ _id: userid }, { $set: { is_verified: 1 } }).exec();
             res.redirect('/home');
@@ -109,7 +139,6 @@ const verifyOtp = async (req, res) => {
         console.log(error.message);
     }
 };
-
 
 
 
@@ -125,47 +154,48 @@ const loginloaduser = async (req, res) => {
 
 
 
-
 const verifyUser = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
 
         const finduser = await users.findOne({ email: email });
+
         if (finduser) {
             const passwordMatch = await bcrypt.compare(password, finduser.password);
+
             if (finduser.is_blocked == 1) {
                 res.render('userLogin', { message: 'you have been blocked by the admin' });
-
             } else if (passwordMatch) {
-                req.session.user = finduser
-                res.redirect('/home')
-            } else if (!passwordMatch) {
-                res.render('userLogin', { message: 'invalid password' })
+                req.session.user = finduser;
+                res.redirect('/home');
+            } else {
+                // Invalid password
+                res.render('userLogin', { message: 'invalid password' });
             }
 
-            else {
-
-                res.render('userLogin', { message1: 'email is not found' });
-                console.log('email not foud in the database');
-            }
+        } else {
+            // Email not found in the database
+            res.render('userLogin', { message1: 'email is not found' });
+            console.log('email not found in the database');
         }
 
     } catch (error) {
         console.log(error.message);
     }
-}
+};
 
 
 
 
-const logOut  = async(req,res)=>{
+
+const logOut = async (req, res) => {
     try {
-        
+
         req.session.destroy()
         res.redirect('/')
     } catch (error) {
-        
+
         console.log(error.message);
     }
 }
@@ -177,11 +207,11 @@ const loadHome = async (req, res) => {
             const userID = req.session.user._id
             const userdata = await users.findById({ _id: userID });
             res.render('home', { userdata });
-        }else{
+        } else {
             res.render('home',)
         }
     } catch (error) {
-        console.log(error, message);
+        console.log(error.message);
     }
 }
 
@@ -247,6 +277,114 @@ const loadProductDetails = async (req, res) => {
 
 
 
+const loadProfile = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const finduser = await users.findById({ _id: req.session.user._id })
+            const Address = await address.find({ user: req.session.user._id })
+            res.render('userAccount', { user: finduser, Address });
+        } else {
+            res.redirect('/register')
+        }
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+const saveUser = async (req, res) => {
+    try {
+
+        const userID = req.session.user._id;
+        const { streetAddress: streetAddress, city: town, zip: zipcode, state, apartment: houseName, country } = req.body
+        const saveUser = new address({
+            user: userID,
+            state: state,
+            town: town,
+            streetAddress: streetAddress,
+            houseName: houseName,
+            country: country,
+            zipcode: zipcode
+        })
+        const saving = await saveUser.save();
+        if (saving) {
+            res.status(200).json({ message: 'succefuly added details' })
+        }
+
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+
+
+
+
+const loadEdditUserAddress = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const finduser = await users.findById({ _id: req.session.user._id })
+            const Address = await address.find({ user: req.session.user._id })
+            res.render('address-editing', { user: finduser, Address });
+
+        } else {
+            res.redirect('/register')
+
+        }
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+const editAddress = async (req, res) => {
+    try {
+        const userid = req.query.id
+        const userID = req.session.user._id
+        const { streetAddress: streetAddress, apartment: houseName, city: town, state: state, zipcode: zipcode, country: country } = req.body
+        const Editddress = await address.findByIdAndUpdate({ _id: userid }, {
+            user: userID,
+            state,
+            town,
+            streetAddress,
+            houseName,
+            country,
+            zipcode
+        });
+
+        if (Editddress) {
+            res.redirect('/add-address')
+        }
+
+    } catch (error) {
+
+        console.log(error);
+    }
+}
+
+
+
+
+
+
+
+
+const loadBLock = async (req, res) => {
+    try {
+        res.render('404');
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
 
 module.exports = {
     usersignupLoad,
@@ -260,5 +398,11 @@ module.exports = {
     loadAboutUs,
     loadContact,
     loadProductDetails,
-    logOut
+    logOut,
+    loadProfile,
+    saveUser,
+    loadEdditUserAddress,
+    editAddress,
+    loadBLock,
+    resendOtp
 }

@@ -2353,7 +2353,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__pic {
-	float: left;
+	/* float: left; */
 	margin-right: 30px;
 }
 

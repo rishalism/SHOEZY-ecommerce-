@@ -216,7 +216,7 @@
                                                     class="list-unlist btn <%=category[i].is_listed? 'btn-danger' : 'btn-success'%>"
                                                     data-action="<%= category[i].is_listed ? 'unlisted' : 'Listed'%>">
                                                     <%= category[i].is_listed ? "unlisted" : "Listed" %>
-                                                  </button>
+                                                </button>
 
 
                                                 <a href="/admin/edit-category?id=<%=category[i].id%>">
@@ -226,7 +226,7 @@
                                             </td>
                                         </tr>
                                         <% } %>
-                                   <% } %>
+                                            <% } %>
                             </tbody>
                         </table>
                     </form>
@@ -242,6 +242,7 @@
     </div>
 
     <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/lib/chart/chart.min.js"></script>
@@ -254,8 +255,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Template Javascript -->
-    <script src="/scripts/custom.js
-     "></script>
+    <script src="/scripts/main.js
+    "></script>
+    <script src="/scripts/custom.js"></script>
 </body>
 
 </html>

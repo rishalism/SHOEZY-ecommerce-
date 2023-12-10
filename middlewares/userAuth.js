@@ -1,35 +1,55 @@
+// Middleware Functions
+const users = require('../models/userModel');
 
-const isLogin = async(req,res,next)=>{
+
+const isLoggedIn = async (req, res, next) => {
     try {
-        if(req.session.user){
+        if (req.session.user) {
+
+            const userid = req.session.user._id;
+            const userdata = await users.findById(userid);
+
+            if (!userdata) {
+                return res.redirect('/login')
+            }
+
+            if (userdata.is_blocked) {
+                console.log('user is blocked');
+                return res.status(403).render('404',);
+            }
             next()
-        }else{
-            res.redirect('/login')
+
+
+        } else {
+            res.redirect('/register');
         }
 
     } catch (error) {
         console.log(error.message);
     }
-}
+};
 
 
-const notLogin = async(req,res,next)=>{
 
-try {
-    if(req.session.user){
-        res.redirect('/home')
-    }else{
-       next()
+
+const isLoggedOut = async (req, res, next) => {
+    try {
+        if (req.session.user) {
+            res.redirect('/home');
+        } else {
+            next();
+        }
+    } catch (error) {
+        console.log(error.message);
     }
-} catch (error) {
-    
-    console.log(error.message);
-}
-
-}
+};
 
 
-module.exports ={
-    isLogin,
-    notLogin
-}
+
+
+
+
+module.exports = {
+    isLoggedIn,
+    isLoggedOut,
+};

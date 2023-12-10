@@ -1,3 +1,4 @@
+const session = require('express-session');
 const users = require('../models/userModel');
 const bcrypt = require('bcrypt');
 
@@ -43,6 +44,8 @@ const verifyAdmin = async (req, res) => {
                 if(findAdmin.is_admin===0){
                     res.render('adminLogin',{message1: 'oops! looks like you are not an admin'})
                 }else{
+                    req.session.admin = findAdmin
+                    req.session.admin._id = findAdmin._id;
                     res.redirect('/admin/dashboard')
                 } 
 
@@ -68,6 +71,18 @@ const verifyAdmin = async (req, res) => {
 
 
 
+
+
+const logout = async (req,res)=>{
+    try {
+        console.log('working');
+        req.session.destroy()
+        res.redirect('/admin')
+    } catch (error) {
+        
+        console.log(error);
+    }
+}
 
 
 
@@ -126,5 +141,6 @@ module.exports={
     verifyAdmin,
     loadDashboard,
     blockUser,
-    unBlockUser
+    unBlockUser,
+    logout
 }
