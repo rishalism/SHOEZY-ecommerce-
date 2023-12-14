@@ -38,7 +38,11 @@
               <div class="form-outline mb-3">
                 <input type="email" id="email" name="email" class="form-control" required />
                 <label class="form-label" for="form3Example9">Email</label>
-                <div class="error-message" id="errorEmail"></div>
+                <% if (typeof message1 !=='undefined' ) { %>
+                  <div class="error-message" id="errorPassword">
+                      <%= message1 %>
+                  </div>
+                  <% } %>
               </div>
               <div class="form-outline mb-3">
                 <input type="number" id="mobile" name="mobile" class="form-control" required />

@@ -29,7 +29,6 @@
 
     <!-- Offcanvas Menu Begin -->
 
-    <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
@@ -48,10 +47,7 @@
         <div class="offcanvas__nav__option">
             <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
             <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="/product-cart" onclick="checkUserSession()">
-                <img src="/images/icon/shopping-cart.png" alt="">
-                <span>0</span>
-            </a>
+            <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
             <div class="price">$0.00</div>
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -60,7 +56,6 @@
         </div>
     </div>
     <!-- Offcanvas Menu End -->
-
 
     <!-- Header Section Begin -->
     <header class="header">
@@ -75,7 +70,7 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li class="active"><a href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
@@ -168,7 +163,8 @@
                                 <%=product.description %>
                             </p>
                             <div class="product__details__cart__option">
-                                <a onclick="addtocart('<%= product._id %>'); return false;"  style="color: white;" class="primary-btn">add to cart</a>
+                                <a onclick="addtocart('<%= product._id %>'); return false;" style="color: white;"
+                                    class="primary-btn">add to cart</a>
                             </div>
                         </div>
                     </div>

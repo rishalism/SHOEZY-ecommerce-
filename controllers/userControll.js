@@ -55,27 +55,34 @@ const insertUser = async (req, res) => {
     const checkemail = req.body.email;
     const username = req.body.firstname;
     try {
-        const usersubmit = new users({
-            firstName: req.body.firstname,
-            secondName: req.body.lastname,
-            email: req.body.email,
-            mobile: req.body.mobile,
-            password: spassword,
-            is_admin: 0,
-            is_verified: 0,
-            is_blocked: 0
-        })
-        const userdata = await usersubmit.save();
-        userid = userdata._id;
-        if (userdata) {
-            const clientOtp = await generateOTP();
-            req.session.user = userdata;
-            req.session.otp = clientOtp
-            userotp = clientOtp
-            console.log(clientOtp, checkemail);
-            await sendVerificationEmail(checkemail, clientOtp, username);
-            res.redirect('/otpverification')
 
+        /////////////////// check email exists ///////////////////////
+        const findemail = await users.findOne({ email: checkemail });
+        if (!findemail) {
+            const usersubmit = new users({
+                firstName: req.body.firstname,
+                secondName: req.body.lastname,
+                email: req.body.email,
+                mobile: req.body.mobile,
+                password: spassword,
+                is_admin: 0,
+                is_verified: 0,
+                is_blocked: 0
+            })
+            const userdata = await usersubmit.save();
+            userid = userdata._id;
+            if (userdata) {
+                const clientOtp = await generateOTP();
+                req.session.user = userdata;
+                req.session.otp = clientOtp
+                userotp = clientOtp
+                console.log(clientOtp, checkemail);
+                await sendVerificationEmail(checkemail, clientOtp, username);
+                res.redirect('/otpverification')
+
+            }
+        } else {
+            res.render('userSignup', { message1: 'email already in use , please try another one !' })
         }
 
     } catch (error) {
@@ -103,13 +110,12 @@ const otpLoad = async (req, res) => {
 const resendOtp = async (req, res) => {
     try {
         const clientOtp = await generateOTP();
+        console.log(clientOtp);
         const checkemail = req.session.user.email;
         const username = req.session.user.firstName;
 
         // Update the session with the new OTP
         req.session.otp = clientOtp;
-
-        console.log(req.session.otp);
 
         // Send the verification email
         await sendVerificationEmail(checkemail, clientOtp, username);
@@ -224,12 +230,13 @@ const loadShop = async (req, res) => {
         if (req.query.cat) {
             const categoryCollection = await categories.find({ is_listed: 0 });
             const data = req.query.cat
-            const product = await products.find({ category: data });
+            const product = await products.find({ category: data })
             res.render('shop', { category: categoryCollection, product });
         }
         else {
             const categoryCollection = await categories.find({ is_listed: 0 });
-            const product = await products.find();
+            const producta = await products.find().populate('category');
+            const product = producta.filter(producta => producta.category.is_listed==0)
             res.render('shop', { category: categoryCollection, product });
         }
     } catch (error) {

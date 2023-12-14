@@ -12,7 +12,7 @@
 </html>
 
 <div class="d-flex justify-content-center align-items-center container">
-  <form action="" method="post">
+  <form action="/otpverification" method="post">
     <div class="card py-5 px-3">
       <h5 class="m-0 pb-2 text-center">Email verification</h5><span class="mobile-text"><b
           class="text-success">"Registration successful! </b> An OTP has been sent to your email. Please enter the code
@@ -27,10 +27,14 @@
           <% } %>
       </div>
 
-      <div class="text-center mt-3">
-        <p>Didn't get the OTP? <a class="text-danger" id="resend-otp" href="">Resend OTP</a></p>
+      <div class="text-center">
+        <p>Didn't get the OTP? <button type="button" class="resend-btn" id="resend-otp" resend-otp>resend OTP</button>
+        </p>
+        <p id="count" class="text-center"></p>
       </div>
-      <button class="btn m-0 ml-5" type="submit">submit</button>
+      <div class="text-center mt-2">
+        <button id="submit-btn" class="btn" type="submit">submit</button>
+      </div>
   </form>
 </div>
 
@@ -39,19 +43,43 @@
 <script>
 
 
-let otpbutton =  document.getElementById('resend-otp');
+  let otpbutton = document.getElementById('resend-otp');
 
-otpbutton.addEventListener('click',()=>{
-  
-fetch('/resend-otp',{
-  method : 'POST',
-  headers : {
-    'Content-Type': 'application/json'
+  otpbutton.addEventListener('click', () => {
+    let countdown = 60;
+    const counting = setInterval(() => {
+      const minutes = Math.floor(countdown / 60);
+      const seconds = countdown % 60;
 
-  },
-})
+      document.getElementById('count').innerHTML = `Request new OTP in ${minutes}:${seconds} seconds`;
+      document.getElementById('resend-otp').disabled = true
+      otpbutton.style.cursor = 'not-allowed'
 
-})
+      if (countdown === 0) {
+        clearInterval(counting);
+        document.getElementById('resend-otp').disabled = false
+        otpbutton.style.cursor = 'pointer'
+        document.getElementById('count').innerHTML = "";
+      } else {
+        countdown--;
+      }
+    }, 1000);
+
+    fetch('/resend-otp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(response => {
+        // Handle the response if needed
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  });
+
+
 
 </script>
 

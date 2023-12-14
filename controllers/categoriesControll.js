@@ -17,23 +17,23 @@ const loadCategories = async (req, res) => {
 
 const addCategories = async (req, res) => {
     try {
-       
+
         const category = req.body.categoryname
         const existingCategory = await categories.findOne({
             categoriesName: { $regex: new RegExp(`^${category}$`, 'i') }
         });
         if (existingCategory) {
-            res.json({ message: `${category} is already exists`, value : 0 });
+            res.json({ message: `${category} is already exists`, value: 0 });
 
         } else {
-            
-         const addcategory = new categories({
-            categoriesName : category,
-            is_listed : 0
-         })
 
-         const submitdata = await addcategory.save();
-            res.json({ message: 'new category added'  , value : 1})
+            const addcategory = new categories({
+                categoriesName: category,
+                is_listed: 0
+            })
+
+            const submitdata = await addcategory.save();
+            res.json({ message: 'new category added', value: 1 })
         }
     } catch (error) {
         console.log(error.message);
@@ -41,15 +41,16 @@ const addCategories = async (req, res) => {
 }
 
 
-const listCategory = async (req,res)=>{
+const listCategory = async (req, res) => {
     try {
+        console.log('helloo');
         const categoryId = req.body.id
-        const findcategory = await categories.findById({_id : categoryId});
+        const findcategory = await categories.findById({ _id: categoryId });
         findcategory.is_listed = false;
         const data = await findcategory.save()
-        if(data){
-            res.json({message : "listed"})
-            
+        if (data) {
+            res.json({ message: "listed" })
+
         }
     } catch (error) {
         console.log(error.message);
@@ -58,18 +59,19 @@ const listCategory = async (req,res)=>{
 
 
 
-const UnlistCategory  = async (req,res)=>{
+const UnlistCategory = async (req, res) => {
     try {
+        console.log('heeyy');
         const categoryId = req.body.id
-        const findcategory = await categories.findById({_id : categoryId});
+        const findcategory = await categories.findById({ _id: categoryId });
         findcategory.is_listed = true;
         const data = await findcategory.save()
-        if(data){
-            res.json({message : "unlisted"})
-            
+        if (data) {
+            res.json({ message: "unlisted" })
+
         }
     } catch (error) {
-        
+
         console.log(error.message);
     }
 }
@@ -92,15 +94,20 @@ const LoadCategory = async (req, res) => {
 
 const editCategory = async (req, res) => {
     try {
-
         const id = req.body.id
         const name = req.body.categoryName
-        const update = await categories.findByIdAndUpdate({ _id: id }, {
-            $set: { categoriesName: name }
-        })
-        const data = await update.save()
-        if (data) {
-            res.redirect('/admin/categories');
+        const existingCategory = await categories.findOne({
+            categoriesName: { $regex: new RegExp(`^${name}$`, 'i') }
+        });
+
+        if(!existingCategory){
+            const update = await categories.findByIdAndUpdate({_id : id},{
+                categoriesName : name
+            });
+            const save  = await update.save();    
+            res.json({message : 'added category',value :0})
+        }else{
+            res.json({message : 'category already exists',value : 1})
         }
 
     } catch (error) {

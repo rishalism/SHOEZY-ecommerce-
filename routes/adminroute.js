@@ -32,6 +32,7 @@ adminRoute.get('/add-products',productControll.LoadAddProducts)
 adminRoute.post('/add-product',upload.array('images',3),productControll.addProducts)
 adminRoute.get('/edit-product/:id',productControll.LoadEditProduct)
 adminRoute.post('/edit-product',upload.array('images',3),productControll.editProduct)
+adminRoute.post('/edit-delete-product',productControll.deleteImage)
 adminRoute.post('/unlist-product',productControll.unlistProduct)
 adminRoute.post('/list-product',productControll.listProduct);
 

@@ -10,11 +10,10 @@ html {
   font-size: 16px;
   overflow-x: hidden;
 }
-body {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
-  background-color: #1b1d20;
-  overflow-x: hidden;
-}
+
+
+
+
 a {
   transition: all 0.3s ease;
 }
@@ -615,9 +614,6 @@ input[type="checkbox"]:focus {
     max-height: 350px;
   }
 } */
-
-
-
 
 
 

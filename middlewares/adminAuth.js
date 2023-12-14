@@ -1,20 +1,20 @@
 // Middleware Functions
 
-const isLoggedIn = async (req, res, next) => {
+
+const isLoggedIn = (req, res, next) => {
     try {
         if (req.session.admin) {
             next();
-
         } else {
             res.redirect('/admin');
         }
-
     } catch (error) {
         console.log(error.message);
+        res.status(500).send('Internal Server Error');
     }
 };
 
-const isLoggedOut = async (req, res, next) => {
+const isLoggedOut = (req, res, next) => {
     try {
         if (req.session.admin) {
             console.log('Already logged in');
@@ -24,6 +24,7 @@ const isLoggedOut = async (req, res, next) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.status(500).send('Internal Server Error');
     }
 };
 

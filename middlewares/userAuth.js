@@ -17,11 +17,10 @@ const isLoggedIn = async (req, res, next) => {
                 console.log('user is blocked');
                 return res.status(403).render('404',);
             }
-            next()
-
+           next()
 
         } else {
-            res.redirect('/register');
+            next()
         }
 
     } catch (error) {

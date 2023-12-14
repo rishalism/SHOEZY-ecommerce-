@@ -75,7 +75,6 @@ const verifyAdmin = async (req, res) => {
 
 const logout = async (req,res)=>{
     try {
-        console.log('working');
         req.session.destroy()
         res.redirect('/admin')
     } catch (error) {

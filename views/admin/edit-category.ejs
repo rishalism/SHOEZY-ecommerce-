@@ -171,16 +171,16 @@
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">edit categories</h6>
                 </div>
-                <form action="/admin/edit-category" method="post">
+                <form>
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                             <tr class="text-white">
                                 <th scope="col">
-                                    <input type="hidden" name="id" value="<%= catId %>">
-                                    <input type="hidden" name="name" value="<%= name %>">
+                                    <input type="hidden" id="catid" name="id" value="<%= catId %>">
+                                    <input type="hidden" id="catname" name="name" value="<%= name %>">
                                     <input type="text" name="categoryName" id="categoryName" value="<%= name.categoriesName %>"  
                                         required maxlength="25" minlength="3">
-                                    <button type="submit" class="btn btn-success">Edit</button>
+                                    <button type="button" id="edit-cat" class="btn btn-success">Edit</button>
                                     <div class="error-message" id="errorEmail">
                                         <% if (typeof message !=='undefined' ) { %>
                                             <div class="error-message" id="errorPassword">
@@ -213,7 +213,8 @@
     <script src="/lib/tempusdominus/js/moment.min.js"></script>
     <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/categoryCustom.js"></script>
     <!-- Template Javascript -->
 </body>
 
