@@ -33,11 +33,6 @@
 
 <body>
     <div class="container-fluid position-relative d-flex p-0">
-
-
-
-
-
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
@@ -175,53 +170,63 @@
                     <div class="d-flex align-items-center justify-content-between">
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-danger">
-                                    <th scope="col">Order ID</th>
-                                    <th scope="col">Total </th>
-                                    <th scope="col">Ordered On</th>
-                                    <th scope="col">updated on</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% if (orders.length> 0) {
-                                    for (let i = 0; i < orders.length; i++) { %>
-                                        <tr>
-                                            <td id="orderID">
-                                                <%= orders[i].trackID %>
-                                            </td>
-                                            <td>
-
-                                                ₹
-                                                <%= orders[i].totalAmount %>
-                                            </td>
-                                            <td>
-                                                <%= orders[i].orderDate.toLocaleString() %>
-                                            </td>
-                                            <td>
-                                                <%= orders[i].updatedAt.toLocaleString() %>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-primary" type="button">manage</button>
-                                            </td>
-                                        </tr>
+                        <div class="table-responsive">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr class="text-danger">
+                                        <th scope="col">Track ID</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Ordered On</th>
+                                        <th scope="col">Updated on</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Order Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (orders.length > 0) {
+                                        for (let i = 0; i < orders.length; i++) { %>
+                                            <tr>
+                                                <td class="order-id">
+                                                    <%= orders[i].trackID %>
+                                                </td>
+                                                <td>
+                                                    ₹<%= orders[i].totalAmount %>
+                                                </td>
+                                                <td>
+                                                    <%= orders[i].orderDate.toLocaleString() %>
+                                                </td>
+                                                <td>
+                                                    <%= orders[i].updatedAt.toLocaleString() %>
+                                                </td>
+                                                <td>
+                                                    <a href="/admin/manage-products?id=<%=orders[i]._id%>">
+                                                        <button class="btn btn-primary" type="button">Manage</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <select name="orderStatus" data-id="<%=orders[i]._id%>" style="background-color: #191C24 !important; color: white; border-radius: 6%;" class="status-select">
+                                                        <% const orderStatusOptions = ['ordered', 'shipped', 'out for delivery', 'delivered']; %>
+                                                        <% for (const option of orderStatusOptions) { %>
+                                                            <option value="<%= option %>" <%= option === orders[i].orderStatus ? 'selected' : '' %>><%= option %></option>
+                                                        <% } %>
+                                                    </select>                                                    
+                                                </td>
+                                            </tr>
                                         <% } } else { %>
                                             <tr>
-                                                <td colspan="5">Orders not found</td>
+                                                <td colspan="6" class="text-center text-primary pt-5 pb-5">
+                                                    <h3>No ordered products found.</h3>
+                                                </td>
                                             </tr>
-                                            <% } %>
-                            </tbody>
-                        </table>
+                                        <% } %>
+                                </tbody>
+                            </table>
+                        </div>                        
                     </div>
                 </div>
             </div>
-
-
         </div>
         <!-- Content End -->
-
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -236,6 +241,7 @@
     <script src="/lib/tempusdominus/js/moment.min.js"></script>
     <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/scripts/orderCustom.js"></script>
 
     <!-- Template Javascript -->
     <script src="/scripts/main.js

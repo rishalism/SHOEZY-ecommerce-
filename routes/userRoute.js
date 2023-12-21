@@ -35,5 +35,9 @@ userRoute.post('/add-address', usercontrol.editAddress)
 userRoute.post('/place-order', orderControll.placeOrder)
 userRoute.get('/order-placed', auth.isLoggedIn, orderControll.loadPage)
 userRoute.get('/blocked', usercontrol.loadBLock)
-
+userRoute.get('/order',auth.isLoggedIn,orderControll.LoadUserOrders)
+userRoute.get('/order-details',auth.isLoggedIn,orderControll.loadOrderDetails)
+userRoute.post('/cancel-order',orderControll.cancelOrder)
+userRoute.post('/change-password',usercontrol.changePassword);
+userRoute.post('/update-password',usercontrol.updatePassword)
 module.exports = userRoute

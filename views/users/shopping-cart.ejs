@@ -70,7 +70,7 @@
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li ><a href="/shop">Shop</a></li>
+                            <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
                         </ul>
@@ -115,7 +115,9 @@
     <section class="shopping-cart spad">
         <div class="container">
             <div class="row">
-                <% if (typeof cartProducts === 'undefined' || typeof cartProducts.products === 'undefined' || cartProducts.products.length === 0) { %>                    <div class="col-lg-12 d-flex justify-content-center">
+                <% if (typeof cartProducts==='undefined' || typeof cartProducts.products==='undefined' ||
+                    cartProducts.products.length===0) { %>
+                    <div class="col-lg-12 d-flex justify-content-center">
                         <img src="/images/cart.jpg" style="margin-top: -8%;" alt="">
                     </div>
                     <% } else { %>
@@ -160,7 +162,7 @@
                                                                 <%=product?.quantity %>
                                                             </span>
                                                             <button id="decrease"
-                                                                onclick="increase('<%= product?.productID?.Prize %>','<%= product?.productID._id %>')"
+                                                                onclick="increase('<%= product?.productID?.Prize %>','<%= product?.productID._id %>','<%= product?.productID.stock %>')"
                                                                 style="border: none; background-color: white;">
                                                                 <img src="/images/icon/next.png" alt="">
                                                             </button>
@@ -179,7 +181,7 @@
                                                 </tr>
 
                                                 <% }); %>
-                                            <% } %>
+                                                    <% } %>
                                     </tbody>
                                 </table>
                             </div>

@@ -236,7 +236,7 @@ const loadShop = async (req, res) => {
         else {
             const categoryCollection = await categories.find({ is_listed: 0 });
             const producta = await products.find().populate('category');
-            const product = producta.filter(producta => producta.category.is_listed==0)
+            const product = producta.filter(producta => producta.category.is_listed == 0)
             res.render('shop', { category: categoryCollection, product });
         }
     } catch (error) {
@@ -331,6 +331,46 @@ const saveUser = async (req, res) => {
 
 
 
+const changePassword = async (req, res) => {
+    try {
+        const newPassword = req.body.password;
+        const userid = req.session.user._id;
+        const finduser = await users.findOne({ _id: userid });
+        const checkpassword = await bcrypt.compare(newPassword, finduser.password);
+        if (checkpassword) {
+            res.status(200).json({value : 0});  
+        } else {
+            res.status(200).json({ message: 'password is incorrect', value: 1 })
+        }
+
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+const updatePassword = async(req,res)=>{
+    try {
+        const newPassword = req.body.password;
+        const hashedPassword =  await securepassword(newPassword);
+        const updatePassword = await users.findOneAndUpdate({_id : req.session.user._id},{
+            $set  : {password : hashedPassword}
+        });
+        if (updatePassword) {
+            res.status(200).json({message : 'password updated succesfully'});
+        }
+        
+        
+    } catch (error) {
+        
+        console.log(error.message);
+    }
+}
+
+
+
 
 const loadEdditUserAddress = async (req, res) => {
     try {
@@ -411,5 +451,7 @@ module.exports = {
     loadEdditUserAddress,
     editAddress,
     loadBLock,
-    resendOtp
+    resendOtp,
+    changePassword,
+    updatePassword
 }

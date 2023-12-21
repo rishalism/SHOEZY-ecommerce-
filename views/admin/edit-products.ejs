@@ -201,7 +201,7 @@
                 <div class="mb-3">
                   <label for="productImage" class="form-label">Add New Image</label>
                   <input type="file" class="form-control" id="productImage" name="images" value="<%=product.image%>"
-                    accept="image/*" multiple >
+                    accept="image/*" multiple>
                 </div>
                 <div class="mb-3">
                   <label for="productSize" class="form-label">Product Size</label>
@@ -211,8 +211,11 @@
                 <div class="mb-3">
                   <label for="productStock" class="form-label">Product Stock</label>
                   <select class="form-select" id="productStock" name="stock" required>
-                    <option value="in_stock">In Stock</option>
-                    <option value="out_of_stock">Out of Stock</option>
+                    <% for (let i=1; i <=10; i++) { %>
+                      <option value="<%= i %>">
+                        <%= i %>
+                      </option>
+                      <% } %>
                   </select>
                 </div>
                 <div class="card pt-4 mb-4 mt-4">
@@ -239,8 +242,9 @@
                                       <% for (let j=0; j < product.image.length; j++) { %>
                                         <div class="carousel-item <%= j === 0 ? 'active' : '' %>">
                                           <img src="/uploads/<%= product.image[j] %>"
-                                            alt="<%= product.productName %> Image" id="image-delete" data-productID="<%=product._id%>" data-id="<%=product.image[j]%>" style="border-radius: 5%;"
-                                            class="pt-3 pb-3 d-block mx-auto w-50 h-75">
+                                            alt="<%= product.productName %> Image" id="image-delete"
+                                            data-productID="<%=product._id%>" data-id="<%=product.image[j]%>"
+                                            style="border-radius: 5%;" class="pt-3 pb-3 d-block mx-auto w-50 h-75">
                                         </div>
                                         <% } %>
                                           <% } %>

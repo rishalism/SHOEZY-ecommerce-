@@ -201,6 +201,7 @@ const lens = document.querySelector('.lens');
 const zoom = document.querySelector('.zoom');
 
 
+
 container.addEventListener('mousemove', move)
 container.addEventListener('mouseout', remove)
 function move(e) {
@@ -415,11 +416,10 @@ function updateTotal(productId, quantity, prize) {
 
 
 
-async function increase(prize, productId) {
+async function increase(prize, productId, stock) {
     var quantityValue = document.getElementById(`quantityValue_${productId}`);
     var currentQuantity = parseInt(quantityValue.textContent);
-
-    if (currentQuantity < 5) {
+    if (currentQuantity < stock) {
         quantityValue.textContent = currentQuantity + 1;
         var total = updateTotal(productId, currentQuantity + 1, parseFloat(prize));
 
@@ -438,7 +438,7 @@ async function increase(prize, productId) {
 
             const data = await response.json();
             if (data) {
-                console.log('ok');
+                console.log(stock);
             }
         } catch (error) {
             console.log(error);
@@ -587,8 +587,6 @@ async function openModal() {
     })
 
 }
-
-
 
 
 

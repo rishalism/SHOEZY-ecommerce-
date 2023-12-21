@@ -173,41 +173,50 @@
                 <input type="hidden" id="<%=category%>">
                 <div class="mb-3">
                   <label for="productName" class="form-label">Product Name</label>
-                  <input type="text" class="form-control" id="productName" name="name" placeholder="Enter product name" required>
+                  <input type="text" class="form-control" id="productName" name="name" placeholder="Enter product name"
+                    required>
                 </div>
                 <div class="mb-3">
                   <label for="productDescription" class="form-label">Product Description</label>
-                  <textarea class="form-control" id="productDescription" name="description" rows="3"required
+                  <textarea class="form-control" id="productDescription" name="description" rows="3" required
                     placeholder="Enter product description"></textarea>
                 </div>
                 <div class="mb-3">
                   <label for="productPrice" class="form-label">Product Price</label>
-                  <input type="number" class="form-control" id="productPrice" name="price" placeholder="Enter product price" required>
+                  <input type="number" class="form-control" id="productPrice" name="price"
+                    placeholder="Enter product price" required>
                 </div>
                 <div class="mb-3">
                   <label for="productCategory" class="form-label">Product Category</label>
                   <select class="form-select" id="productCategory" name="category" required>
-                     <% for (let i = 0 ; i < category.length ; i++) { %> 
-                        <option value="<%=category[i]._id%>"><%=category[i].categoriesName%></option>
-                     <% } %>
+                    <% for (let i=0 ; i < category.length ; i++) { %>
+                      <option value="<%=category[i]._id%>">
+                        <%=category[i].categoriesName%>
+                      </option>
+                      <% } %>
                   </select>
-               </div>
+                </div>
                 <div class="mb-3">
                   <label for="productImage" class="form-label">Product Image</label>
-                  <input type="file" class="form-control" id="productImage" name="images" accept="image/*" multiple required>
+                  <input type="file" class="form-control" id="productImage" name="images" accept="image/*" multiple
+                    required>
                 </div>
                 <div class="mb-3">
                   <label for="productSize" class="form-label">Product Size</label>
-                  <input type="text" class="form-control" id="productSize" name="size" placeholder="Enter product size" required>
+                  <input type="text" class="form-control" id="productSize" name="size" placeholder="Enter product size"
+                    required>
                 </div>
                 <div class="mb-3">
                   <label for="productStock" class="form-label">Product Stock</label>
                   <select class="form-select" id="productStock" name="stock" required>
-                    <option value="in_stock">In Stock</option>
-                    <option value="out_of_stock">Out of Stock</option>
+                    <% for (let i=1; i <=10; i++) { %>
+                      <option value="<%= i %>">
+                        <%= i %>
+                      </option>
+                      <% } %>
                   </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Add Product Now</button>
+                <button id="addingProduct" type="submit" class="btn btn-primary">Add Product Now</button>
               </form>
             </div>
           </div>
@@ -220,6 +229,9 @@
       </div>
 
 
+
+
+
       <!-- JavaScript Libraries -->
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -230,6 +242,7 @@
       <script src="/lib/tempusdominus/js/moment.min.js"></script>
       <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
       <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
       <!-- Template Javascript -->
       <script src="/scripts/main.js

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoezy</title>
+
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style1.css" type="text/css">
+</head>
+
+<body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__option">
+            <div class="offcanvas__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+            </div>
+            <div class="offcanvas__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                    <li>USD</li>
+                    <li>EUR</li>
+                    <li>USD</li>
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas__nav__option">
+            <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
+            <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
+            <div class="price">$0.00</div>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__text">
+            <p>Free shipping, 30-day return or refund guarantee.</p>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <!-- <a href="./index.html"><img src="/images/logo.png" alt=""></a> -->
+                        <div class="shoezy-logo mt-0">shoezy</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
+                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSession()">
+                            <img src="/images/icon/shopping-cart.png" width="80%" alt="">
+                        </a>
+                        <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Order</h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">user-account</a>
+                            <span>order</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+
+    
+
+
+
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container mt-5">
+            <h6 class="pr-5 checkout__title">Order History</h6>
+            <div class="shopping__cart__table">
+                <table class="shopping__cart__table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Product Images</th>
+                            <th>Product Name</th>
+                            <th>Ordered</th>
+                            <th>status</th>
+                            <th>Total</th>
+                            <th>Method</th>
+                            <th>Manage</th>
+                        </tr>
+                    </thead>
+                    <% if (typeof orderedProducts !=='undefined' && orderedProducts.length> 0) { %>
+                        <tbody>
+                            <% for (let i=0; i < orderedProducts.length; i++) { %>
+                                <tr>
+                                    <td>
+                                        <% for (let j=0; j < Math.min(3, orderedProducts[i].items.length); j++) { %>
+                                            <img src="/uploads/<%= orderedProducts[i].items[j].productID.image[0] %>"
+                                                class="img-fluid mb-2"
+                                                alt="<%= orderedProducts[i].items[j].productID.productName %>"
+                                                style="width: 80px; height: 80px; object-fit: cover; border-radius: 5%;">
+                                            <% } %>
+                                    </td>
+                                    <td class="product__cart__item__text">
+                                        <% for (let j=0; j < Math.min(3, orderedProducts[i].items.length); j++) { %>
+                                            <div class="d-flex flex-column align-items-center">
+                                                <p class="mb-0">
+                                                    <%= orderedProducts[i].items[j].productID.productName %>
+                                                </p>
+                                            </div>
+                                            <% } %>
+                                    </td>
+                                    <td class="quantity__item">
+                                        <%= orderedProducts[i].orderDate.toLocaleDateString() %>
+                                    </td>
+                                    <td>
+                                        <%= orderedProducts[i].orderStatus%>
+                                    </td>
+                                    <td>
+                                        ₹<%= orderedProducts[i].totalAmount %>
+                                    </td>
+                                    <td>
+                                        <%= orderedProducts[i].paymentMethod %>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <a href="/order-details?id=<%= orderedProducts[i]._id %>">
+                                                <button class="btn btn-dark">View Details</button>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8" class="text-center text-primary pt-5 pb-5">
+                                    <h3>No ordered products found.</h3>
+                                    <div class="d-flex justify-content-center align-items-center mt-3">
+                                        <a href="/shop">
+                                            <button class="btn primary-btn" style="color: white;"> Shop now !</button>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <% } %>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <div class="shoezy-logo mt-0" style="color: white;">shoezy</div>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="/images/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <%- include('../layouts/footer.ejs') %>

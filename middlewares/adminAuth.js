@@ -14,6 +14,7 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
+
 const isLoggedOut = (req, res, next) => {
     try {
         if (req.session.admin) {

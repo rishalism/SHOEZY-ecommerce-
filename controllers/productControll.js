@@ -1,6 +1,6 @@
 const products = require('../models/productModel');
 const categories = require('../models/categoriesModel');
-
+const productModel = require('../models/productModel');
 
 const loadProducts = async (req, res) => {
     try {
@@ -23,28 +23,36 @@ const LoadAddProducts = async (req, res) => {
 }
 
 
+
+
+
+
 const addProducts = async (req, res) => {
     try {
         const { name: productName, description, price: Prize, category: category, size, stock } = req.body
-        console.log(req.body);
-        const image = req.files.map((file) => file.filename);
 
-        const addNewProduct = await new products({
-            productName,
-            image,
-            description,
-            Prize,
-            size,
-            stock,
-            category,
-            is_listed: 0
-
-        })
-
-        const saving = await addNewProduct.save();
-
-        if (saving) {
-            res.redirect('/admin/products')
+        const existingproduct = await products.findOne({
+            productName: { $regex: new RegExp(`^${productName}$`, 'i') }
+        });
+        
+        if (existingproduct) {
+            res.json({ message: 'Product already exists' });
+        } else {
+            const image = req.files.map((file) => file.filename);
+            const addNewProduct = await new products({
+                productName,
+                image,
+                description,
+                Prize,
+                size,
+                stock,
+                category,
+                is_listed: 0
+            })
+            const saving = await addNewProduct.save();
+            if (saving) {
+                res.redirect('/admin/products')
+            }
         }
 
     } catch (error) {
@@ -95,9 +103,9 @@ const editProduct = async (req, res) => {
                 }
             },
             { new: true }
-        );        
+        );
 
-          const data = update.save();        
+        const data = update.save();
         if (data) {
             res.redirect('/admin/products');
         }
@@ -109,17 +117,17 @@ const editProduct = async (req, res) => {
 
 
 
-const deleteImage  = async(req,res)=>{
+const deleteImage = async (req, res) => {
     try {
         const product = req.body.productID
-       const imageName =  req.body.imageName;
-       const findproduct = await products.findByIdAndUpdate({_id : product},{$pull : {image : imageName}})
-       if(findproduct){
-        res.json({message : 'image is succesfully deleted'})
-       }
+        const imageName = req.body.imageName;
+        const findproduct = await products.findByIdAndUpdate({ _id: product }, { $pull: { image: imageName } })
+        if (findproduct) {
+            res.json({ message: 'image is succesfully deleted' })
+        }
 
     } catch (error) {
-        
+
         console.log(error);
     }
 }
@@ -143,8 +151,10 @@ const unlistProduct = async (req, res) => {
 }
 
 
-const listProduct = async (req, res) => {
 
+
+
+const listProduct = async (req, res) => {
     try {
         const productid = req.body.productid
         const findProduct = await products.findById({ _id: productid })

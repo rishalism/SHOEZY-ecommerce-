@@ -1,4 +1,5 @@
 const cart = require('../models/cartModel');
+const productModel = require('../models/productModel');
 
 
 
@@ -152,7 +153,7 @@ const updateQuantity = async (req, res) => {
             { $set: { "products.$.quantity": currentQuantity, "products.$.total": total } }
         );
         if (result) {
-            res.status(200).json({ message: 'updated succesfully' })
+            res.status(200).json({ message: 'updated succesfully'})
         }
     } catch (error) {
 

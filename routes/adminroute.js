@@ -35,6 +35,8 @@ adminRoute.post('/edit-product',upload.array('images',3),productControll.editPro
 adminRoute.post('/edit-delete-product',productControll.deleteImage)
 adminRoute.post('/unlist-product',productControll.unlistProduct)
 adminRoute.post('/list-product',productControll.listProduct);
-
+adminRoute.get('/manage-prodcuts',orderControll.loadManageOrder)
+adminRoute.post('/cancel-order',orderControll.adminCancelOrder)
+adminRoute.post('/change-status',orderControll.changeStatus)
 
 module.exports=adminRoute

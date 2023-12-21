@@ -94,7 +94,7 @@
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li ><a href="/shop">Shop</a></li>
+                            <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
                         </ul>
@@ -173,6 +173,10 @@
                             </div>
                             <input type="hidden" value="<%=Address%>">
                         </form>
+                        <div>
+                            <button class="btn btn-info">edit profile</button>
+                            <button id="changePassword" class="btn btn-secondary">change password</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -186,7 +190,7 @@
                                     style="color: black;"><i></i>Cart</a>
                                 <a href="/" class="nav-item nav-link checkout__title"
                                     style="color: black;"><i></i>Wishlist</a>
-                                <a href="/admin/categories" class="nav-item nav-link checkout__title"
+                                <a href="/order" class="nav-item nav-link checkout__title"
                                     style="color: black;"><i></i>My Orders</a>
                                 <a href="/logout" class="nav-item nav-link checkout__title"
                                     style="color: black;"><i></i>Logout</a>
@@ -201,7 +205,7 @@
                 <div class="checkout__title mt-0" style="margin-left: 6px;">
                     <h5>Shipping Addresses</h5>
                 </div>
-            <% if (Address) { %>
+                <% if (Address) { %>
                     <% Address.forEach((userAddress, index)=> { %>
                         <div class="card mb-4">
                             <div class="card-body">
@@ -250,8 +254,8 @@
                             </div>
                         </div>
                         <% }); %>
-                </div>
-                <% } %>
+            </div>
+            <% } %>
         </div>
     </div>
 
@@ -326,8 +330,81 @@
                 });
             }
         }
-    </script>
 
+        document.getElementById('changePassword').addEventListener('click', async () => {
+            const { value: password } = await Swal.fire({
+                title: "Enter your password",
+                input: "password",
+                inputLabel: "Password",
+                inputPlaceholder: "Enter your password",
+                inputAttributes: {
+                    maxlength: "10",
+                    autocapitalize: "off",
+                    autocorrect: "off"
+                }
+            });
+
+            fetch('/change-password', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    password
+                })
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (data) {
+                    let value = data.value
+                    if (value == 1) {
+                        Swal.fire(`incorrect password please try again!`);
+                    } else {
+
+                        (async () => {
+                            const { value: password } = await Swal.fire({
+                                title: "Enter new password",
+                                input: "password",
+                                inputLabel: "Password",
+                                inputPlaceholder: "Enter new password",
+                                inputAttributes: {
+                                    maxlength: "10",
+                                    autocapitalize: "off",
+                                    autocorrect: "off"
+                                }
+                            });
+
+                            fetch('/update-password', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    password
+                                })
+                            }).then(response => {
+                                return response.json()
+                            }).then(data => {
+                                if (data) {
+                                    Swal.fire("password updated !", "", "success");
+                                }
+                            }).catch(error => {
+                                console.log(error);
+                            })
+
+                        })();
+
+                    }
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+
+
+    function editprofile()
+
+    </script>
 
     <!-- Js Plugins -->
     <script src="/js/jquery-3.3.1.min.js"></script>

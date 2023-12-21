@@ -162,10 +162,14 @@
                             <p>
                                 <%=product.description %>
                             </p>
+                            <% if(product.stock !== 0){ %> 
                             <div class="product__details__cart__option">
                                 <a onclick="addtocart('<%= product._id %>'); return false;" style="color: white;"
                                     class="primary-btn">add to cart</a>
                             </div>
+                            <% } else {%>
+                                 <h3 class="text-danger">This product is currently on out of stock</h3>
+                            <% } %>
                         </div>
                     </div>
                 </div>

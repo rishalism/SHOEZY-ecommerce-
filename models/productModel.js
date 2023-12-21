@@ -24,17 +24,17 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     stock: {
-        type: String,
+        type: Number,
         required: true
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "categories"
     },
-    
-    is_listed : {
-        type : Number,
-        default : 0
+
+    is_listed: {
+        type: Number,
+        default: 0
     },
 
     ratings: {
@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema({
         postedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'users'
-        } 
+        }
     },
 
 }, { timestamps: true })

@@ -198,7 +198,7 @@
           <div class="d-flex align-items-center justify-content-between ">
           </div>
           <div class="table-responsive">
-            <a href="/admin/add-products" class="btn btn-primary btn-block text-uppercase mb-3">Add new
+            <a href="/admin/add-products" class="addproduct btn btn-primary btn-block text-uppercase mb-3">Add new
               product</a>
           </div>
           <input type="hidden" name="id" value="<%= product %>">
@@ -229,7 +229,7 @@
                     <% if (product[i].image && Array.isArray(product[i].image)) { %>
                       <% for (let j=0; j < product[i].image.length; j++) { %>
                         <img src="/uploads/<%= product[i].image[j] %>" alt="<%= product[i].productName %> Image"
-                        style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                          style="max-width: 50px; max-height: 50px; border-radius: 50%;">
                         <% } %>
                           <% } %>
                   </td>
@@ -263,8 +263,6 @@
                       <button class="btn btn-primary" data-event="yes">Yes, Unlist</button>
                       <button class="btn btn-secondary ml-5" data-event="no">Cancel</button>
                     </div>
-
-
                     <a href="/admin/edit-product/<%=product[i].id%>"><button
                         style="padding-top: 5%; padding-bottom: 5%;" class="product edit-product btn btn-warning mt-3"
                         type="button">edit</button>
@@ -277,9 +275,6 @@
         </table>
         </tbody>
       </div>
-
-
-
 
 
 

@@ -255,8 +255,10 @@
                                             </td>
                                             <td>
                                                 <% if (customer[i].is_verified==1){%>
-                                                    yes
-                                                    <%} %>
+                                                    verified
+                                                    <%} else { %>
+                                                    not verified
+                                                <% } %>
                                             </td>
                                             <td>
                                                 <button type="button"
