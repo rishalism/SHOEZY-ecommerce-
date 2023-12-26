@@ -495,7 +495,6 @@ ol {
 	font-size: 18px;
 	color: #111111;
 	display: block;
-	font-weight: 600;
 	position: relative;
 	padding: 3px 0;
 }
@@ -1091,7 +1090,6 @@ input[type="number"]::-webkit-outer-spin-button {
 .product__item__text h6 {
 	color: #111111;
 	font-size: 15px;
-	font-weight: 600;
 	margin-bottom: 5px;
 	-webkit-transition: all, 0.3s;
 	-o-transition: all, 0.3s;

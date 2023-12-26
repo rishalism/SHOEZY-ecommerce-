@@ -174,7 +174,7 @@
                             <input type="hidden" value="<%=Address%>">
                         </form>
                         <div>
-                            <button class="btn btn-info">edit profile</button>
+                            <button onclick="editprofile()" class="btn btn-info">edit profile</button>
                             <button id="changePassword" class="btn btn-secondary">change password</button>
                         </div>
                     </div>
@@ -203,7 +203,13 @@
             <!-- Sidebar -->
             <div class="col-md-8">
                 <div class="checkout__title mt-0" style="margin-left: 6px;">
-                    <h5>Shipping Addresses</h5>
+                    <% if (Address) { %>
+                        <h5>Shipping Addresses</h5>
+                        <% } %>
+
+                            <% if (!Address) { %>
+                                <h6 class="text-danger">please add an shipping address</h6>
+                                <% } %>
                 </div>
                 <% if (Address) { %>
                     <% Address.forEach((userAddress, index)=> { %>
@@ -258,6 +264,8 @@
             <% } %>
         </div>
     </div>
+
+
 
 
     <!-- Footer Section Begin -->
@@ -402,7 +410,90 @@
         })
 
 
-    function editprofile()
+        async function editprofile() {
+
+
+            let firstname
+            let secondname
+            let mobile
+            let email
+            await Swal.fire({
+                title: "Edit  Profile",
+                html: `
+                <form>
+  <input type="hidden" name="user" value="<%=user%>" id="user">
+  
+  <!-- First Name Field -->
+  <div class="form-group">
+    <label for="firstname">First Name</label>
+    <input type="text" class="form-control" id="firstname" name="firstname" value="<%=user.firstName%>" required>
+  </div>
+
+  <!-- Second Name Field -->
+  <div class="form-group">
+    <label for="secondname">Second Name</label>
+    <input type="text" class="form-control" id="secondname" name="secondname" value="<%=user.secondName%>" required>
+  </div>
+
+
+  <!-- Mobile Field -->
+  <div class="form-group">
+    <label class for="mobile">Mobile</label>
+    <input type="number" class="form-control" id="mobile" name="mobile" value="<%=user.mobile%>" required>
+  </div>
+
+  <!-- Hidden Address Field -->
+  <input type="hidden" name="address" value="<%=Address%>" required>
+</form>
+
+  `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                allowOutsideClick: false,
+                preConfirm: () => {
+
+                    firstname = document.getElementById("firstname").value,
+                        secondname = document.getElementById("secondname").value,
+                        mobile = document.getElementById('mobile').value
+
+                    if (!firstname || !secondname || !mobile) {
+                        Swal.showValidationMessage('all fields are required');
+                        return false
+                    }
+                }
+            });
+
+
+            fetch('/edit-profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify({
+                    firstname, secondname, mobile, email
+                })
+
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (data) {
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "profile updated",
+                        showConfirmButton: false,
+                    }); setTimeout(() => {
+                        location.reload()
+                    }, 1000);
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+
+        }
 
     </script>
 

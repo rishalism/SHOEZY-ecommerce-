@@ -195,6 +195,42 @@ const verifyUser = async (req, res) => {
 
 
 
+
+
+
+
+
+
+const editProfile = async (req, res) => {
+    try {
+        const { firstname, secondname, mobile } = req.body
+        console.log(req.body);
+        const userid = req.session.user._id
+        const updateProfile = await users.findByIdAndUpdate({ _id: userid }, {
+            $set: {
+                firstName: firstname,
+                secondName: secondname,
+                mobile: mobile
+            }
+        })
+
+        if (updatePassword) {
+            res.json({ message: "updated succefully" });
+        }
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+
+
+
+
+
+
 const logOut = async (req, res) => {
     try {
 
@@ -338,7 +374,7 @@ const changePassword = async (req, res) => {
         const finduser = await users.findOne({ _id: userid });
         const checkpassword = await bcrypt.compare(newPassword, finduser.password);
         if (checkpassword) {
-            res.status(200).json({value : 0});  
+            res.status(200).json({ value: 0 });
         } else {
             res.status(200).json({ message: 'password is incorrect', value: 1 })
         }
@@ -351,20 +387,20 @@ const changePassword = async (req, res) => {
 
 
 
-const updatePassword = async(req,res)=>{
+const updatePassword = async (req, res) => {
     try {
         const newPassword = req.body.password;
-        const hashedPassword =  await securepassword(newPassword);
-        const updatePassword = await users.findOneAndUpdate({_id : req.session.user._id},{
-            $set  : {password : hashedPassword}
+        const hashedPassword = await securepassword(newPassword);
+        const updatePassword = await users.findOneAndUpdate({ _id: req.session.user._id }, {
+            $set: { password: hashedPassword }
         });
         if (updatePassword) {
-            res.status(200).json({message : 'password updated succesfully'});
+            res.status(200).json({ message: 'password updated succesfully' });
         }
-        
-        
+
+
     } catch (error) {
-        
+
         console.log(error.message);
     }
 }
@@ -433,6 +469,44 @@ const loadBLock = async (req, res) => {
 }
 
 
+
+const LoadforgotPassword = async (req, res) => {
+    try {
+
+        res.render('forgot-password')
+
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+const checkEmail = async (req, res) => {
+    try {
+      const { email } = req.body;
+      console.log('ethiii');
+
+      const checkEmail = await users.findOne({ email: email });
+  
+      if (!checkEmail) {
+        // If email is not registered
+        return res.status(200).json({ message: 'Email is not registered', value: 0 });
+      } else {
+        // If email is registered
+        return res.status(200).json({ message: 'Email is registered', value: 1 });
+      }
+  
+    } catch (error) {
+      // Handle errors and send an appropriate response
+      console.error(error.message);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+
+
+
 module.exports = {
     usersignupLoad,
     insertUser,
@@ -453,5 +527,8 @@ module.exports = {
     loadBLock,
     resendOtp,
     changePassword,
-    updatePassword
+    updatePassword,
+    editProfile,
+    LoadforgotPassword,
+    checkEmail
 }

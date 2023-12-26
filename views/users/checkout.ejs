@@ -174,7 +174,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                               <a href="/add-address"><button id="change" type="button" class="btn btn-light text-danger">change Address </button></a>
+                                                <a href="/add-address"><button id="change" type="button"
+                                                        class="btn btn-light text-danger">change Address </button></a>
                                             </div>
                                         </form>
                                     </div>
@@ -183,8 +184,8 @@
                                     <a href="#" onclick="openModal()" style="margin-top: -56px;  padding: 9px 30px;"
                                         class="mb-4 primary-btn">Add an address </a>
 
-                                    <h2>NO address found</h2>
-                                    <% } %>
+                                        <h6 class="pr-5 checkout__title text-danger">Please Add An Shipping Address</h6>
+                                        <% } %>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <input type="hidden" name="cart" value="<%=cartProducts%>" id="cart">
@@ -219,8 +220,11 @@
                                 <!-- <div class="checkout__input__checkbox">
                                   
                                 </div> -->
-                                <button data-addres="<%=Address._id%>" type="button" class="place-order site-btn">PLACE
-                                    ORDER</button>
+                                <% if (Address) { %>
+                                    <button data-addres="<%=Address._id%>" type="button"
+                                        class="place-order site-btn">PLACE
+                                        ORDER</button>
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -310,7 +314,7 @@
         // var change = document.getElementById('change');
 
         // change.addEventListener("click", () => {
-        //     location.href = 
+        //     location.href =
         // })
 
     </script>

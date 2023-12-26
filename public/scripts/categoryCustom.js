@@ -149,38 +149,38 @@ const addCategory = function () {
 ///////////////////////////////////////////////////////////////////////////////////edit category //////////////////////////////////////////
 
 
-
-document.getElementById('edit-cat').addEventListener('click', () => {
-    console.log('working');
-
-    const id = document.getElementById('catid').value
-    const categoryName = document.getElementById('categoryName').value
-
-    fetch('/admin/edit-category', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id, categoryName
-        })
-
-    }).then(response => {
-        return response.json()
-    }).then(data => {
-        if (data) {
-            let value = data.value
-
-            if (value == 1) {
-                Swal.fire(`${categoryName} already exists`);
-            } else if (value == 0) {
-                location.href = '/admin/categories'
+document.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('edit-cat').addEventListener('click', () => {
+        const id = document.getElementById('catid').value
+        const categoryName = document.getElementById('categoryName').value
+    
+        fetch('/admin/edit-category', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id, categoryName
+            })
+    
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            if (data) {
+                let value = data.value
+    
+                if (value == 1) {
+                    Swal.fire(`${categoryName} already exists`);
+                } else if (value == 0) {
+                    location.href = '/admin/categories'
+                }
             }
-        }
-    }).catch(error => {
-        console.log(error);
+        }).catch(error => {
+            console.log(error);
+        })
     })
 })
+
 
 ////////////////////////////////////////////////////////// delete product on edit product //////////////////////////////////////////////
 

@@ -161,15 +161,17 @@
                                                     </p>
                                                 </div>
                                                 <!-- Show either Cancel button or Canceled message based on orderStatus -->
-                                                <div
-                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                    <% if (populatedOrder.orderStatus==='canceled' ) { %>
+                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                    <% if (populatedOrder.orderStatus === 'canceled') { %>
                                                         <p class="text-danger mb-0 small text-danger">Canceled</p>
+                                                    <% } else { %>
+                                                        <% if (orderedProducts.orderStatus !== 'delivered') { %>
+                                                            <button class="btn btn-danger" onclick="cancelProduct('<%= populatedOrder._id %>')">Cancel</button>
                                                         <% } else { %>
-                                                            <button class="btn btn-danger"
-                                                                onclick="cancelProduct('<%= populatedOrder._id %>')">Cancel</button>
-                                                            <% } %>
-                                                </div>
+                                                            <p class="text-success mb-0">Delivered</p>
+                                                        <% } %>
+                                                    <% } %>
+                                                </div>                                                
                                             </div>
                                             <!-- Additional details and progress bar for the order -->
                                             <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">

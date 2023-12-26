@@ -1,10 +1,10 @@
 <%- include('../layouts/header.ejs') %>
- 
-<style>
-    body{
-        background-color: pink;
-    }
-</style>
+
+    <style>
+        body {
+            background-color: pink;
+        }
+    </style>
     <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -21,13 +21,13 @@
                 </div>
             </div>
             <div class="col-md-6" style="margin-top: -15px;">
-                <form action="/login" method="post" id="registrationForm" onsubmit="return validateloginform()">
+                <form action="/login" method="post" id="registrationForm">
                     <div class="card login card-registration mt-5 pt-5">
                         <div class="card-body p-md-3 text-black">
                             <h3 class="mb-4 text-uppercase">Login </h3>
 
                             <div class="form-outline mb-3">
-                                <input type="email" id="email" name="email" class="form-control" required />
+                                <input type="email" id="email" name="email" class="form-control"  />
                                 <label class="form-label" for="form3Example9">Email</label>
                                 <div class="error-message" id="errorEmail">
                                     <% if (typeof message1 !=='undefined' ) { %>
@@ -38,15 +38,15 @@
                                 </div>
                             </div>
                             <div class="form-outline mb-3">
-                                <input type="password" id="password" name="password" class="form-control" required
+                                <input type="password" id="password" name="password" class="form-control" 
                                     min="6" max="30" />
                                 <label class="form-label" for="password">Password</label>
                                 <div class="error-message" id="errorPassword">
-                                    <% if (typeof message !=='undefined' ) { %>
-                                        <div class="error-message">
+                                    <div class="error-message">
+                                        <% if (typeof message !=='undefined' ) { %>
                                             <%= message %>
-                                        </div>
-                                        <% } %>
+                                    </div>
+                                    <% } %>
                                 </div>
                             </div>
                             <div class="form-outline login-box text-center pt-4">
@@ -54,6 +54,9 @@
                             </div>
                             <div class="text-center pt-4">
                                 <p>Don't have an account? <a href="/">SignUp</a></p>
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <a href="/forgot-password">forgot password?</a>
+                                    <% } %>
                             </div>
                         </div>
                     </div>
@@ -62,9 +65,96 @@
         </div>
     </div>
 
-    <script src="/scripts/script.js"></script>
+
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("registrationForm").addEventListener("submit", function (event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+                // Call the login validation function
+                if (validateLoginForm()) {
+                    // If validation succeeds, manually submit the form
+                    this.submit();
+                }
+            });
+        });
+
+        function validateLoginForm() {
+            // Reset previous error messages
+            const errorFields = ['email', 'password'];
+            errorFields.forEach(field => {
+                const errorElement = document.getElementById(`error${field.charAt(0).toUpperCase() + field.slice(1)}`);
+                if (errorElement) {
+                    errorElement.textContent = '';
+                } else {
+                    console.error(`Error element with ID ${'error' + field.charAt(0).toUpperCase() + field.slice(1)} not found.`);
+                }
+            });
+
+            // Validate each field
+            if (!validateEmail('email')) return false;
+            if (!validatePassword('password')) return false;
+
+            return true;
+        }
+
+        function validateEmail(fieldName) {
+            const inputField = document.getElementById(fieldName);
+            const value = inputField.value.trim();
+            const errorField = document.getElementById(`error${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`);
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (value === '') {
+                errorField.textContent = 'Email is required.';
+                inputField.style.border = '1px solid red';
+                return false;
+            } else if (!emailRegex.test(value)) {
+                errorField.textContent = 'Invalid email format.';
+                inputField.style.border = '1px solid red';
+                return false;
+            } else {
+                errorField.textContent = ''; // Clear previous error messages
+                inputField.style.border = '1px solid #ced4da';
+            }
+            return true;
+        }
+
+        function validatePassword(fieldName) {
+            const inputField = document.getElementById(fieldName);
+            const value = inputField.value.trim();
+            const errorField = document.getElementById(`error${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`);
+
+            if (value === '') {
+                errorField.textContent = 'Password is required.';
+                inputField.style.border = '1px solid red';
+                return false;
+            } else {
+                errorField.textContent = ''; // Clear previous error messages
+                inputField.style.border = '1px solid #ced4da';
+            }
+            return true;
+        }
+
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.nicescroll.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <%- include('../layouts/footer.ejs') %>
+    </body>
+
+    </html>

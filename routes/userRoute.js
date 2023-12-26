@@ -40,4 +40,7 @@ userRoute.get('/order-details',auth.isLoggedIn,orderControll.loadOrderDetails)
 userRoute.post('/cancel-order',orderControll.cancelOrder)
 userRoute.post('/change-password',usercontrol.changePassword);
 userRoute.post('/update-password',usercontrol.updatePassword)
+userRoute.post('/edit-profile',usercontrol.editProfile)
+userRoute.get('/forgot-password',usercontrol.LoadforgotPassword)
+userRoute.post('/forgot-password',usercontrol.checkEmail)
 module.exports = userRoute
