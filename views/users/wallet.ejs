@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoezy</title>
+
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="/css/wallet.css" type="text/css">
+
+</head>
+
+
+<body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+
+    <!-- Offcanvas Menu Begin -->
+
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;"
+                    alt="">
+                <span>0</span></a>
+            <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <!-- <a href="./index.html"><img src="/images/logo.png" alt=""></a> -->
+                        <div class="shoezy-logo mt-0">shoezy</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+
+                        <ul>
+                            <li><a class="active" href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSession()">
+                            <img src="/images/icon/shopping-cart.png" width="80%" alt="">
+                        </a>
+                        <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shopping Cart</h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">User</a>
+                            <span>wallet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section>
+        <div class="container wallet-container mt-5 mb-4">
+            <div class="col-md-12">
+                <div class="text-center rounded p-4 " style="background-color: #f3f2ee;">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="checkout__title mb-0">wallet History</h6>
+                        <button id="showAllBtn" class="btn btn-light btn-sm">Show All</button>
+                        <button id="showLessBtn" class="btn btn-light btn-sm" style="display: none;">Show Less</button>
+                    </div>
+                    <% if (walletdata && walletdata.wallet.walletHistory.length> 0) { %>
+
+                        <% walletdata.wallet.walletHistory.forEach((transaction,index)=> {%>
+                            <ul class="transaction-list d-flex align-items-center">
+                                <!-- Transaction History Items -->
+                                <li
+                                    class="transaction-item d-flex justify-content-between w-100 additional-transaction">
+                                    <span class="transaction-date">
+                                        <%=transaction.date.toLocaleString()%>
+                                    </span>
+                                </li>
+                                <li
+                                    class="transaction-item d-flex justify-content-between w-100 additional-transaction">
+                                <li
+                                    class="transaction-item d-flex justify-content-between w-100 additional-transaction">
+                                    <span class="reason">reason : <%=transaction.reason%></span>
+                                </li>
+                                <li
+                                    class="transaction-item d-flex justify-content-between w-100 additional-transaction">
+                                    <span class="<%=transaction.type%>">
+                                        <%= transaction.type=='credit' ? 'credited' : 'debited' %>
+                                    </span>
+                                </li>
+                                <li
+                                    class="transaction-item d-flex justify-content-between w-100 additional-transaction">
+                                    <span class="amount <%=transaction.type%>">
+                                        <%= transaction.type=='credit' ? '+' : '-' %>
+                                            <%= transaction.amount %>
+                                    </span>
+                                </li>
+                                <!-- Add more transactions as needed -->
+                            </ul>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="text-danger">No wallet history found!</p>
+                                    <% } %>
+                </div>
+                <div class="text-center rounded p-4 mt-4" style="background-color: #f3f2ee;">
+                    <div class="checkout__title d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Balance</h6>
+                    </div>
+                    <div class="text-uppercase font-awesome font-weight-bold">
+                        Balance : ₹ <%=walletdata?.wallet?.walletAmount%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <div class="shoezy-logo mt-0" style="color: white;">shoezy</div>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="/images/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+
+
+    <%- include('../layouts/footer.ejs') %>

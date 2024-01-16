@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 
 
@@ -30,37 +31,23 @@
         <div class="loader"></div>
     </div>
 
+
     <!-- Offcanvas Menu Begin -->
+
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;"
+                    alt="">
+                <span>0</span></a>
+            <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
     </div>
     <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
+
     <header class="header">
         <div class="container">
             <div class="row">
@@ -72,9 +59,10 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
+
                         <ul>
-                            <li><a href="/">Home</a></li>
-                            <li class="active"><a href="/shop">Shop</a></li>
+                            <li><a class="active" href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
                         </ul>
@@ -82,8 +70,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -94,7 +81,6 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-    <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
@@ -184,48 +170,71 @@
                                     <a href="#" onclick="openModal()" style="margin-top: -56px;  padding: 9px 30px;"
                                         class="mb-4 primary-btn">Add an address </a>
 
-                                        <h6 class="pr-5 checkout__title text-danger">Please Add An Shipping Address</h6>
-                                        <% } %>
+                                    <h6 class="pr-5 checkout__title text-danger">Please Add A Shipping Address To Order
+                                    </h6>
+                                    <% } %>
                         </div>
                         <div class="col-lg-4 col-md-6">
+                            <div class="cart__discount">
+                                <h6>Discount codes</h6>
+                                <form action="#">
+                                    <input type="text" id="couponField" placeholder="Coupon code">
+                                    <button id="apply-coupon" type="button" data-applied="false">Apply</button>
+                                </form>
+                            </div>
                             <input type="hidden" name="cart" value="<%=cartProducts%>" id="cart">
-                            <div class="checkout__order">
-                                <h4 class="order__title">Your order</h4>
-                                <div class="checkout__order__products">Product <span>Total</span></div>
-                                <ul class="checkout__total__products">
-                                    <% cartProducts.products.forEach(product=> { %>
-                                        <li>
-                                            <%= product?.productID?.productName ? product.productID.productName.slice(0,
-                                                10) + '...' : 'N/A' %>
-                                                <span>₹<%= product?.total %></span>
-                                        </li>
-                                        <% }); %>
-                                </ul>
-                                <ul class="checkout__total__all">
-                                    <input type="hidden" value="<%=subtotal%>">
-                                    <li>Total <span>₹<%=subtotal%></span></li>
-                                </ul>
-                                <div class="checkout__input__checkbox">
-                                    <label for="cod">
-                                        Cash on delivery
-                                        <input type="radio" id="cod" value="cod" name="payment">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="netbanking">
-                                        Net Banking
-                                        <input type="radio" id="netbanking" value="netbanking" name="payment">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <!-- <div class="checkout__input__checkbox">
+                            <% if (typeof couponName !=='undefined' && typeof couponCode !=='undefined' ) { %>
+                                <input type="hidden" id="couponname" value="<%=couponName%>">
+                                <input type="hidden" id="couponcode" value="<%=couponCode%>">
+                                <% } %>
+
+                                    <div class="checkout__order">
+                                        <h4 class="order__title">Your order</h4>
+                                        <div class="checkout__order__products">Product <span>Total</span></div>
+                                        <ul class="checkout__total__products">
+                                            <% cartProducts.products.forEach(product=> { %>
+                                                <li>
+                                                    <%= product?.productID?.productName ?
+                                                        product.productID.productName.slice(0, 10) + '...' : 'N/A' %>
+                                                        <span>₹<%= product?.total %></span>
+                                                </li>
+                                                <% }); %>
+                                        </ul>
+                                        <ul class="checkout__total__all">
+                                            <input type="hidden" id="subtotal" value="<%=subtotal%>">
+                                            <input type="hidden" id="user" value="<%=user.wallet.walletAmount%>">
+                                            <li id="discount">Total <span>₹<%=subtotal%></span></li>
+                                            <% if( user.wallet.walletAmount!==0) {%>
+                                                <li id="walletbox">
+                                                    <input type="checkbox" id="Wallet-Money">
+                                                    Use Wallet-Money<span id="walletAmount"> ₹
+                                                        <%=user.wallet.walletAmount%>
+
+                                                    </span>
+                                                </li>
+                                                <% } %>
+                                        </ul>
+                                        <div class="checkout__input__checkbox">
+                                            <label for="cod">
+                                                Cash on delivery
+                                                <input type="radio" id="cod" value="cod" name="payment">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <label for="netbanking">
+                                                Net Banking
+                                                <input type="radio" id="netbanking" value="netbanking" name="payment">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <!-- <div class="checkout__input__checkbox">
                                   
                                 </div> -->
-                                <% if (Address) { %>
-                                    <button data-addres="<%=Address._id%>" type="button"
-                                        class="place-order site-btn">PLACE
-                                        ORDER</button>
-                                <% } %>
-                            </div>
+                                        <% if (Address) { %>
+                                            <button data-addres="<%=Address._id%>" type="button"
+                                                class="place-order site-btn">PLACE
+                                                ORDER</button>
+                                            <% } %>
+                                    </div>
                         </div>
                     </div>
                 </form>
@@ -302,26 +311,200 @@
     </div>
     <!-- Search End -->
 
-
-
-
-
-
-
     <script>
+        window.addEventListener('load', () => {
+            const couponName = document.getElementById('couponname').value
+            const couponCode = document.getElementById('couponcode').value;
+            let applied = false
+            if (couponName && couponCode) {
+                setTimeout(function () {
+                    Swal.fire({
+                        title: 'Congratulations!',
+                        html: `
+                              <div class="animate__animated animate__fadeInUp animate__faster" style="text-align: center;">
+                              <p style="font-size: 18px;">${couponName}:</p>
+                              <p style="font-size: 24px; color: #333;">Use code: <strong id="couponCode">${couponCode}</strong></p>
+                               <button onclick="copyCode()" style="background-color: #4CAF50; color: white; border: none; padding: 10px; cursor: pointer;">Copy Code</button>
+                              </div>
+                            `,
+                        position: 'top-center',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInUp animate__faster'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutDown animate__faster'
+                        },
+                        customClass: {
+                            popup: 'custom-swal-popup' // Add a custom class for additional styling if needed
+                        },
+                        showConfirmButton: false,
+                    });
+                }, 1000);
+            }
 
+        })
 
-        // var change = document.getElementById('change');
+        function copyCode() {
+            let couponCodeElement = document.getElementById('couponCode');
 
-        // change.addEventListener("click", () => {
-        //     location.href =
-        // })
+            // Create a temporary textarea element
+            let tempTextarea = document.createElement('textarea');
+            tempTextarea.value = couponCodeElement.innerText;
+
+            // Append the textarea to the document
+            document.body.appendChild(tempTextarea);
+
+            // Select the text inside the textarea
+            tempTextarea.select();
+            tempTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                // Attempt to copy the selected text to the clipboard
+                document.execCommand('copy');
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: false,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "code copied !"
+                });
+            } catch (err) {
+                console.error('Unable to copy to clipboard', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error copying Coupon Code',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } finally {
+                // Remove the temporary textarea from the document
+                document.body.removeChild(tempTextarea);
+            }
+        }
+
+        document.getElementById('Wallet-Money').addEventListener('click', () => {
+            // Directly use the checked property of the checkbox
+            let status = document.getElementById('Wallet-Money').checked;
+            let subtotals = document.getElementById('subtotal').value;
+            let walletAmount = document.getElementById('user').value;
+            var discountElement = document.getElementById('discount');
+            var amount = discountElement.querySelector('span').innerHTML;
+            let subtotal = parseInt(amount.replace('₹', ''));
+            var spanElement = discountElement.querySelector('span');
+            var walletfield = document.getElementById('walletAmount');
+
+            if (status) {
+                let walletUsedMoney = parseInt(subtotal - walletAmount);
+                walletUsedMoney = Math.max(walletUsedMoney, 0)
+                spanElement.textContent = `₹ ${walletUsedMoney}`
+                walletAmount -= subtotal
+                walletAmount = Math.max(walletAmount, 0)
+                walletfield.textContent = `₹ ${walletAmount}`
+            } else {
+                spanElement.textContent = `₹ ${subtotals}`
+                walletfield.textContent = `₹ ${walletAmount} `
+
+            }
+
+        });
+
+        document.getElementById('apply-coupon').addEventListener('click', () => {
+            // Check if coupon is already applied
+            if (couponApplied) {
+                let couponCode = document.getElementById('couponField').value;
+
+                fetch('/check-coupon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        couponCode, couponApplied
+                    })
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    if (data) {
+                        if (data.status == 404) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: false,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
+                            Toast.fire({
+                                icon: "error",
+                                title: "Invalid code!"
+                            });
+                        } else if (data.status == 400) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: false,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
+                            Toast.fire({
+                                icon: "error",
+                                title: "already used !"
+                            });
+                        }
+                        else {
+                            // Disable the button once the coupon is applied
+                            couponApplied = false;
+                            document.getElementById('apply-coupon').disabled = true;
+                            document.getElementById('apply-coupon').style.cursor = 'not-allowed';
+                            let discountAmount = data.discountAmount;
+                            var discountElement = document.getElementById('discount');
+                            var amount = discountElement.querySelector('span').innerHTML;
+                            var spanElement = discountElement.querySelector('span');
+                            let subtotal = amount.replace('₹', '');
+                            let dicountapplied = parseInt(subtotal) - parseInt(discountAmount);
+                            spanElement.innerHTML = `₹ ${dicountapplied}`;
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: false,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
+                            Toast.fire({
+                                icon: "success",
+                                title: "coupon applied !"
+                            });
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+        });
+
+        let couponApplied = true;
 
     </script>
-
-
-
-
 
     <!-- Js Plugins -->
     <script src="/js/jquery-3.3.1.min.js"></script>

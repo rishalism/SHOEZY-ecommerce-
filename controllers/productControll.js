@@ -34,9 +34,10 @@ const addProducts = async (req, res) => {
         const existingproduct = await products.findOne({
             productName: { $regex: new RegExp(`^${productName}$`, 'i') }
         });
-        
+
         if (existingproduct) {
-            res.json({ message: 'Product already exists' });
+            const category = await categories.find({ is_listed: 0 })
+            res.render('add-product', { message: 'This product name already exists.  !' ,category});
         } else {
             const image = req.files.map((file) => file.filename);
             const addNewProduct = await new products({

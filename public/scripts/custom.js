@@ -8,6 +8,7 @@
 //////////////////////////////////////////////////////////////////////// BLOCK AND UNBLOCK USER  ///////////////////////////////////////////////////////////////
 
 
+
 document.querySelectorAll('.block-button').forEach((button) => {
     button.addEventListener('click', async () => {
         const userId = button.getAttribute('data-user-id');
@@ -321,6 +322,72 @@ function addtocart(productId, prize) {
 }
 
 
+///////////////////////////////////////////////////////addd to wishlist //////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+function addtowishlist(productID) {
+
+    fetch('/wishlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            productID
+        })
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+        if (data) {
+            let value = data.value
+            console.log(value);
+            if (value == 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: " product already exist !"
+                });
+
+            } else if (value == 1) {
+                Swal.fire({
+                    icon: "success",
+                    title: " added to wishlist !"
+                });
+            } else {
+
+                Swal.fire({
+                    icon: "error",
+                    text: "Please log in to your account to add items to your cart",
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Login',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the login page
+                        window.location.href = "/login";
+                    }
+                });
+
+            }
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+
+}
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////// remove product from the cart ///////////////////////////////////////////////////////
 function removeproduct(productID, tableRow) {
     console.log(tableRow);
@@ -363,7 +430,7 @@ function removeproduct(productID, tableRow) {
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////check user session////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////check user session for cart ////////////////////////////////////////////////////////////
 function checkUserSession() {
     fetch('/check-cart', {
         method: 'GET',
@@ -398,6 +465,45 @@ function checkUserSession() {
     })
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////check user session for wishlst ////////////////////////////////////////////////////////////
+
+
+function checkUserSessioFoWishlist() {
+    fetch('/check-wishlist', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        return response.json()
+    }).then(data => {
+        if (data) {
+            let value = data.value
+            console.log(value);
+            if (value == 1) {
+                window.location.href = "/wishlist";
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    text: "Please log in to Access the wishlist.",
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Login',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the login page
+                        window.location.href = "/login";
+                    }
+                });
+            }
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+
+}
+
 
 ///////////////////////////////////////////////////update quantity/////////////////////////////////////////////////////////////////////////////
 

@@ -12,6 +12,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
@@ -42,6 +43,12 @@
             background-color: #0056b3;
             border-color: #0056b3;
         }
+
+        @media only screen and (min-width: 992px) and (max-width: 1199px) {
+            .shipping-address-container {
+                margin-top: -148px;
+            }
+        }
     </style>
 </head>
 
@@ -51,34 +58,22 @@
         <div class="loader"></div>
     </div>
 
+
     <!-- Offcanvas Menu Begin -->
+
+    <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-            <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;"
+                    alt="">
+                <span>0</span></a>
+            <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
     </div>
     <!-- Offcanvas Menu End -->
+
 
     <!-- Header Section Begin -->
     <header class="header">
@@ -92,8 +87,9 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
+
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a class="active" href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
@@ -102,8 +98,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -136,7 +131,7 @@
 
     <div class="container mt-4 mb-4">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <!-- Main Content -->
                 <div class="checkout__title mt-5" style="margin-left: 6px;">
                     <h5>Personal Information</h5>
@@ -181,27 +176,33 @@
                 </div>
             </div>
             <!-- Sidebar -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="sidebar pe-4 pb-3" style="margin-top: 125px;">
                     <nav class="navbar card" style="background-color: white;">
                         <div class="navbar-nav w-100">
                             <div class="nav-item dropdown">
-                                <a href="/product-cart" class="nav-item nav-link checkout__title"
-                                    style="color: black;"><i></i>Cart</a>
-                                <a href="/" class="nav-item nav-link checkout__title"
-                                    style="color: black;"><i></i>Wishlist</a>
-                                <a href="/order" class="nav-item nav-link checkout__title"
-                                    style="color: black;"><i></i>My Orders</a>
-                                <a href="/logout" class="nav-item nav-link checkout__title"
-                                    style="color: black;"><i></i>Logout</a>
-                                <a href="#" onclick="openModal()" class="primary-btn">Add new address</a>
+                                <a href="/product-cart" class="nav-item nav-link font-weight-bold pt-4"
+                                    style="color: black;"><i class="fa fa-shopping-cart"></i> Cart</a>
+                                <a href="/wishlist" class="nav-item nav-link font-weight-bold pt-4"
+                                    style="color: black;"><i class="fa fa-heart"></i> Wishlist</a>
+                                <a href="/order" class="nav-item nav-link font-weight-bold pt-4"
+                                    style="color: black;"><i class="fa fa-list"></i> My Orders</a>
+                                <a href="/wallet" class="nav-item nav-link font-weight-bold pt-4"
+                                    style="color: black;"><i class="fas fa-wallet"></i> My Wallet</a>
+                                <a href="/logout" class="nav-item nav-link font-weight-bold pt-4"
+                                    style="color: black;"><i class="fa fa-sign-out"></i> Logout</a>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" onclick="openModal()" class="btn btn-dark mt-2"
+                                        style="width: 100%; background-color: black;"><i class="fa fa-plus"></i> Add new
+                                        address</a>
+                                </div>
                             </div>
                         </div>
                     </nav>
                 </div>
             </div>
             <!-- Sidebar -->
-            <div class="col-md-8">
+            <div class="col-md-12 mt-5 ">
                 <div class="checkout__title mt-0" style="margin-left: 6px;">
                     <% if (Address) { %>
                         <h5>Shipping Addresses</h5>
@@ -375,12 +376,23 @@
                                 input: "password",
                                 inputLabel: "Password",
                                 inputPlaceholder: "Enter new password",
+                                allowOutsideClick: false,
                                 inputAttributes: {
                                     maxlength: "10",
                                     autocapitalize: "off",
                                     autocorrect: "off"
+                                },
+                                inputValidator: (value) => {
+                                    return new Promise((resolve) => {
+                                        if (value.length < 6) {
+                                            resolve("Password must be at least 6 characters");
+                                        } else {
+                                            resolve();
+                                        }
+                                    });
                                 }
                             });
+
 
                             fetch('/update-password', {
                                 method: 'POST',
@@ -448,7 +460,7 @@
 
   `,
                 focusConfirm: false,
-                showCancelButton: true,
+                showCancelButton: false,
                 confirmButtonText: 'Save',
                 allowOutsideClick: false,
                 preConfirm: () => {

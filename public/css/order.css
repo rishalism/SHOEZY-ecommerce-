@@ -109,3 +109,11 @@
 .current-item .progress-count{
     color: #21d4fd;
 }
+
+.return-btn{
+    background-color: rgba(255, 0, 0, 0.768);
+    height: 30px;
+    padding-top: 2px;
+    color: white;
+}
+

@@ -3,7 +3,8 @@ const nodemailer = require('nodemailer');
 
 const emailUsername = process.env.EMAIL_USERNAME;
 const emailPassword = process.env.EMAIL_PASSWORD;
-const sendVerificationEmail = function (email, otp,username) {
+
+const sendVerificationEmail = function (email, otp, username) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -16,14 +17,21 @@ const sendVerificationEmail = function (email, otp,username) {
         from: emailUsername,
         to: email,
         subject: 'OTP Verification',
-        text: `Hi [${username}],
+        html: `
+        <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+            <p style="font-size: 16px; color: #333;">Hi ${username},</p>
 
-        Your OTP for Shoezy: ${otp}
-        
-        Use this code on Shoezy to complete your email verification.
-        
-        Cheers,
-        The Shoezy Team`,
+            <p style="font-size: 16px; color: #333;">Welcome to Shoezy! To ensure the security of your account, we've generated a one-time verification code for you:</p>
+
+            <p style="font-size: 18px; font-weight: bold; color: #007BFF;">Your OTP: ${otp}</p>
+
+            <p style="font-size: 16px; color: #333;">Please use this unique code on Shoezy to complete your email verification process.</p>
+
+            <p style="font-size: 16px; color: #333;">If you didn't request this code, please ignore this message.</p>
+
+            <p style="font-size: 16px; color: #333;">Cheers,<br>The Shoezy Team</p>
+        </div>
+    `,
         envelope: {
             from: emailUsername,
             to: [email],
@@ -34,7 +42,7 @@ const sendVerificationEmail = function (email, otp,username) {
         if (error) {
             return console.error(error);
         }
-        console.log(`email sent to ${email}` );
+        console.log(`email sent to ${email}`);
     });
 };
 

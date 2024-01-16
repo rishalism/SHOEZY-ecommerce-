@@ -1,5 +1,6 @@
 const cart = require('../models/cartModel');
 const productModel = require('../models/productModel');
+const wishlist = require('../models/wishlist');
 
 
 
@@ -153,7 +154,7 @@ const updateQuantity = async (req, res) => {
             { $set: { "products.$.quantity": currentQuantity, "products.$.total": total } }
         );
         if (result) {
-            res.status(200).json({ message: 'updated succesfully'})
+            res.status(200).json({ message: 'updated succesfully' })
         }
     } catch (error) {
 
@@ -187,11 +188,85 @@ const decrementQuantity = async (req, res) => {
 
 
 
+
+
+
+
+const Loadwishlist = async (req, res) => {
+    try {
+        const id = req.session.user._id;
+        const wishlistProducts = await wishlist.findOne({ userId: id }).populate('wishlistProducts')
+        res.render('wishlist',{wishlistProducts})
+
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+const addToWishlist = async (req, res) => {
+    try {
+        const productid = req.body.productID;
+        const userid = req.session.user._id;
+
+        if (!userid) {
+            return res.status(200).json({ message: 'No session found', value: 3 });
+        }
+
+        const findWishlist = await wishlist.findOne({ userId: userid });
+
+        if (findWishlist) {
+            const isProductInWishlist = await wishlist.findOne({ wishlistProducts: productid });
+
+            if (isProductInWishlist) {
+                return res.status(200).json({ message: 'Product already exists in the wishlist', value: 0 });
+            }
+
+            findWishlist.wishlistProducts.push(productid);
+            const updatedWishlist = await findWishlist.save();
+            return res.status(200).json({ message: 'Added to wishlist', value: 1 });
+        }
+
+        const newWishlist = new wishlist({
+            userId: userid,
+            wishlistProducts: [productid]
+        });
+
+        const savedWishlist = await newWishlist.save();
+
+        if (savedWishlist) {
+            return res.status(200).json({ message: 'Added to wishlist', value: 1 });
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ message: 'Internal Server Error', value: -1 });
+    }
+};
+
+const checkwishlist = async (req, res) => {
+    try {
+        if (req.session.user) {
+            res.status(200).json({ message: 'user is there ', value: 1 });
+        } else {
+            res.status(200).json({ message: 'please login ', value: 2 });
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: 'Internal Server Error', value: 0 });
+    }
+}
+
+
 module.exports = {
     loadCart,
     addToCart,
     removeProduct,
     checkCart,
     updateQuantity,
-    decrementQuantity
+    decrementQuantity,
+    Loadwishlist,
+    addToWishlist,
+    checkwishlist
 }

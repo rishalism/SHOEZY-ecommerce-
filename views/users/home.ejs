@@ -32,10 +32,10 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__nav__option cart-section">
-            <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-            <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a type="button" href="/product-cart" onclick="cartLoad()"><img src="/images/icon/shopping-cart.png" style="width: 80%;" alt="">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;" alt="">
                 <span>0</span></a>
+                <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
     </div>
@@ -57,7 +57,7 @@
 
                         
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a class="active" href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <% if (typeof userdata !=='undefined' ) { %>
@@ -70,8 +70,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -120,7 +119,7 @@
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
                                     <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="https://www.linkedin.com/in/rishal-mohammed-up-47231227a/"><i class="fa fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>

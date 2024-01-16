@@ -57,14 +57,20 @@
           </div>
         </div>
         <div class="navbar-nav w-100">
-          <a href="/admin/dashboard" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+          <a href="/admin/dashboard" class="nav-item nav-link "><i
+                  class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
           <div class="nav-item dropdown">
-            <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>users</a>
-            <a href="/admin/products" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>products</a>
-            <a href="/admin/categories" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>categories</a>
-            <a href="/admin/orders" class="nav-item nav-link"><i class="fa fa-table me-2"></i>orders</a>
-            <a href="#" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>coupons</a>
+              <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>users</a>
+              <a href="/admin/products" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>products</a>
+              <a href="/admin/categories" class="nav-item nav-link"><i
+                      class="fa fa-keyboard me-2"></i>categories</a>
+              <a href="/admin/orders" class="nav-item nav-link"><i class="fa fa-table me-2"></i>orders</a>
+              <a href="/admin/coupon" class="nav-item nav-link"><i
+                      class="far fa-file-alt me-2"></i>coupons</a>
+              <a href="/admin/salesReport" class="nav-item nav-link"><i
+                      class="far fa-file-alt me-2"></i>sales report</a>
           </div>
+      </div>
       </nav>
     </div>
     <!-- Sidebar End -->
@@ -150,7 +156,6 @@
           </div>
           <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-              <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
               <span class="d-none d-lg-inline-flex">John Doe</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
@@ -175,6 +180,13 @@
                   <label for="productName" class="form-label">Product Name</label>
                   <input type="text" class="form-control" id="productName" name="name" placeholder="Enter product name"
                     required>
+                  <div class="error-message" id="errorPassword">
+                    <div class="error-message text-primary mt-2">
+                      <% if (typeof message !=='undefined' ) { %>
+                        <%= message %>
+                    </div>
+                    <% } %>
+                  </div>
                 </div>
                 <div class="mb-3">
                   <label for="productDescription" class="form-label">Product Description</label>

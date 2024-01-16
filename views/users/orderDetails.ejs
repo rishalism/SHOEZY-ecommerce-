@@ -20,6 +20,18 @@
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style1.css" type="text/css">
     <link rel="stylesheet" href="/css/order.css" type="text/css">
+
+    <style>
+        #pdf {
+            text-align: center;
+        }
+
+        #pdf canvas {
+            border: 1px solid black;
+            width: 95%;
+            height: 60%;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,37 +39,23 @@
         <div class="loader"></div>
     </div>
 
+
     <!-- Offcanvas Menu Begin -->
 
+    <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-            <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;"
+                    alt="">
+                <span>0</span></a>
+            <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
     </div>
     <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
+
     <header class="header">
         <div class="container">
             <div class="row">
@@ -69,8 +67,9 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
+
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a class="active" href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
@@ -79,8 +78,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -91,7 +89,6 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-    <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
@@ -124,6 +121,9 @@
                                 </span>!</h5>
                         </div>
                         <input type="hidden" id="currentStatus" value="<%=orderedProducts.orderStatus%>">
+                        <input type="hidden" id="orderDetails" value="<%=orderedProducts._id%>">
+                        <input type="hidden" id="orders" value="<%= JSON.stringify(orderedProducts) %>">
+
                         <div class="card-body p-4">
                             <% if (typeof orderedProducts !=='undefined' && orderedProducts && orderedProducts.items &&
                                 orderedProducts.items.length> 0) { %>
@@ -161,17 +161,37 @@
                                                     </p>
                                                 </div>
                                                 <!-- Show either Cancel button or Canceled message based on orderStatus -->
-                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                    <% if (populatedOrder.orderStatus === 'canceled') { %>
+                                                <div
+                                                    class="col-md-2 text-center d-flex justify-content-center align-items-center returnproduct">
+                                                    <% if (populatedOrder.orderStatus==='canceled' ) { %>
                                                         <p class="text-danger mb-0 small text-danger">Canceled</p>
-                                                    <% } else { %>
-                                                        <% if (orderedProducts.orderStatus !== 'delivered') { %>
-                                                            <button class="btn btn-danger" onclick="cancelProduct('<%= populatedOrder._id %>')">Cancel</button>
                                                         <% } else { %>
-                                                            <p class="text-success mb-0">Delivered</p>
-                                                        <% } %>
-                                                    <% } %>
-                                                </div>                                                
+                                                            <% if (orderedProducts.orderStatus !=='delivered' ) { %>
+                                                                <button class="btn btn-danger"
+                                                                    onclick="cancelProduct('<%= populatedOrder._id %>')">Cancel</button>
+                                                                <% } else if (orderedProducts.orderStatus=='delivered'
+                                                                    ){ %>
+                                                                    <% if (populatedOrder.returnOrderStatus.status
+                                                                        !=='returned' ) {%>
+                                                                        <button class=" btn return-btn mr-2"
+                                                                            data-productId="<%=populatedOrder.productID._id %>"
+                                                                            data-orderID="<%=populatedOrder._id %>"
+                                                                            data-productPrize="<%= populatedOrder.productID.Prize %>">
+                                                                            return
+                                                                        </button>
+                                                                        <p class="text-success mb-0">Delivered</p>
+                                                                        <% } else
+                                                                            if(populatedOrder.returnOrderStatus.status=='returned'
+                                                                            ) {%>
+                                                                            <p class="text-danger mb-0">returned</p>
+                                                                            <% } else {%>
+                                                                                <p class="text-success mb-0">Delivered
+                                                                                </p>
+                                                                                <% } %>
+                                                                                    <% } %>
+
+                                                                                        <% } %>
+                                                </div>
                                             </div>
                                             <!-- Additional details and progress bar for the order -->
                                             <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
@@ -220,21 +240,28 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between pt-2">
                                     <h4 class="fw-bold mb-0">Order Details</h4>
-                                  </div>
-                      
-                                  <div class="d-flex justify-content-between pt-2">
-                                    <p class="text-white mb-0">Track ID : <%=orderedProducts.trackID%></p>
-                                  </div>
-                      
-                                  <div class="d-flex justify-content-between">
-                                    <p class="text-white mb-0">updated at : <%=orderedProducts.updatedAt.toLocaleDateString()%> </p>
+                                </div>
+
+                                <div class="d-flex justify-content-between pt-2">
+                                    <p class="text-white mb-0">Track ID : <%=orderedProducts.trackID%>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <p id="orderdate" class="text-white mb-0">updated at :
+                                        <%=orderedProducts.updatedAt.toLocaleDateString()%>
+                                    </p>
                                     <p class="text-white mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
-                                  </div>
-                      
-                                  <div class="d-flex justify-content-between mb-5">
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-5">
                                     <p class="text-white mb-0">Recepits Voucher : 18KU-62IIK</p>
-                                    <p class="text-white mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
-                                  </div>
+                                    <p class="text-white mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free
+                                    </p>
+                                </div>
+                                <div class="d-flex justify-content-between mb-5">
+                                    <button id="downloadInvoice" class="btn btn-light">download invoice</button>
+                                </div>
                             </div>
                             <% if (typeof totalAmount !=='undefined' ) { %>
                                 <h5
@@ -251,6 +278,7 @@
         </div>
         </div>
     </section>
+    <div id="pdf"></div>
     <!-- Shopping Cart Section End -->
 
     <!-- Footer Section Begin -->
@@ -376,7 +404,162 @@
             })
         })();
 
-    </script>
 
-    <!-- Js Plugins -->
+
+
+        document.querySelectorAll('.return-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const orderid = button.getAttribute('data-orderID')
+                const productID = button.getAttribute('data-productId')
+                const prize = button.getAttribute('data-productPrize');
+
+                const { value: reason } = await Swal.fire({
+                    text: "Returning ? We'd love to hear why!",
+                    input: "select",
+                    inputOptions: {
+                        Quality: "Quality issue",
+                        Size: "Wrong size",
+                        Change: "Changed my mind",
+                        Defective: "Defective item",
+                        Unhappy: "Not satisfied",
+                        Duplicate: "Received duplicate",
+                        Other: "Other reasons"
+                    },
+                    inputPlaceholder: "Select a reason",
+                    showCancelButton: true,
+                });
+
+                if (reason) {
+                    fetch('/return-order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            orderid, productID, reason, prize
+                        })
+                    }).then(reponse => {
+                        return reponse.json()
+                    }).then(data => {
+                        if (data) {
+                            Swal.fire({
+                                text: "Thanks! Your return is in progress. Expected back within one week.",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            setTimeout(() => {
+                                location.reload()
+                            }, 2000);
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                }
+
+            })
+        })
+
+
+
+        let downloadButton = document.getElementById('downloadInvoice');
+
+        downloadButton.addEventListener('click', () => {
+
+            let orderid = document.getElementById('orderDetails').value;
+            let orders = document.getElementById('orders').value;
+            let userAddres = []
+            let shippingAddress = []
+            let orderdate = null
+            fetch('/getInvoiceData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    orderid
+                })
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                if (data) {
+                    userAddres = data.userAddres
+                    shippingAddress = data.shippingAddress
+                    orderdate = data.orderdate
+                    const invoiceNum = 'INV-' + orderid.slice(5, 13)
+                    createInvoice(userAddres, shippingAddress, orderdate, invoiceNum)
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+
+            const productsArr = JSON.parse(orders)
+
+
+
+
+
+
+            async function createInvoice(userAddres, shippingAddress, orderdate, invoiceNum) {
+                const dueDate = new Date(orderdate);
+                dueDate.setDate(dueDate.getDate() + 10)
+                var data = {
+                    "customize": {},
+                    "images": {
+                        "logo": "https://public.budgetinvoice.com/img/logo_en_original.png",
+                    },
+                    "sender": {
+                        "company": "shoezy",
+                        "address": "Malappuram",
+                        "zip": "545306",
+                        "city": "vengara",
+                        "country": "India"
+                    },
+                    "client": {
+                        "company": userAddres.firstName,
+                        "address": shippingAddress.houseName,
+                        "zip": shippingAddress.zipcode,
+                        "state": shippingAddress.state,
+                        "city": shippingAddress.town,
+                        "country": shippingAddress.country
+                    },
+                    "information": {
+                        "number": invoiceNum,
+                        "date": orderdate,
+                        "due-date": dueDate.toLocaleDateString()
+                    },
+                    "products": productsArr.items.map((product) => ({
+                        "quantity": product.quantity,
+                        "description": product.productID.description,
+                        "tax-rate": 0,
+                        "price": product.productID.Prize
+                    })),
+                    "settings": {
+                        "currency": "INR",
+                    },
+                    "translate": {},
+                };
+
+                easyinvoice.createInvoice(data, function (result) {
+                    easyinvoice.download('myInvoice.pdf', result.pdf);
+
+                });
+
+                    var elementId = 'pdf';
+                    easyinvoice.createInvoice(data, function (result) {
+                        easyinvoice.render(elementId, result.pdf, function () {
+                            console.log('Invoice rendered!');
+                        });
+                    });
+
+            }
+
+        })
+
+    </script>
+    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist/build/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist/build/pdf.worker.min.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist@2.3.200/build/pdf.min.js"></script>
+
     <%- include('../layouts/footer.ejs') %>

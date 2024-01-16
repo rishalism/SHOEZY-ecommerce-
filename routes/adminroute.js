@@ -3,6 +3,7 @@ const customerControll = require('../controllers/customercontroll');
 const productControll = require('../controllers/productControll')
 const orderControll =require('../controllers/orderControll')
 const categoriesControll = require('../controllers/categoriesControll')
+const couponControll = require('../controllers/couponControll')
 const adminAuth = require('../middlewares/adminAuth')
 const upload = require('../middlewares/multer');
 const express= require('express');
@@ -38,5 +39,14 @@ adminRoute.post('/list-product',productControll.listProduct);
 adminRoute.get('/manage-prodcuts',orderControll.loadManageOrder)
 adminRoute.post('/cancel-order',orderControll.adminCancelOrder)
 adminRoute.post('/change-status',orderControll.changeStatus)
+adminRoute.get('/coupon',couponControll.LoadCouponPage)
+adminRoute.post('/coupon',couponControll.Update)
+adminRoute.get('/add-coupon',couponControll.LoadAddCouponPage)
+adminRoute.post('/add-coupon',couponControll.addcoupon)
+adminRoute.post('/dashboard',adminAuth.isLoggedIn,admincontrol.salesData)
+adminRoute.get('/salesReport',adminAuth.isLoggedIn,admincontrol.LoadSalesReport)
+adminRoute.post('/getSalesData',admincontrol.getSalesData)
+
+
 
 module.exports=adminRoute

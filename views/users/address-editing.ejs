@@ -51,40 +51,35 @@
         <div class="loader"></div>
     </div>
 
+  
     <!-- Offcanvas Menu Begin -->
+
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;" alt="">
+                <span>0</span></a>
+                <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
-        <!-- ... (Other offcanvas content) ... -->
+        <div id="mobile-menu-wrap"></div>
     </div>
     <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
     <header class="header">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
+                        <!-- <a href="./index.html"><img src="/images/logo.png" alt=""></a> -->
                         <div class="shoezy-logo mt-0">shoezy</div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
+
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a class="active" href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
@@ -93,8 +88,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -105,7 +99,6 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-    <!-- Header Section End -->
 
       <div class="container mt-4 mb-4">
         <div class="row">

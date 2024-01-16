@@ -26,37 +26,22 @@
         <div class="loader"></div>
     </div>
 
+   
     <!-- Offcanvas Menu Begin -->
 
+    <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-            <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;" alt="">
+                <span>0</span></a>
+                <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
     </div>
     <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
+
     <header class="header">
         <div class="container">
             <div class="row">
@@ -68,8 +53,9 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
+
                         <ul>
-                            <li><a href="/">Home</a></li>
+                            <li><a class="active" href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
@@ -78,8 +64,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -90,7 +75,6 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-    <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
@@ -136,6 +120,7 @@
                     </thead>
                     <% if (typeof orderedProducts !=='undefined' && orderedProducts.length> 0) { %>
                         <tbody>
+                            <% orderedProducts.reverse(); %>
                             <% for (let i=0; i < orderedProducts.length; i++) { %>
                                 <tr>
                                     <td>

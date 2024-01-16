@@ -30,36 +30,20 @@
     </div> -->
 
     <!-- Offcanvas Menu Begin -->
+
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-            <a href="#"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="#"><img src="/images/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;" alt="">
+                <span>0</span></a>
+                <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
     </div>
     <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
+
     <header class="header">
         <div class="container">
             <div class="row">
@@ -71,9 +55,10 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
+
                         <ul>
-                            <li><a href="/">Home</a></li>
-                            <li class="active"><a href="/shop">Shop</a></li>
+                            <li><a class="active" href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
                             <li><a href="/about">About Us</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
                         </ul>
@@ -81,8 +66,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/images/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
                         <a href="#" onclick="checkUserSession()">
                             <img src="/images/icon/shopping-cart.png" width="80%" alt="">
                         </a>
@@ -93,7 +77,6 @@
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
     </header>
-    <!-- Header Section End -->
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
@@ -120,8 +103,8 @@
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form action="">
+                                <input type="text" name="search" placeholder="Search...">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>
@@ -156,12 +139,8 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="#">$0.00 - $50.00</a></li>
-                                                    <li><a href="#">$50.00 - $100.00</a></li>
-                                                    <li><a href="#">$100.00 - $150.00</a></li>
-                                                    <li><a href="#">$150.00 - $200.00</a></li>
-                                                    <li><a href="#">$200.00 - $250.00</a></li>
-                                                    <li><a href="#">250.00+</a></li>
+                                                    <li><a href="/shop?sort=2">Low to high</a></li>
+                                                    <li><a href="/shop?sort=1">High to low</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -179,29 +158,22 @@
                                     <p>Showing 1–12 of 126 results</p>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
-                                    <select>
-                                        <option value="">Low To High</option>
-                                        <option value="">$0 - $55</option>
-                                        <option value="">$55 - $100</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
                     <div class="row">
+                        <%product.reverse();%>
                         <% product.forEach((product, index)=> { %>
                             <% if (product.is_listed===0) { %>
                                 <input type="hidden" name="id" value="<%= product._id %>">
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg img-fluid">
-                                            <a href="/product-detail?id=<%=product._id%>"><img
-                                                    class="product__item__pic img-fluid"
-                                                    src="/uploads/<%= product.image[0] %>" alt=""></a>
+                                            <div class="product__item__pic set-bg img-fluid">
+                                                <a href="/product-detail?id=<%=product._id%>">
+                                                    <img src="/uploads/<%= product.image[0] %>" alt="">
+                                                </a>
+                                            </div>
                                             <ul class="product__hover">
                                                 <li><a href="#"><img src="/images/icon/heart.png" alt=""></a></li>
                                                 <li><a href="#"><img src="/images/icon/compare.png"
@@ -217,7 +189,7 @@
                                                 <a href=""
                                                     onclick="addtocart('<%= product._id %>','<%= product.Prize %>'); return false;"
                                                     class="add-cart">+ Add To Cart</a>
-                                                <% }else { %>
+                                                <% } else { %>
                                                     <p class="text-danger">out of stock</p>
                                                     <% } %>
                                                         <div class="rating">
@@ -242,15 +214,14 @@
                             <% } %>
                                 <% }); %>
                     </div>
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
+                                <a href="#"> <img src="/images/icon/minus.png" alt=""></a> 
+                                <% for (let i=1 ;i<=totalPages ; i++){%>
+                                    <a href="/shop?page=<%=i%>"><%=i%></a>
+                                    <% } %>
+                                <a href="#"> <img id="next-button" src="/images/icon/next.png"></a>
                             </div>
                         </div>
                     </div>
@@ -318,16 +289,18 @@
     </footer>
     <!-- Footer Section End -->
 
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
+
+    <script>
+
+
+            
+
+
+
+
+
+    </script>
+
 
     <!-- Js Plugins -->
     <script src="/js/jquery-3.3.1.min.js"></script>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoezy</title>
+
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="/css/wishlist.css" type="text/css">
+</head>
+
+<body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+
+    <!-- Offcanvas Menu Begin -->
+
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__nav__option cart-section">
+            <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;"
+                    alt="">
+                <span>0</span></a>
+            <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <!-- <a href="./index.html"><img src="/images/logo.png" alt=""></a> -->
+                        <div class="shoezy-logo mt-0">shoezy</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+
+                        <ul>
+                            <li><a class="active" href="/">Home</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
+                        <a href="#" onclick="checkUserSession()">
+                            <img src="/images/icon/shopping-cart.png" width="80%" alt="">
+                        </a>
+                        <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shopping Cart</h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <a href="./shop.html">User</a>
+                            <span>wishlist</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="cart-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wishlist">
+                        <% if (wishlistProducts && wishlistProducts.wishlistProducts &&
+                            wishlistProducts.wishlistProducts.length> 0) { %>
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th width="45%">Product Name</th>
+                                        <th width="15%">Unit Price</th>
+                                        <th width="15%">Stock Status</th>
+                                        <th width="15%"></th>
+                                        <th width="10%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% wishlistProducts.wishlistProducts.forEach(products=> { %>
+                                        <tr>
+                                            <td width="45%">
+                                                <div class="display-flex align-center">
+                                                    <div class="img-product">
+                                                        <img src="/uploads/<%= products?.image[0] %>"
+                                                            class="mCS_img_loaded">
+                                                    </div>
+                                                    <div class="name-product">
+                                                        <%= products.productName %>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td width="15%" class="price">₹ <%= products.Prize %>
+                                            </td>
+                                            <td width="15%"><span class="in-stock-box">
+                                                    <%= products.stock> 0 ? 'In Stock' : 'Out of Stock' %>
+                                                </span></td>
+                                            <td width="15%">
+                                                <button
+                                                    onclick="addtocart('<%= products._id %>','<%= products.Prize %>'); return false;"
+                                                    class="round-black-btn small-btn">Add to Cart</button>
+                                            </td>
+                                            <td width="10%" class="text-center">
+                                                <a href="#" class="trash-icon">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                            <% } else { %>
+                                <div class="col-md-12">
+                                    <p class="text-center text-danger">No products in your wishlist.</p>
+                                </div>
+                                <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </section>
+
+    <!-- Shopping Cart Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <div class="shoezy-logo mt-0" style="color: white;">shoezy</div>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="/images/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <%- include('../layouts/footer.ejs') %>

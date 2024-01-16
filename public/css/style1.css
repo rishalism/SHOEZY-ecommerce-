@@ -3517,6 +3517,15 @@ input[type="number"]::-webkit-outer-spin-button {
 		top: 25px;
 	}
 
+
+	@media (max-width: 768px) {
+		.product__details__cart__option a {
+			margin-bottom: 10px;
+			/* Adjust the margin as needed */
+		}
+	}
+
+	
 	.offcanvas-menu-overlay {
 		position: fixed;
 		left: 0;

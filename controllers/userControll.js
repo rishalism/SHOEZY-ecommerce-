@@ -5,9 +5,11 @@ const bcrypt = require('bcrypt');
 const { name } = require('ejs');
 const crypto = require('crypto');
 const { sendVerificationEmail } = require('../services/otpVerification');
+const { sendForgotPassOtp } = require('../services/forgotPasswordOtpVerification');
 const products = require('../models/productModel');
 const address = require('../models/userDetailsModel');
 const session = require('express-session');
+const { json } = require('express');
 let userid = 0
 let userotp = 0
 
@@ -76,7 +78,7 @@ const insertUser = async (req, res) => {
                 req.session.user = userdata;
                 req.session.otp = clientOtp
                 userotp = clientOtp
-                console.log(clientOtp, checkemail);
+                console.log(clientOtp);
                 await sendVerificationEmail(checkemail, clientOtp, username);
                 res.redirect('/otpverification')
 
@@ -128,6 +130,25 @@ const resendOtp = async (req, res) => {
     }
 };
 
+
+
+const resendforgotPasswordOtp = async (req, res) => {
+    try {
+        const clientOtp = await generateOTP();
+        console.log(clientOtp);
+        const email = req.session.tempUser.email
+        const username = req.session.tempUser.firstName;
+
+        req.session.forgototp = clientOtp
+
+        await sendForgotPassOtp(email, clientOtp, username);
+
+        res.status(200).json({ messge: 'otp resended' })
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
 
 
 
@@ -260,26 +281,46 @@ const loadHome = async (req, res) => {
 
 
 
-
 const loadShop = async (req, res) => {
     try {
-        if (req.query.cat) {
-            const categoryCollection = await categories.find({ is_listed: 0 });
-            const data = req.query.cat
-            const product = await products.find({ category: data })
-            res.render('shop', { category: categoryCollection, product });
-        }
-        else {
-            const categoryCollection = await categories.find({ is_listed: 0 });
-            const producta = await products.find().populate('category');
-            const product = producta.filter(producta => producta.category.is_listed == 0)
-            res.render('shop', { category: categoryCollection, product });
-        }
-    } catch (error) {
+        const categoryCollection = await categories.find({ is_listed: 0 });
 
+        let query = {};
+        let totalPages = 2;
+
+        if (req.query.cat) {
+            query = { category: req.query.cat };
+        } else if (req.query.page) {
+            const page = req.query.page || 1;
+            const limit = 6;
+            const skip = (page - 1) * limit;
+            const count = await products.find(query).countDocuments();
+            const limitedProducts = await products.find(query).skip(skip).limit(limit).populate('category');
+            totalPages = Math.ceil(count / limit);
+            return res.render('shop', { category: categoryCollection, product: limitedProducts, totalPages });
+        } else if (req.query.search) {
+            const search = req.query.search;
+            query = { productName: { $regex: search, $options: 'i' } };
+        } else if (req.query.sort) {
+            const filter = req.query.sort;
+            const sortOrder = filter == 1 ? 1 : -1;
+            const sortedProducts = await products.find(query).sort({ Prize: sortOrder });
+            return res.render('shop', { product: sortedProducts, category: categoryCollection, totalPages });
+        } else {
+            const producta = await products.find(query).populate('category').limit(6);
+            const product = producta.filter(producta => producta.category.is_listed == 0);
+            return res.render('shop', { category: categoryCollection, product, totalPages });
+        }
+
+        const product = await products.find(query);
+        res.render('shop', { category: categoryCollection, product, totalPages });
+    } catch (error) {
         console.log(error.message);
+        res.status(500).send('Internal Server Error');
     }
-}
+};
+
+
 
 
 const loadAboutUs = async (req, res) => {
@@ -481,30 +522,83 @@ const LoadforgotPassword = async (req, res) => {
     }
 }
 
-
 const checkEmail = async (req, res) => {
     try {
-      const { email } = req.body;
-      console.log('ethiii');
+        const { email } = req.body;
+        const checkEmail = await users.findOne({ email: email });
+        if (!checkEmail) {
+            // If email is not registered
+            return res.status(200).json({ message: 'Email is not registered', value: 0 });
+        } else {
+            clientOtp = await generateOTP();
+            const username = checkEmail.firstName;
+            req.session.tempUser = checkEmail;
+            req.session.forgototp = clientOtp;
+            console.log(`just otp ${clientOtp}`);
+            await sendForgotPassOtp(email, clientOtp, username);
+            return res.status(200).json({ message: 'Email is  registered', value: 1 });
+        }
 
-      const checkEmail = await users.findOne({ email: email });
-  
-      if (!checkEmail) {
-        // If email is not registered
-        return res.status(200).json({ message: 'Email is not registered', value: 0 });
-      } else {
-        // If email is registered
-        return res.status(200).json({ message: 'Email is registered', value: 1 });
-      }
-  
     } catch (error) {
-      // Handle errors and send an appropriate response
-      console.error(error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
+        // Handle errors and send an appropriate response
+        console.error(error.message);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  };
-  
+};
 
+
+
+
+
+
+
+const LoadforgotPasswordOtp = async (req, res) => {
+    try {
+        res.render('forgot-password-otp', { otpverified: 0 })
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+const verifyPasswordOtp = async (req, res) => {
+    try {
+        const { otp1, otp2, otp3, otp4, otp5, otp6 } = req.body
+        const frontendotp = parseInt(otp1 + otp2 + otp3 + otp4 + otp5 + otp6);
+        console.log(`user enetered  otp : ${frontendotp}`);
+        const user = req.session.tempUser
+        const bakendotp = req.session.forgototp;
+        if (frontendotp == bakendotp) {
+            res.render('forgot-password-otp', { otpverified: 1 })
+        } else {
+            res.render('forgot-password-otp', { otpverified: 0, errormessage: 'invalid OTP please try again.' });
+        }
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
+
+
+
+const resetPassword = async (req, res) => {
+    try {
+
+        const newPassword = req.body.newpass;
+        const usermail = req.session.tempUser.email;
+        const hashedPassword = await securepassword(newPassword);
+        const updatePassword = await users.findOneAndUpdate({ email: usermail }, {
+            $set: { password: hashedPassword }
+        });
+        if (updatePassword) {
+            res.status(200).json({ message: 'password updated succesfully' });
+        }
+
+    } catch (error) {
+
+        console.log(error.message);
+    }
+}
 
 
 module.exports = {
@@ -530,5 +624,9 @@ module.exports = {
     updatePassword,
     editProfile,
     LoadforgotPassword,
-    checkEmail
+    checkEmail,
+    LoadforgotPasswordOtp,
+    verifyPasswordOtp,
+    resetPassword,
+    resendforgotPasswordOtp
 }
