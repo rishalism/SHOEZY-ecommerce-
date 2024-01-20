@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>shoezy</title>
 
 
     <!-- Google Font -->
+    <link href="/images/shoezy.jpg" rel="icon">
+    <link href="/images/shoezy.jpg" rel="icon">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
     <!-- Css Styles -->
@@ -21,6 +22,12 @@
     <link rel="stylesheet" href="/css/style1.css" type="text/css">
 </head>
 
+<style>
+    .set-bg {
+        background-size: contain;
+    }
+</style>
+
 <body> <!-- 
     Page Preloder -->
     <div id="preloder">
@@ -33,9 +40,10 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__nav__option cart-section">
             <a href="#" onclick="checkUserSessioFoWishlist()"><img src="/images/icon/heart.png" alt=""></a>
-            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;" alt="">
+            <a href="#" onclick="checkUserSession()"><img src="/images/icon/shopping-cart.png" style="width: 80%;"
+                    alt="">
                 <span>0</span></a>
-                <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
+            <a href="/user-account"><img src="/images/icon/user.png" width="80%" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
     </div>
@@ -55,7 +63,7 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
 
-                        
+
                         <ul>
                             <li><a class="active" href="/">Home</a></li>
                             <li><a href="/shop">Shop</a></li>
@@ -86,61 +94,51 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="/images/hero/hero-1.jpg">
+            <div class="hero__items set-bg" data-setbg="/images/hero/hero-1.png">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
                             <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering commitment to exceptional quality.</p>
+                                <h6>Latest Shoe Styles</h6>
+                                <h2>Trendy Shoe Collections</h2>
+                                <p>An expertly curated selection of stylish footwear. Ethically crafted with an
+                                    unwavering commitment to exceptional quality.</p>
                                 <a href="/shop" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hero__items set-bg" data-setbg="/images/hero/hero-2.jpg">
+            <div class="hero__items set-bg" data-setbg="/images/hero/hero-2.png">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
                             <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering commitment to exceptional quality.</p>
+                                <h6>Latest Shoe Styles</h6>
+                                <h2>Trendy Shoe Collections</h2>
+                                <p>An expertly curated selection of stylish footwear. Ethically crafted with an
+                                    unwavering commitment to exceptional quality.</p>
                                 <a href="/shop" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="https://www.linkedin.com/in/rishal-mohammed-up-47231227a/"><i class="fa fa-instagram"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>        
-    </section>    
+        </div>
+    </section>
     <!-- Hero Section End -->
 
     <!-- Banner Section Begin -->
-    <section class="banner spad">
+    <section class="banner spad ">
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 offset-lg-4 img-fluid">
                     <div class="banner__item img-fluid">
                         <div class="banner__item__pic img-fluid">
-                            <img class="img-fluid" src="/images/banner/banner-1.jpg" alt="Responsive image">
+                            <img class="img-fluid" src="/images/banner/banner-4.jpeg" alt="Responsive image">
                         </div>
                         <div class="banner__item__text">
-                            <h2>Clothing Collections 2030</h2>
+                            <h2>Footwear 2030: Trends & Innovations</h2>
                             <a href="/shop">Shop now</a>
                         </div>
                     </div>
@@ -148,10 +146,10 @@
                 <div class="col-lg-5">
                     <div class="banner__item banner__item--middle">
                         <div class="banner__item__pic img-fluid">
-                            <img src="/images/banner/banner-2.jpg" alt="">
+                            <img src="/images/banner/banner-5.jpg" alt="">
                         </div>
                         <div class="banner__item__text">
-                            <h2>Accessories</h2>
+                            <h2>Shoes 2030: Future Fashion Insights</h2>
                             <a href="/shop">Shop now</a>
                         </div>
                     </div>
@@ -159,7 +157,7 @@
                 <div class="col-lg-7">
                     <div class="banner__item banner__item--last">
                         <div class="banner__item__pic img-fluid">
-                            <img src="/images/banner/banner-3.jpg" alt="">
+                            <img src="/images/banner/banner-6.jpg" alt="">
                         </div>
                         <div class="banner__item__text">
                             <h2>Shoes Spring 2030</h2>
@@ -168,7 +166,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </section>
     <!-- Banner Section End -->
 

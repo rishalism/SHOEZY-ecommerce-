@@ -4,7 +4,8 @@ const app = express();
 const mongoose = require('mongoose');
 const nocache = require('nocache');
 const path = require('path')
-mongoose.connect('mongodb://127.0.0.1:27017/shoezy');//conecting mongo db database in //// 
+const {MONGO_URL} = process.env
+mongoose.connect(MONGO_URL);//conecting mongo db database in //// 
 const session = require('express-session');
 const config = require('./config/config')
 app.use(express.static(path.join(__dirname, 'public')));

@@ -992,7 +992,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .product__item__pic {
-	height: 260px;
 	position: relative;
 	background-position: center center;
 }
@@ -2133,7 +2132,7 @@ input[type="number"]::-webkit-outer-spin-button {
 -----------------------*/
 
 .about {
-	padding-bottom: 70px;
+	padding-bottom: 50px;
 }
 
 .about__pic {
@@ -2142,6 +2141,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .about__pic img {
 	min-width: 100%;
+	
 }
 
 .about__item {
@@ -4022,4 +4022,15 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .zoom-active{
     display: block;
+}
+@media screen and (max-width: 767px) {
+	.lens {
+		display: none; /* Hide the image div */
+	}
+	.zoom{
+		display: none;
+	}
+	.continue__btn{
+		padding-bottom: 30px;
+	}
 }

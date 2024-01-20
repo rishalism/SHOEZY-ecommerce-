@@ -1,66 +1,40 @@
 <%- include('../layouts/header.ejs') %>
-
-    <style>
-        body {
-            background-color: pink;
-        }
-    </style>
     <div id="preloder">
         <div class="loader"></div>
     </div>
 
-    <div class="container-fluid box1">
-        <div class="row d-flex justify-content-start align-items-start">
-            <div class="col-md-6" style="margin-top: -15px;">
-                <div class="block">
-                    <div class="welcome-text mt-4 shoezy">Welcome back to
-                        <br />shoezy!
-                    </div>
 
-                    <div class="image-container"></div>
-                </div>
-            </div>
-            <div class="col-md-6" style="margin-top: -15px;">
-                <form action="/login" method="post" id="registrationForm">
-                    <div class="card login card-registration mt-5 pt-5">
-                        <div class="card-body p-md-3 text-black">
-                            <h3 class="mb-4 text-uppercase">Login </h3>
-
-                            <div class="form-outline mb-3">
-                                <input type="email" id="email" name="email" class="form-control" />
-                                <label class="form-label" for="form3Example9">Email</label>
-                                <div class="error-message" id="errorEmail">
-                                    <% if (typeof message1 !=='undefined' ) { %>
-                                        <div class="error-message">
-                                            <%= message1 %>
-                                        </div>
-                                        <% } %>
+    <div class="container-fluid box1 d-flex justify-content-center align-items-center h-100">
+        <div class="row ">
+            <div class="col-md-6">
+                <div class="form-container text-center">
+                    <p class="title">Welcome back</p>
+                    <form action="/login" method="post" class="form" id="registrationForm">
+                        <input type="email" id="email" name="email" class="input" placeholder="Email">
+                        <div class="error-message" id="errorEmail">
+                            <% if (typeof message1 !=='undefined' ) { %>
+                                <div class="error-message">
+                                    <%= message1 %>
                                 </div>
-                            </div>
-                            <div class="form-outline mb-3">
-                                <input type="password" id="password" name="password" class="form-control" required
-                                    min="6" max="30" />
-                                <label class="form-label" for="password">Password</label>
-                                <div class="error-message" id="errorPassword">
-                                    <div class="error-message">
-                                        <% if (typeof message !=='undefined' ) { %>
-                                            <%= message %>
-                                    </div>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="form-outline login-box text-center pt-4">
-                                <button type="submit" class="btn signup btn-lg btn-block">Login</button>
-                            </div>
-                            <div class="text-center pt-4">
-                                <p>Don't have an account? <a href="/">SignUp</a></p>
-                                <% if (typeof message !=='undefined' ) { %>
-                                    <a href="/forgot-password">forgot password?</a>
-                                    <% } %>
-                            </div>
+                                <% } %>
                         </div>
-                    </div>
-                </form>
+                        <input type="password" id="password" name="password" class="input" placeholder="Password"
+                            required min="6" max="30">
+                        <div class="error-message" id="errorPassword">
+                            <div class="error-message">
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <%= message %>
+                            </div>
+                            <% } %>
+                        </div>
+                        <a href="/forgot-password"><span class="page-link-label ">Forgot Password?</span></a>
+                        <button  type="submit" class="w-100"> Login
+                        </button>
+                    </form>
+                    <p class="sign-up-label">
+                        Don't have an account? <a href="/register"><span class="sign-up-link ">Sign up</a></span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

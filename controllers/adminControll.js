@@ -15,6 +15,8 @@ const securepassword = async (password) => {
         return passwordHash;
     } catch (error) {
         console.log(error.message)
+        res.status(500).render('error')
+
     }
 }
 
@@ -25,6 +27,8 @@ const adminLoginLoad = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -68,6 +72,8 @@ const verifyAdmin = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -82,6 +88,8 @@ const logout = async (req, res) => {
     } catch (error) {
 
         console.log(error);
+        res.status(500).render('error')
+
     }
 }
 
@@ -114,6 +122,8 @@ const blockUser = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 
 
@@ -134,6 +144,8 @@ const unBlockUser = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -379,6 +391,8 @@ const salesData = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 };
 
@@ -390,6 +404,8 @@ const LoadSalesReport = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -407,10 +423,10 @@ const getSalesData = async (req, res) => {
                         $gte: new Date(startdate),
                         $lte: new Date(endDate)
                     }
-                }).populate('shippingAddress')
+                }).populate('shippingAddress').populate('customerID');
             const StringSalesData = salesdata.map(order => ({
                 id: order.id.toString(),
-                customerID: order.customerID.toString(),
+                customerID: order.customerID.firstName,
                 state: order.shippingAddress.state,
                 town: order.shippingAddress.town,
                 streetAddress: order.shippingAddress.streetAddress,
@@ -431,6 +447,8 @@ const getSalesData = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 

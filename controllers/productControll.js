@@ -8,6 +8,8 @@ const loadProducts = async (req, res) => {
         res.render('products', { product });
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 };
 
@@ -19,6 +21,8 @@ const LoadAddProducts = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -59,6 +63,8 @@ const addProducts = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -76,6 +82,8 @@ const LoadEditProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 
 }
@@ -113,6 +121,8 @@ const editProduct = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -130,6 +140,8 @@ const deleteImage = async (req, res) => {
     } catch (error) {
 
         console.log(error);
+        res.status(500).render('error')
+
     }
 }
 
@@ -148,6 +160,8 @@ const unlistProduct = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -170,6 +184,8 @@ const listProduct = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 
 }

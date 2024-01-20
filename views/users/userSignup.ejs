@@ -7,6 +7,7 @@
   <title>shoezy</title>
 
   <!-- Google Font -->
+  <link href="/images/shoezy.jpg" rel="icon">
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
     rel="stylesheet">
   <!-- Css Styles -->
@@ -19,8 +20,8 @@
   <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
   <link rel="stylesheet" href="/css/style1.css" type="text/css">
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/login.css">
 </head>
+
 
 <body>
 
@@ -28,75 +29,61 @@
     <div class="loader"></div>
   </div>
 
-  <div class="container">
-    <div class="row d-flex justify-content-start align-items-start">
-      <div class="col-md-6 mt-4">
-        <div class="block">
-          <div class="welcome-text mt-4 ">Welcome to <br />shoezy</div>
-          <div class="image-container"></div>
-        </div>
-      </div>
-      <div class="col-md-6 mt-4">
-        <form action="/register" method="post" id="registrationForm">
-          <div class="card card-registration">
-            <div class="card-body p-md-3 text-black">
-              <h3 class="mb-4 text-uppercase">create an account </h3>
-
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <div class="form-outline">
-                    <input type="text" id="firstname" name="firstname" class="form-control" required minlength="2"
-                      maxlength="20" />
-                    <label class="form-label" for="firstname">First name</label>
-                    <div class="error-message" id="errorFirstname"></div>
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <div class="form-outline">
-                    <input type="text" id="lastname" name="lastname" class="form-control" required />
-                    <label class="form-label" for="lastname">Last name</label>
-                    <div class="error-message" id="errorLastname"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-outline mb-3">
-                <input type="email" id="email" name="email" class="form-control"  />
-                <label class="form-label" for="email">Email</label>
-                <div class="error-message" id="errorEmail">
-                <% if (typeof message1 !=='undefined' ) { %>
-                    <%= message1 %>
-                <% } %>
-              </div>
-              </div>
-              <div class="form-outline mb-3">
-                <input type="number" id="mobile" name="mobile" class="form-control" required />
-                <label class="form-label" for="mobile">Mobile</label>
-                <div class="error-message" id="errorMobile"></div>
-              </div>
-
-              <div class="form-outline mb-3">
-                <input type="password" id="password" name="password" class="form-control" required min="6" max="30" />
-                <label class="form-label" for="password">Password</label>
-                <div class="error-message" id="errorPassword"></div>
-              </div>
-
-              <div class="form-outline mb-3">
-                <input type="password" id="password1" name="password1" class="form-control" required min="6" max="30" />
-                <label class="form-label" for="password1">Confirm Password</label>
-                <div class="error-message" id="errorPassword1"></div>
-              </div>
-              <div class="form-outline text-center">
-                <button type="submit" class="btn btn-block">signup</button>
-              </div>
-              <div class="text-center mt-4">
-                <p>Already have an account? <a href="/login">Login</a></p>
-              </div>
+  <div class="container d-flex justify-content-center align-items-center h-100">
+    <div class="row ">
+      <div class="col-md-12 mt-4">
+        <div class="form-container">
+          <form class="form" action="/register" method="post" id="registrationForm">
+            <p class="title text-center message">Create An Account</p>
+            <div class="flex">
+              <label>
+                <input id="firstname" name="firstname" required required minlength="2" maxlength="20" placeholder=""
+                  type="text" class="input">
+                <span>Firstname</span>
+              </label>
+              <label>
+                <input required="" id="lastname" name="lastname" required placeholder="" type="text" class="input">
+                <span>Lastname</span>
+              </label>
             </div>
-          </div>
-        </form>
+
+            <label>
+              <input required="" placeholder="" id="email" name="email" type="email" class="input">
+              <span>Email</span>
+              <div class="error-message" id="errorEmail">
+                <% if (typeof message1 !=='undefined' ) { %>
+                  <%= message1 %>
+                    <% } %>
+              </div>
+            </label>
+            <label>
+              <input required="" placeholder="" id="mobile" name="mobile" type="number" class="input" required>
+              <span>Mobile</span>
+            </label>
+
+            <label>
+              <input required="" placeholder="" id="password" name="password" type="password" required min="6" max="30"
+                class="input">
+              <span>Password</span>
+            </label>
+            <label>
+              <input required="" placeholder="" id="password1" name="password1" type="password" required min="6"
+                max="30" class="input">
+              <span>Confirm password</span>
+            </label>
+            <button type="submit" class="button">
+              Signup
+            </button>
+            <p class="signin">Already have an acount ? <a href="/login">Login</a> </p>
+          </form>
+          </p>
+        </div>
       </div>
     </div>
   </div>
+
+
+
 
   <script src="/scripts/script.js"></script>
   <script src="/js/jquery-3.3.1.min.js"></script>

@@ -186,33 +186,34 @@
                 <div class="container mt-4 d-flex justify-content-center">
                     <div class="col-md-6" style="background-color: #191C24;">
                         <div class="card p-4" style="background-color: #191C24 !important;">
-                            <h2 class="text-center mb-4" style="color: #ffffff;">Add New Coupon</h2>
-                            <form action="/admin/add-coupon" method="post">
+                            <h2 class="text-center mb-4" style="color: #ffffff;">Edit Coupon</h2>
+                            <form action="/admin/edit-coupon" method="post">
+                                <input type="hidden" name="couponID" value="<%=editcoupon._id%>">
                                 <div class="mb-3">
                                     <label for="couponCode" class="form-label">Coupon Code</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="couponCode" name="couponCode" placeholder="Enter coupon code" required>
+                                        <input type="text" class="form-control" id="couponCode" name="couponCode" placeholder="<%=editcoupon.couponCode%>" value="<%=editcoupon.couponCode%>" required>
                                         <button type="button" id="generateCoupon" class="btn btn-primary">Generate Coupon</button>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="couponName" class="form-label">Coupon Name</label>
-                                    <input type="text" class="form-control" id="couponName" name="couponName"
-                                        placeholder="Enter coupon name" required>
+                                    <input type="text" class="form-control" id="couponName" name="couponName" value="<%=editcoupon.couponName%>"
+                                        placeholder="<%=editcoupon.couponName%>" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="discountAmount" class="form-label">Discount Amount</label>
-                                    <input type="number" class="form-control" id="discountAmount" name="discountAmount"
-                                        placeholder="Enter discount amount" required>
+                                    <input type="number" class="form-control" id="discountAmount" name="discountAmount" value="<%=editcoupon.discountAmount%>"
+                                        placeholder="<%=editcoupon.discountAmount%>" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="minimumSpend" class="form-label">Minimum Spend</label>
-                                    <input type="number" class="form-control" id="minimumSpend" name="minimumSpend"
-                                        placeholder="Enter minimum spend" required>
+                                    <input type="number" class="form-control" id="minimumSpend" name="minimumSpend" value="<%=editcoupon.minimumSpend%>"
+                                        placeholder="<%=editcoupon.minimumSpend%>" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="validFrom" class="form-label">Valid From</label>
-                                    <input type="date" class="form-control" id="validFrom" name="validFrom" required>
+                                    <input type="date" class="form-control" id="validFrom" name="validFrom" required> 
                                 </div>
                                 <div class="mb-3">
                                     <label for="validTo" class="form-label">Valid To</label>
@@ -228,7 +229,7 @@
                                         <option value="200">200</option>
                                     </select>
                                 </div>                                
-                                <button id="addingCoupon" type="submit" class="btn btn-primary">Add Coupon Now</button>
+                                <button id="addingCoupon" type="submit" class="btn btn-primary">edit Coupon Now</button>
                             </form>
                         </div>
                     </div>

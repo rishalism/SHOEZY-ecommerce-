@@ -11,6 +11,7 @@
   <link href="img/favicon.ico" rel="icon">
 
   <!-- Google Web Fonts -->
+  <link href="/images/shoezy.jpg" rel="icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
@@ -57,20 +58,16 @@
           </div>
         </div>
         <div class="navbar-nav w-100">
-          <a href="/admin/dashboard" class="nav-item nav-link "><i
-                  class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+          <a href="/admin/dashboard" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
           <div class="nav-item dropdown">
-              <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>users</a>
-              <a href="/admin/products" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>products</a>
-              <a href="/admin/categories" class="nav-item nav-link"><i
-                      class="fa fa-keyboard me-2"></i>categories</a>
-              <a href="/admin/orders" class="nav-item nav-link"><i class="fa fa-table me-2"></i>orders</a>
-              <a href="/admin/coupon" class="nav-item nav-link"><i
-                      class="far fa-file-alt me-2"></i>coupons</a>
-              <a href="/admin/salesReport" class="nav-item nav-link"><i
-                      class="far fa-file-alt me-2"></i>sales report</a>
+            <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>users</a>
+            <a href="/admin/products" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>products</a>
+            <a href="/admin/categories" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>categories</a>
+            <a href="/admin/orders" class="nav-item nav-link"><i class="fa fa-table me-2"></i>orders</a>
+            <a href="/admin/coupon" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>coupons</a>
+            <a href="/admin/salesReport" class="nav-item nav-link"><i class="far fa-file-alt me-2"></i>sales report</a>
           </div>
-      </div>
+        </div>
       </nav>
     </div>
     <!-- Sidebar End -->
@@ -159,10 +156,8 @@
               <span class="d-none d-lg-inline-flex">John Doe</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-              <a href="#" class="dropdown-item">My Profile</a>
-              <a href="#" class="dropdown-item">Settings</a>
-              <a href="#" class="dropdown-item">Log Out</a>
-            </div>
+              <a href="/admin/logout" class="dropdown-item">Log Out</a>
+          </div>
           </div>
         </div>
       </nav>
@@ -243,6 +238,16 @@
 
 
 
+
+      <script>
+        uploadField.onchange = function () {
+          if (this.files[0].size > 2) {
+            alert("File is too big!");
+            // this.value = "";
+          }
+        }
+
+      </script>
 
       <!-- JavaScript Libraries -->
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

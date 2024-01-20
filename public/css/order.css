@@ -7,8 +7,6 @@
 .step-wizard {
     /* background-color: #21d4fd; */
     /* background-image: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%); */
-    /* height: 100vh; */
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +33,7 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    min-width: 170px;
+    width: 170px;
     position: relative;
 }
 .step-wizard-item + .step-wizard-item:after{
@@ -116,4 +114,25 @@
     padding-top: 2px;
     color: white;
 }
+/* Media query for screens smaller than 600px (adjust as needed) */
+/* Media query for screens smaller than 600px (adjust as needed) */
+@media only screen and (max-width: 600px) {
+    .card-body.status-managment {
+        width: 10px; /* Adjust the percentage or vw value as needed */
+        /* Additional styles for smaller screens */
+    }
+    
+    .step-wizard-list{
+        margin-right: -355px;
+        font-size: smaller;
+    }
+    
+   .step-wizard-item{
+    width: 90px;
+    font-size: smaller;
+   }
+   .progress-label{
+    font-size: smaller;
+   }
 
+}

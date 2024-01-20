@@ -33,6 +33,7 @@ const securepassword = async (password) => {
         return passwordHash;
     } catch (error) {
         console.log(error.message)
+        
     }
 }
 
@@ -45,6 +46,8 @@ const usersignupLoad = async (req, res) => {
         res.render('userSignup');
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 
 }
@@ -77,8 +80,6 @@ const insertUser = async (req, res) => {
                 const clientOtp = await generateOTP();
                 req.session.user = userdata;
                 req.session.otp = clientOtp
-                userotp = clientOtp
-                console.log(clientOtp);
                 await sendVerificationEmail(checkemail, clientOtp, username);
                 res.redirect('/otpverification')
 
@@ -89,6 +90,8 @@ const insertUser = async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -100,9 +103,12 @@ const insertUser = async (req, res) => {
 
 const otpLoad = async (req, res) => {
     try {
+        console.log( req.session.otp);
         res.render('otpverification')
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 
 }
@@ -112,7 +118,6 @@ const otpLoad = async (req, res) => {
 const resendOtp = async (req, res) => {
     try {
         const clientOtp = await generateOTP();
-        console.log(clientOtp);
         const checkemail = req.session.user.email;
         const username = req.session.user.firstName;
 
@@ -126,7 +131,7 @@ const resendOtp = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.render('otpverification', { message: 'Error resending OTP. Please try again.' });
+        res.status(500).render('error')
     }
 };
 
@@ -135,7 +140,6 @@ const resendOtp = async (req, res) => {
 const resendforgotPasswordOtp = async (req, res) => {
     try {
         const clientOtp = await generateOTP();
-        console.log(clientOtp);
         const email = req.session.tempUser.email
         const username = req.session.tempUser.firstName;
 
@@ -147,6 +151,8 @@ const resendforgotPasswordOtp = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -154,8 +160,6 @@ const resendforgotPasswordOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
     try {
-        console.log(req.session.otp);
-
         if (req.session.otp === req.body.otp) {
             const data = await users.updateOne({ _id: userid }, { $set: { is_verified: 1 } }).exec();
             res.redirect('/home');
@@ -164,6 +168,8 @@ const verifyOtp = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 };
 
@@ -175,6 +181,8 @@ const loginloaduser = async (req, res) => {
         res.render('userLogin')
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -204,11 +212,12 @@ const verifyUser = async (req, res) => {
         } else {
             // Email not found in the database
             res.render('userLogin', { message1: 'email is not found' });
-            console.log('email not found in the database');
         }
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 };
 
@@ -225,7 +234,6 @@ const verifyUser = async (req, res) => {
 const editProfile = async (req, res) => {
     try {
         const { firstname, secondname, mobile } = req.body
-        console.log(req.body);
         const userid = req.session.user._id
         const updateProfile = await users.findByIdAndUpdate({ _id: userid }, {
             $set: {
@@ -235,12 +243,14 @@ const editProfile = async (req, res) => {
             }
         })
 
-        if (updatePassword) {
+        if (updateProfile) {
             res.json({ message: "updated succefully" });
         }
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -254,12 +264,13 @@ const editProfile = async (req, res) => {
 
 const logOut = async (req, res) => {
     try {
-
         req.session.destroy()
         res.redirect('/')
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -274,7 +285,8 @@ const loadHome = async (req, res) => {
             res.render('home',)
         }
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
+        res.status(500).render('error')
     }
 }
 
@@ -297,7 +309,7 @@ const loadShop = async (req, res) => {
             const count = await products.find(query).countDocuments();
             const limitedProducts = await products.find(query).skip(skip).limit(limit).populate('category');
             totalPages = Math.ceil(count / limit);
-            return res.render('shop', { category: categoryCollection, product: limitedProducts, totalPages });
+            return res.render('shop', { category: categoryCollection, product: limitedProducts, totalPages ,page});
         } else if (req.query.search) {
             const search = req.query.search;
             query = { productName: { $regex: search, $options: 'i' } };
@@ -316,7 +328,7 @@ const loadShop = async (req, res) => {
         res.render('shop', { category: categoryCollection, product, totalPages });
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Server Error');
+        res.status(500).render('error')
     }
 };
 
@@ -331,6 +343,7 @@ const loadAboutUs = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -340,6 +353,8 @@ const loadContact = async (req, res) => {
         res.render('contact')
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -355,6 +370,8 @@ const loadProductDetails = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -373,6 +390,8 @@ const loadProfile = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -400,6 +419,8 @@ const saveUser = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -423,6 +444,8 @@ const changePassword = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -443,6 +466,8 @@ const updatePassword = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -463,6 +488,8 @@ const loadEdditUserAddress = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -490,6 +517,8 @@ const editAddress = async (req, res) => {
     } catch (error) {
 
         console.log(error);
+        res.status(500).render('error')
+
     }
 }
 
@@ -506,6 +535,8 @@ const loadBLock = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -519,6 +550,8 @@ const LoadforgotPassword = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -542,7 +575,7 @@ const checkEmail = async (req, res) => {
     } catch (error) {
         // Handle errors and send an appropriate response
         console.error(error.message);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).render('error')
     }
 };
 
@@ -557,6 +590,8 @@ const LoadforgotPasswordOtp = async (req, res) => {
         res.render('forgot-password-otp', { otpverified: 0 })
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -576,6 +611,8 @@ const verifyPasswordOtp = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -597,6 +634,8 @@ const resetPassword = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 

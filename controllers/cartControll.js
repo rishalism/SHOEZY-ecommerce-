@@ -13,7 +13,7 @@ const checkCart = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: 'Internal Server Error', value: 0 });
+        res.status(500).render('error')
     }
 }
 
@@ -39,7 +39,7 @@ const loadCart = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Server Error');
+        res.status(500).render('error')
     }
 };
 
@@ -113,7 +113,7 @@ const addToCart = async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ error: 'Internal Server Error', value: 4 });
+        res.status(500).render('error')
     }
 };
 
@@ -135,7 +135,7 @@ const removeProduct = async (req, res) => {
         }
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -158,7 +158,7 @@ const updateQuantity = async (req, res) => {
         }
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -182,7 +182,7 @@ const decrementQuantity = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -200,7 +200,7 @@ const Loadwishlist = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -241,7 +241,7 @@ const addToWishlist = async (req, res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ message: 'Internal Server Error', value: -1 });
+        res.status(500).render('error')
     }
 };
 
@@ -254,7 +254,7 @@ const checkwishlist = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: 'Internal Server Error', value: 0 });
+        res.status(500).render('error')
     }
 }
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admin page</title>
+    <link href="/images/shoezy.jpg" rel="icon">
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/css/admin.css">
 
@@ -12,63 +13,102 @@
 
 <body>
 
-    <div class="container-fluid box1">
-        <div class="row d-flex justify-content-start align-items-start">
-            <div class="col-md-6" style="margin-top: -15px;">
-                <div class="block">
-                    <div class="welcome-text mt-4 shoezy">Welcome to the
-                        <br />Admin Panel!
-                    </div>
-
-                    <div class="image-container"></div>
-                </div>
-            </div>
-            <div class="col-md-6" style="margin-top: -15px;">
-                <form action=" " method="post" id="registrationForm" onsubmit="return validateloginform()">
-                    <div class="card login card-registration mt-5 pt-5">
-                        <div class="card-body p-md-3 text-black">
-                            <h3 class="mb-4 text-uppercase">Login </h3>
-
-                            <div class="form-outline mb-3">
-                                <input type="email" id="email" name="email" class="form-control" required />
-                                <label class="form-label" for="form3Example9">Email</label>
-                                <div class="error-message" id="errorEmail">
-                                    <% if (typeof message1 !=='undefined' ) { %>
-                                        <div class="error-message" id="errorPassword">
-                                            <%= message1 %>
-                                        </div>
-                                        <% } %>
+    <div class="container-fluid box1 d-flex justify-content-center align-items-center mt-5 h-100">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-container text-center">
+                    <p class="title">Welcome back</p>
+                    <form action=" " method="post" class="form" id="registrationForm" onsubmit="return validateloginform()">
+                        <input type="email" id="email" name="email" class="input" placeholder="Email">
+                        <div class="error-message" id="errorEmail">
+                            <% if (typeof message1 !=='undefined' ) { %>
+                                <div class="error-message">
+                                    <%= message1 %>
                                 </div>
-                            </div>
-                            <div class="form-outline mb-3">
-                                <input type="password" id="password" name="password" class="form-control" required
-                                    min="6" max="30" />
-                                <label class="form-label" for="password">Password</label>
-                                <div class="error-message" id="errorPassword">
-                                    <% if (typeof message !=='undefined' ) { %>
-                                        <div class="error-message" id="errorPassword">
-                                            <%= message %>
-                                        </div>
-                                        <% } %>
-                                </div>
-                            </div>
-                            <div class=" form-outline login-box text-center pt-4">
-                                <button type="submit" class="btn signup btn-lg btn-block">login</button>
-                            </div>
-                            <div class=" text-center pt-4">
-                                <% if (typeof message !=='undefined' ) { %>
-                                    <a href="/forgot-password">forgot password?</a>
-                                    <% } %>
-                                        <p>don't have an account? <a href="/">signUp</a></p>
-                            </div>
+                                <% } %>
                         </div>
-                    </div>
-                </form>
+                        <input type="password" id="password" name="password" class="input" placeholder="Password"
+                            required min="6" max="30">
+                        <div class="error-message" id="errorPassword">
+                            <div class="error-message">
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <%= message %>
+                            </div>
+                            <% } %>
+                        </div>
+                        <a href="/forgot-password"><span class="page-link-label ">Forgot Password?</span></a>
+                        <button type="submit" class="w-100 signup"> Login
+                        </button>
+                    </form>
+                    <p class="sign-up-label">
+                        Don't have an account? <a href="/register"><span class="sign-up-link ">Sign up</a></span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+</body>
 
-    <%- include('../layouts/footer.ejs') %>
+<!-- 
+<div class="container-fluid box1">
+    <div class="row d-flex justify-content-start align-items-start">
+        <div class="col-md-6" style="margin-top: -15px;">
+            <div class="block">
+                <div class="welcome-text mt-4 shoezy">Welcome to the
+                    <br />Admin Panel!
+                </div>
+
+                <div class="image-container"></div>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-top: -15px;">
+            <form action=" " method="post" id="registrationForm" onsubmit="return validateloginform()">
+                <div class="card login card-registration mt-5 pt-5">
+                    <div class="card-body p-md-3 text-black">
+                        <h3 class="mb-4 text-uppercase">Login </h3>
+
+                        <div class="form-outline mb-3">
+                            <input type="email" id="email" name="email" class="form-control" required />
+                            <label class="form-label" for="form3Example9">Email</label>
+                            <div class="error-message" id="errorEmail">
+                                <% if (typeof message1 !=='undefined' ) { %>
+                                    <div class="error-message" id="errorPassword">
+                                        <%= message1 %>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <input type="password" id="password" name="password" class="form-control" required min="6"
+                                max="30" />
+                            <label class="form-label" for="password">Password</label>
+                            <div class="error-message" id="errorPassword">
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <div class="error-message" id="errorPassword">
+                                        <%= message %>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <div class=" form-outline login-box text-center pt-4">
+                            <button type="submit" class="btn signup btn-lg btn-block">login</button>
+                        </div>
+                        <div class=" text-center pt-4">
+                            <% if (typeof message !=='undefined' ) { %>
+                                <a href="/forgot-password">forgot password?</a>
+                                <% } %>
+                                    <p>don't have an account? <a href="/">signUp</a></p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+<%- include('../layouts/footer.ejs') %>

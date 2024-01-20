@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>shoezy</title>
     <!-- Google Font -->
+    <link href="/images/shoezy.jpg" rel="icon">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
     <!-- Css Styles -->
@@ -90,8 +91,8 @@
                     <div class="breadcrumb__text">
                         <h4>Check Out</h4>
                         <div class="breadcrumb__links">
-                            <a href="./index.html">Home</a>
-                            <a href="./shop.html">Shop</a>
+                            <a href="/homw">Home</a>
+                            <a href="/shop">Shop</a>
                             <span>Check Out</span>
                         </div>
                     </div>
@@ -204,15 +205,13 @@
                                             <input type="hidden" id="subtotal" value="<%=subtotal%>">
                                             <input type="hidden" id="user" value="<%=user.wallet.walletAmount%>">
                                             <li id="discount">Total <span>₹<%=subtotal%></span></li>
-                                            <% if( user.wallet.walletAmount!==0) {%>
-                                                <li id="walletbox">
-                                                    <input type="checkbox" id="Wallet-Money">
-                                                    Use Wallet-Money<span id="walletAmount"> ₹
-                                                        <%=user.wallet.walletAmount%>
+                                            <li id="walletbox">
+                                                <input type="checkbox" id="Wallet-Money">
+                                                Use Wallet-Money<span id="walletAmount"> ₹
+                                                    <%=user.wallet.walletAmount%>
 
-                                                    </span>
-                                                </li>
-                                                <% } %>
+                                                </span>
+                                            </li>
                                         </ul>
                                         <div class="checkout__input__checkbox">
                                             <label for="cod">
@@ -312,7 +311,13 @@
     <!-- Search End -->
 
     <script>
+
         window.addEventListener('load', () => {
+            let walletAmount = document.getElementById('user').value;
+
+            if (walletAmount == 0) {
+                $("#walletbox").hide()
+            }
             const couponName = document.getElementById('couponname').value
             const couponCode = document.getElementById('couponcode').value;
             let applied = false
@@ -341,6 +346,7 @@
                     });
                 }, 1000);
             }
+
 
         })
 
@@ -507,6 +513,7 @@
     </script>
 
     <!-- Js Plugins -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.nice-select.min.js"></script>

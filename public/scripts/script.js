@@ -51,12 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const name = inputField.value;
     const errorField = document.getElementById(`error${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`);
     if (value === '') {
-      errorField.textContent = 'Name is required.';
+      inputField.placeholder = 'Name is required.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (name.includes(' ')) {
       console.log('Name contains space:', name);
-      errorField.textContent = 'Cannot include space.';
+      inputField.placeholder = 'Cannot include space.';
       inputField.style.border = '1px solid red';
       return false;
     } else {
@@ -73,23 +73,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
     if (value === '') {
-      errorField.textContent = 'Email is required.';
+      inputField.placeholder = 'Email is required.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (!emailRegex.test(value)) {
-      errorField.textContent = 'Invalid email format.';
+      inputField.placeholder = 'Invalid email format.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (!value.includes('gmail')) {
-      errorField.textContent = 'Only Gmail addresses are allowed.';
+      inputField.placeholder= 'Only Gmail addresses are allowed.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (!value.includes('.com')) {
-      errorField.textContent = 'The email address must contain ".com".';
+      inputField.placeholder = 'The email address must contain ".com".';
       inputField.style.border = '1px solid red';
       return false;
     } else {
-      errorField.textContent = ''; // Clear previous error messages
+      inputField.placeholder = ''; // Clear previous error messages
       inputField.style.border = '1px solid #ced4da';
     }
     return true;
@@ -105,11 +105,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const mobileRegex = /^\d{10}$/;
 
     if (value === '') {
-      errorField.textContent = 'Mobile is required.';
+      inputField.placeholder = 'Mobile is required.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (!mobileRegex.test(value)) {
-      errorField.textContent = 'Invalid mobile format (should be 10 digits).';
+      inputField.placeholder = 'Invalid mobile format (should be 10 digits).';
       inputField.style.border = '1px solid red';
       return false;
     } else {
@@ -126,16 +126,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorField = document.getElementById(`error${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`);
 
     if (value === '') {
-      errorField.textContent = 'Password is required.';
+      inputField.placeholder = 'Password is required.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (value.length < 6) {
-      errorField.textContent = 'Password should be at least 6 characters.';
+      inputField.placeholder = 'Password should be at least 6 characters.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (password.includes(' ')) {
-      console.log('password contains space:', password);
-      errorField.textContent = 'Cannot include space.';
+      inputField.placeholder= 'Cannot include space.';
       inputField.style.border = '1px solid red';
       return false;
     } else {
@@ -153,16 +152,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorField = document.getElementById(`error${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`);
 
     if (confirmPasswordValue === '') {
-      errorField.textContent = 'Confirm Password is required.';
+      inputField.placeholder= 'Confirm Password is required.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (passwordValue !== confirmPasswordValue) {
-      errorField.textContent = 'Passwords do not match.';
+      inputField.placeholder= 'Passwords do not match.';
       inputField.style.border = '1px solid red';
       return false;
     } else if (password.includes(' ')) {
       console.log('password contains space:', password);
-      errorField.textContent = 'Cannot include space.';
+      inputField.placeholder = 'Cannot include space.';
       inputField.style.border = '1px solid red';
       return false;
     } else {

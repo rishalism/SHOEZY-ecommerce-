@@ -10,6 +10,7 @@
     <title>shoezy</title>
 
     <!-- Google Font -->
+    <link href="/images/shoezy.jpg" rel="icon">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -49,6 +50,68 @@
                 margin-top: -148px;
             }
         }
+        .button {
+  --main-focus: #2d8cf0;
+  --font-color: #dedede;
+  --bg-color-sub: #222;
+  --bg-color: #323232;
+  --main-color: #dedede;
+  position: relative;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.button, .button__icon, .button__text {
+  transition: all 0.3s;
+}
+
+.button .button__text {
+  transform: translateX(25px);
+  color: var(--font-color);
+  font-weight: 600;
+}
+
+.button .button__icon {
+  position: absolute;
+  transform: translateX(109px);
+  height: 100%;
+  width: 39px;
+  background-color: var(--bg-color-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button .svg {
+  width: 20px;
+  stroke: var(--main-color);
+}
+
+.button:hover {
+  background: var(--bg-color);
+}
+
+.button:hover .button__text {
+  color: transparent;
+}
+
+.button:hover .button__icon {
+  width: 148px;
+  transform: translateX(0);
+}
+
+.button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px var(--main-color);
+}
     </style>
 </head>
 
@@ -191,10 +254,20 @@
                                     style="color: black;"><i class="fas fa-wallet"></i> My Wallet</a>
                                 <a href="/logout" class="nav-item nav-link font-weight-bold pt-4"
                                     style="color: black;"><i class="fa fa-sign-out"></i> Logout</a>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <a href="#" onclick="openModal()" class="btn btn-dark mt-2"
+                                <div class="d-flex align-items-start justify-content-start">
+                                    <!-- <a href="#" onclick="openModal()" class="btn btn-dark mt-2"
                                         style="width: 100%; background-color: black;"><i class="fa fa-plus"></i> Add new
-                                        address</a>
+                                        address</a> -->
+                                    <button class="button" onclick="openModal()" type="button">
+                                        <span class="button__text">Address</span>
+                                        <span class="button__icon"><svg class="svg" fill="none" height="24"
+                                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" viewBox="0 0 24 24" width="24"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <line x1="12" x2="12" y1="5" y2="19"></line>
+                                                <line x1="5" x2="19" y1="12" y2="12"></line>
+                                            </svg></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

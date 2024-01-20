@@ -4,8 +4,8 @@
 document.querySelectorAll('.place-order').forEach(button => {
 
     button.addEventListener('click', () => {
-        let totalAmount = document.getElementById('subtotal').value;
-        const address = button.getAttribute('data-addres');
+        let totalamount = document.getElementById('subtotal').value;
+        const shippingID = button.getAttribute('data-addres');
         var discountElement = document.getElementById('discount');
         var spanElement = discountElement.querySelector('span');
         let status = document.getElementById('Wallet-Money').checked;
@@ -47,7 +47,7 @@ document.querySelectorAll('.place-order').forEach(button => {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            address, paymentMethod, subtotal, status, totalAmount
+                            shippingID,paymentMethod,totalamount,subtotal,status
                         })
                     }).then(response => {
                         return response.json()
@@ -153,19 +153,3 @@ document.getElementById('generateCoupon').addEventListener('click', () => {
     document.getElementById('couponCode').value = randomCoupon
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

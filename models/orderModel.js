@@ -17,6 +17,10 @@ const orderSchema = new mongoose.Schema({
                 ref: 'products',
                 required: true
             },
+            productPrize: {
+                type: Number,
+                required: true
+            },
             quantity: {
                 type: Number,
                 required: true
@@ -75,4 +79,4 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('order',orderSchema);
+module.exports = mongoose.model('order', orderSchema);

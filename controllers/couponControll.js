@@ -1,7 +1,7 @@
 const { get } = require('mongoose');
 const coupon = require('../models/couponModel');
 const orderModel = require('../models/orderModel');
-const users = require('../models/userModel')
+const users = require('../models/userModel');
 
 const LoadCouponPage = async (req, res) => {
     try {
@@ -9,7 +9,7 @@ const LoadCouponPage = async (req, res) => {
         res.render('coupon', { coupons })
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -20,7 +20,7 @@ const LoadAddCouponPage = async (req, res) => {
         res.render('add-coupon')
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 
 }
@@ -46,7 +46,7 @@ const addcoupon = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -63,7 +63,7 @@ const Update = async (req, res) => {
         }
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -83,7 +83,7 @@ const applyDiscount = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -111,6 +111,8 @@ const verifyCoupon = async (req, res) => {
             res.status(200).json({ status: 404 })
         }
     } catch (error) {
+        console.log(error.message);
+        res.status(500).render('error')
 
     }
 }
@@ -123,15 +125,53 @@ const fetchInvoiceData = async (req, res) => {
         const { orderid } = req.body
         const getORderData = await orderModel.findById(orderid).populate('shippingAddress').populate('customerID');
         const shippingAddress = getORderData.shippingAddress
-        const userAddres  = getORderData.customerID
-        const orderdate  = getORderData.orderDate
-        res.status(200).json({shippingAddress,userAddres,orderdate})
+        const userAddres = getORderData.customerID
+        const orderdate = getORderData.orderDate
+        res.status(200).json({ shippingAddress, userAddres, orderdate })
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
+
+const LoadEditCoupon = async (req, res) => {
+    try {
+        const id = req.params.id
+        const editcoupon = await coupon.findById(id);
+        res.render('edit-coupon', { editcoupon })
+    } catch (error) {
+
+    }
+}
+
+
+const editCoupon = async (req, res) => {
+    try {
+        const id = req.body.couponID
+        const { couponCode, couponName, discountAmount, minimumSpend, validFrom, validTo, usageLimit } = req.body
+        const updateCoupon = await coupon.findByIdAndUpdate({ _id: id }, {
+            $set: {
+                couponCode,
+                couponName,
+                discountAmount,
+                minimumSpend,
+                validFrom,
+                validTo,
+                isActive: true,
+                usageLimit,
+            }
+        })
+        if(updateCoupon){
+            res.redirect('/admin/coupon')
+        }
+    } catch (error) {
+
+
+    }
+}
 
 
 module.exports = {
@@ -141,5 +181,7 @@ module.exports = {
     Update,
     applyDiscount,
     verifyCoupon,
-    fetchInvoiceData
+    fetchInvoiceData,
+    LoadEditCoupon,
+    editCoupon
 }

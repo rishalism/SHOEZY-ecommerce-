@@ -9,7 +9,7 @@ const loadCategories = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -36,7 +36,7 @@ const addCategories = async (req, res) => {
             res.json({ message: 'new category added', value: 1 })
         }
     } catch (error) {
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -53,7 +53,7 @@ const listCategory = async (req, res) => {
 
         }
     } catch (error) {
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -72,7 +72,7 @@ const UnlistCategory = async (req, res) => {
         }
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -86,7 +86,7 @@ const LoadCategory = async (req, res) => {
         const name = await categories.findById({ _id: id })
         res.render('edit-category', { catId: id, name })
     } catch (error) {
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 
@@ -112,7 +112,7 @@ const editCategory = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error.message);
+        res.status(500).render('error')
     }
 }
 

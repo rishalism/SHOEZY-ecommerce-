@@ -7,8 +7,7 @@ const products = require('../models/productModel');
 const orderModel = require('../models/orderModel');
 const paypal = require('paypal-rest-sdk');
 const coupon = require('../models/couponModel');
-const { json } = require('express');
-const { PAYPAL_MODE, PAYPAL_CLIENT_KEY, PAYPAL_SECRET_KEY } = process.env;
+const { PAYPAL_MODE, PAYPAL_CLIENT_KEY, PAYPAL_SECRET_KEY, RETURN_URL, CANCEL_URL } = process.env;
 
 
 //////////paypal configuration /////////////
@@ -62,7 +61,7 @@ const laodCheckout = async (req, res) => {
                 res.render('checkout', { cartProducts, subtotal, Address, user, couponCode, couponName })
             }
         } else {
-            
+
             if (req.query.id) {
                 const userid = req.query.id
                 const Address = await address.findById({ _id: userid })
@@ -75,6 +74,8 @@ const laodCheckout = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -98,6 +99,8 @@ const LoadUserOrders = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -116,6 +119,8 @@ const loadOrders = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -140,6 +145,8 @@ const loadOrderDetails = async (req, res) => {
         }
     } catch (error) {
         console.error(error.message);
+        res.status(500).render('error')
+
     }
 };
 
@@ -148,21 +155,17 @@ const loadOrderDetails = async (req, res) => {
 const placeOrder = async (req, res) => {
     try {
         const userId = req.session.user._id;
-        const shippingID = req.body.address;
-        const paymentMethod = req.body.paymentMethod;
-        const totalamount = req.body.subtotal;
-        const subtotal = req.body.totalAmount;
-        const status = req.body.status
+        const { shippingID, paymentMethod, totalamount, subtotal, status } = req.body
         req.session.user.totalAmount = totalamount
         req.session.shippingID = shippingID;
         req.session.user.status = status
         req.session.user.subtotal = subtotal
         /////////////////// finding ordered products from the cart ///////////
-        const findCart = await cart.findOne({ user: userId })
+        const findCart = await cart.findOne({ user: userId }).populate('products.productID')
         const cartProducts = findCart.products.map(products => {
             return products
         })
-
+    
         ////////////////////////////////// total amount of cart ////////////
 
         const totalCart = findCart.products.map(product => product.total);
@@ -214,6 +217,7 @@ const placeOrder = async (req, res) => {
                 items: cartProducts.map(products => {
                     return {
                         productID: products.productID,
+                        productPrize: products.productID.Prize,
                         quantity: products.quantity,
                         orderStatus: 'ordered',
                         returnOrderStatus: {
@@ -275,8 +279,8 @@ const placeOrder = async (req, res) => {
                     "payment_method": "paypal"
                 },
                 "redirect_urls": {
-                    "return_url": "http://localhost:3000/success",
-                    "cancel_url": "http://localhost:3000/cancel"
+                    "return_url": RETURN_URL,
+                    "cancel_url": CANCEL_URL
                 },
                 "transactions": [{
                     // "item_list": {
@@ -320,6 +324,8 @@ const placeOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -333,7 +339,7 @@ const placeOrderInPaypal = async (req, res) => {
 
         const userId = req.session.user._id;
         /////////////////// finding ordered products from the cart ///////////
-        const findCart = await cart.findOne({ user: userId })
+        const findCart = await cart.findOne({ user: userId }).populate('products.productID')
         const cartProducts = findCart.products.map(products => {
             return products
         })
@@ -378,6 +384,7 @@ const placeOrderInPaypal = async (req, res) => {
                     items: cartProducts.map(products => {
                         return {
                             productID: products.productID,
+                            productPrize: products.productID.Prize,
                             quantity: products.quantity,
                             orderStatus: 'ordered',
                             returnOrderStatus: {
@@ -392,7 +399,6 @@ const placeOrderInPaypal = async (req, res) => {
                     paymentMethod: 'Net Banking',
                     trackID: trackID
                 });
-
                 const saving = await placeorder.save();
                 if (saving) {
 
@@ -436,6 +442,8 @@ const placeOrderInPaypal = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -450,6 +458,8 @@ const loadPage = async (req, res) => {
     } catch (error) {
 
         console.log(error);
+        res.status(500).render('error')
+
     }
 }
 
@@ -496,6 +506,8 @@ const cancelOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -515,6 +527,8 @@ const adminCancelOrder = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -533,6 +547,8 @@ const loadManageOrder = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -555,6 +571,8 @@ const changeStatus = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -566,6 +584,8 @@ const renderCancelPage = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -603,6 +623,8 @@ const returnOrder = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
@@ -614,6 +636,8 @@ const loadWalletPage = async (req, res) => {
         res.render('wallet', { walletdata: findWallet });
     } catch (error) {
         console.log(error.message);
+        res.status(500).render('error')
+
     }
 }
 
