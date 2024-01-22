@@ -1,5 +1,5 @@
 const admincontrol= require('../controllers/adminControll')
-const customerControll = require('../controllers/customercontroll');
+const customerControll = require('../controllers/customerControll');
 const productControll = require('../controllers/productControll')
 const orderControll =require('../controllers/orderControll')
 const categoriesControll = require('../controllers/categoriesControll')
