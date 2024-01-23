@@ -495,7 +495,7 @@ const cancelOrder = async (req, res) => {
                     reason: 'cancel refund'
                 }
 
-                findUser.wallet.walletAmount = findUser.wallet.walletAmount - parseInt(Prize);
+                findUser.wallet.walletAmount -= parseInt(Prize);
                 findUser.wallet.walletHistory.push(wallethistory);
                 await findUser.save();
 
