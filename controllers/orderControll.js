@@ -417,8 +417,9 @@ const placeOrderInPaypal = async (req, res) => {
 
                     if (status) {
                         const findUser = await users.findById(userId);
-                    
+                       console.log(subtotal);
                         const amountToDeduct = Math.max(subtotal, 0);
+                        console.log(amountToDeduct);
                     
                         const history = {
                             type: 'debit',
