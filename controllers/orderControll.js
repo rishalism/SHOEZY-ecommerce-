@@ -416,16 +416,22 @@ const placeOrderInPaypal = async (req, res) => {
                     }
 
                     if (status) {
-                        const finduser = await users.findById(userId);
+                        const findUser = await users.findById(userId);
+                    
+                        const amountToDeduct = Math.max(subtotal, 0);
+                    
                         const history = {
                             type: 'debit',
-                            amount: subtotal,
+                            amount: amountToDeduct,
                             reason: 'purchased product'
-                        }
-                        finduser.wallet.walletAmount -= Math.max(subtotal, 0);
-                        finduser.wallet.walletHistory.push(history);
-                        await finduser.save()
+                        };
+                    
+                        findUser.wallet.walletAmount -= amountToDeduct;
+                        findUser.wallet.walletHistory.push(history);
+                    
+                        await findUser.save();
                     }
+                    
 
                     const deleteCart = await cart.deleteOne({ user: userId });
 
@@ -495,7 +501,7 @@ const cancelOrder = async (req, res) => {
                     reason: 'cancel refund'
                 }
 
-                findUser.wallet.walletAmount -= parseInt(Prize);
+                findUser.wallet.walletAmount = findUser.wallet.walletAmount + parseInt(Prize);
                 findUser.wallet.walletHistory.push(wallethistory);
                 await findUser.save();
 
