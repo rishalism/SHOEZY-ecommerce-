@@ -51,7 +51,6 @@ const addToCart = async (req, res) => {
         const userData = req.session.user;
         const productID = req.body.productId;
         const prize = req.body.prize;
-        console.log(prize);
         const userID = userData._id;
 
         try {
@@ -112,8 +111,7 @@ const addToCart = async (req, res) => {
 
 
     } catch (error) {
-        console.error(error.message);
-        res.status(500).render('error')
+        res.status(500).json({ success: false, error: 'Internal server error', value: 3 });
     }
 };
 

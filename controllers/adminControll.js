@@ -424,6 +424,8 @@ const getSalesData = async (req, res) => {
                         $lte: new Date(endDate)
                     }
                 }).populate('shippingAddress').populate('customerID');
+                 
+                console.log(salesdata);
             const StringSalesData = salesdata.map(order => ({
                 id: order.id.toString(),
                 customerID: order.customerID.firstName,
@@ -440,7 +442,6 @@ const getSalesData = async (req, res) => {
                 trackId: order.trackID.toString(),
                 totalAmount : order.totalAmount
             }))
-
            return res.status(200).json({StringSalesData});
         }
 
