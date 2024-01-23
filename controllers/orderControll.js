@@ -579,7 +579,7 @@ const changeStatus = async (req, res) => {
 
 const renderCancelPage = async (req, res) => {
     try {
-        res.render('cancelPage');
+        res.render('cancelpage');
 
     } catch (error) {
 
