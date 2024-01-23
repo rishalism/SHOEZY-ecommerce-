@@ -239,7 +239,7 @@ const addToWishlist = async (req, res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).render('error')
+        return res.status(200).json({ message: 'Added to wishlist', value: 2 });
     }
 };
 
