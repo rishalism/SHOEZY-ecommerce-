@@ -27,24 +27,6 @@
         background-size: contain;
     }
 
-    @media only screen and (min-width: 768px) {
-        .hero__slider {
-            width: 1000px;
-            /* Set your desktop width here */
-            height: 500px;
-            /* Set your desktop height here */
-        }
-    }
-
-    /* Styles for mobile */
-    @media only screen and (max-width: 767px) {
-        .hero__slider {
-            width: 100%;
-            /* Set your mobile width here */
-            height: 300px;
-            /* Set your mobile height here */
-        }
-    }
 </style>
 
 <body> <!-- 
@@ -111,7 +93,7 @@
     <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero">
+    <section class="d-flex align-items-center justify-content-center hero">
         <div class="hero__slider owl-carousel">
             <div class="hero__items set-bg" data-setbg="/images/hero/hero-1.png">
                 <div class="container">
