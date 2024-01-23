@@ -347,7 +347,7 @@ const placeOrderInPaypal = async (req, res) => {
         const totalCart = findCart.products.map(product => product.total);
         const totalamount = req.session.user.totalAmount
         const status = req.session.user.status;
-        const subtotal = req.session.user.subtotal;
+        const subtotal = totalamount;
 
         const payerId = req.query.PayerID;
         const paymentId = req.query.paymentId;
@@ -414,12 +414,10 @@ const placeOrderInPaypal = async (req, res) => {
                         updateStock.stock -= quantity;
                         updateStock.save()
                     }
-
+                     console.log('outside status'+ status) ;
                     if (status) {
                         const findUser = await users.findById(userId);
-                       console.log(subtotal);
                         const amountToDeduct = Math.max(subtotal, 0);
-                        console.log(amountToDeduct);
                     
                         const history = {
                             type: 'debit',
