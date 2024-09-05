@@ -31,7 +31,6 @@ const laodCheckout = async (req, res) => {
         });
 
         const subtotal = totalcart.reduce((sum, value) => sum + value, 0);
-
         const coupons = await coupon.aggregate([
             {
                 $match: {
@@ -61,7 +60,7 @@ const laodCheckout = async (req, res) => {
                 res.render('checkout', { cartProducts, subtotal, Address, user, couponCode, couponName })
             }
         } else {
-
+             console.log('no coupon');
             if (req.query.id) {
                 const userid = req.query.id
                 const Address = await address.findById({ _id: userid })

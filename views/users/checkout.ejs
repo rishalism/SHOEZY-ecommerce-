@@ -314,10 +314,10 @@
 
         window.addEventListener('load', () => {
             let walletAmount = document.getElementById('user').value;
-
             if (walletAmount == 0) {
                 $("#walletbox").hide()
             }
+            console.log('hey');
             const couponName = document.getElementById('couponname').value
             const couponCode = document.getElementById('couponcode').value;
             let applied = false
